@@ -24,14 +24,13 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		super(deviceNumber);
 	}
 	
-	/**
-	 * Resets the Quadrature Encoder.
+	/** Inverts the direction of the encoders.
 	 * 
-	 * @return error code
+	 * @param invert
+	 *            {@code true} if the encoder value should be multiplied by -1
 	 */
-	public ErrorCode resetEncoder()
-	{
-		return setEncoder(0);
+	public void invertEncoder(boolean invert) {
+		invertEnc = (invert) ? -1 : 1;
 	}
 	
 	/** Returns the Quadrature Encoder position. */
@@ -53,18 +52,6 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 
 		return pos;
 	}
-	
-	/** Returns '1' iff forward limit switch is closed, 0 iff switch is open. This function works regardless if limit switch feature is enabled. */
-	public boolean getLimitFwd()
-	{
-		return getSensorCollection().isFwdLimitSwitchClosed();
-	}
-	
-	/** Returns '1' iff reverse limit switch is closed, 0 iff switch is open. This function works regardless if limit switch feature is enabled. */
-	public boolean getLimitRev()
-	{
-		return getSensorCollection().isRevLimitSwitchClosed();
-	}
 
 	/**
 	 * Sets the Quadrature Encoder to the given value
@@ -84,13 +71,26 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		zeroPos = getSensorCollection().getAnalogInRaw() + 512;
 	}
 	
-	/** Inverts the direction of the encoders.
+	/**
+	 * Resets the Quadrature Encoder.
 	 * 
-	 * @param invert
-	 *            {@code true} if the encoder value should be multiplied by -1
+	 * @return error code
 	 */
-	public void invertEncoder(boolean invert) {
-		invertEnc = (invert) ? -1 : 1;
+	public ErrorCode resetEncoder()
+	{
+		return setEncoder(0);
+	}
+	
+	/** Returns '1' iff forward limit switch is closed, 0 iff switch is open. This function works regardless if limit switch feature is enabled. */
+	public boolean getLimitFwd()
+	{
+		return getSensorCollection().isFwdLimitSwitchClosed();
+	}
+	
+	/** Returns '1' iff reverse limit switch is closed, 0 iff switch is open. This function works regardless if limit switch feature is enabled. */
+	public boolean getLimitRev()
+	{
+		return getSensorCollection().isRevLimitSwitchClosed();
 	}
 
 	/** Sets up the motor controller to have a current limit of 40 and use a Quadrature Encoder. */

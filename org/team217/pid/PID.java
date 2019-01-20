@@ -87,51 +87,6 @@ public class PID {
 	}
 	
 	/**
-	 * Sets the kP value.
-	 * 
-	 * @param newP
-	 *        The new kP value
-	 * 
-	 * @exception IllegalArgumentException if {@code newP} is negative
-	 */
-	private void setP(double newP) {
-		if (newP < 0) {
-			throw new IllegalArgumentException("Illegal kP Value: " + newP + "\nValue cannot be negative");
-		}
-		kP = newP;
-	}
-	
-	/**
-	 * Sets the kI value.
-	 * 
-	 * @param newI
-	 *        The new kI value
-	 * 
-	 * @exception IllegalArgumentException if {@code newI} is negative
-	 */
-	private void setI(double newI) {
-		if (newI < 0) {
-			throw new IllegalArgumentException("Illegal kI Value: " + newI + "\nValue cannot be negative");
-		}
-		kI = newI;
-	}
-	
-	/**
-	 * Sets the kD value.
-	 * 
-	 * @param newD
-	 *        The new kD value
-	 * 
-	 * @exception IllegalArgumentException if {@code newD} is negative
-	 */
-	private void setD(double newD) {
-		if (newD < 0) {
-			throw new IllegalArgumentException("Illegal kD Value: " + newD + "\nValue cannot be negative");
-		}
-		kD = newD;
-	}
-	
-	/**
 	 * Sets the given values as the values used for the PID.
 	 * 
 	 * @param newP
@@ -196,51 +151,6 @@ public class PID {
 		delay = timeout;
 	}
 	
-	/** Calculates and returns the Proportional output. */
-	private double getP_Output() {
-        P_Output = kP * currentError;
-        return P_Output;
-	}
-	
-	/** Calculates and returns the Integral output. */
-	private double getI_Output() {
-		getAccumulatedI();
-        I_Output = kI * aI;
-        return I_Output;
-	}
-	
-	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
-	private double getAccumulatedI() {
-		if (clock.millis() >= currentTime + delay) // Wait for [delay] milliseconds because we don't get new encoder values until then
-		{
-			if (P_Output < max && P_Output > min) {
-				getCurrentError();
-				aI += currentError;
-				currentTime = clock.millis();
-			}
-			else {
-				aI = 0.0;
-			}
-        }
-        return aI;
-	}
-	
-	/** Calculates and returns the Derivative output. */
-	private double getD_Output() {
-		D_Output = kD * (currentError - lastError);
-        updateError();
-        return D_Output;
-	}
-	
-	/** Updates the error and last error values. */
-	private void updateError() {
-		if (clock.millis() >= currentTime + delay) // Wait for [delay] milliseconds before updating the last error
-		{
-			getCurrentError();
-			lastError = currentError;
-		}
-	}
-	
 	/** Returns the current kP value. */
 	public double getP() {
 		return kP;
@@ -294,5 +204,95 @@ public class PID {
 	public void resetError() {
 		aI = 0;
 		lastError = 0;
+	}
+	
+	/**
+	 * Sets the kP value.
+	 * 
+	 * @param newP
+	 *        The new kP value
+	 * 
+	 * @exception IllegalArgumentException if {@code newP} is negative
+	 */
+	private void setP(double newP) {
+		if (newP < 0) {
+			throw new IllegalArgumentException("Illegal kP Value: " + newP + "\nValue cannot be negative");
+		}
+		kP = newP;
+	}
+	
+	/**
+	 * Sets the kI value.
+	 * 
+	 * @param newI
+	 *        The new kI value
+	 * 
+	 * @exception IllegalArgumentException if {@code newI} is negative
+	 */
+	private void setI(double newI) {
+		if (newI < 0) {
+			throw new IllegalArgumentException("Illegal kI Value: " + newI + "\nValue cannot be negative");
+		}
+		kI = newI;
+	}
+	
+	/**
+	 * Sets the kD value.
+	 * 
+	 * @param newD
+	 *        The new kD value
+	 * 
+	 * @exception IllegalArgumentException if {@code newD} is negative
+	 */
+	private void setD(double newD) {
+		if (newD < 0) {
+			throw new IllegalArgumentException("Illegal kD Value: " + newD + "\nValue cannot be negative");
+		}
+		kD = newD;
+	}
+	
+	/** Calculates and returns the Proportional output. */
+	private double getP_Output() {
+        P_Output = kP * currentError;
+        return P_Output;
+	}
+	
+	/** Calculates and returns the Integral output. */
+	private double getI_Output() {
+		getAccumulatedI();
+        I_Output = kI * aI;
+        return I_Output;
+	}
+	
+	/** Calculates and returns the Derivative output. */
+	private double getD_Output() {
+		D_Output = kD * (currentError - lastError);
+        updateError();
+        return D_Output;
+	}
+	
+	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
+	private double getAccumulatedI() {
+		if (clock.millis() >= currentTime + delay) // Wait for [delay] milliseconds because we don't get new encoder values until then
+		{
+			if (P_Output < max && P_Output > min) {
+				getCurrentError();
+				aI += currentError;
+				currentTime = clock.millis();
+			}
+			else {
+				aI = 0.0;
+			}
+        }
+        return aI;
+	}
+	
+	/** Updates the error and last error values. */
+	private void updateError() {
+		if (clock.millis() >= currentTime + delay) // Wait for [delay] milliseconds before updating the last error
+		{
+			getCurrentError();
+			lastError = currentError;
+		}
 	}
 }
