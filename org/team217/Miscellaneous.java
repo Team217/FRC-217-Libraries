@@ -12,7 +12,7 @@ public class Miscellaneous {
 	 * 
 	 * @param value
 	 *        The joystick value
-	 * @param nullZone
+	 * @param deadband
 	 *        The deadband size
 	 * @return
 	 *        The joystick value after checking if it is in the deadband
