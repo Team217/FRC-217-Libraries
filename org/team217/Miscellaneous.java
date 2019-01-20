@@ -1,0 +1,29 @@
+package org.team217;
+
+/**
+ * Contains deadband functions for controllers and motors
+ * 
+ * @author ThunderChickens 217
+ */
+public class Miscellaneous {
+    
+    /**
+	 * Checks if the joystick is in a given deadband and, if it is, sets the joystick value to 0.
+	 * 
+	 * @param value
+	 *        The joystick value
+	 * @param nullZone
+	 *        The deadband size
+	 * @return
+	 *        The joystick value after checking if it is in the deadband
+	 * 
+	 * @author ThunderChickens 217
+	 */
+	public static double deadband(double value, double deadband) {
+		if (Math.abs(value) <= Math.abs(deadband)) {
+			value = 0.0;
+		}
+		
+		return value;
+	}
+}
