@@ -9,18 +9,18 @@ import java.time.Clock;
  */
 public class PID {
 	// Made private because of getValue() functions
-	private double kP = 0.0;
-	private double kI = 0.0;
-	private double kD = 0.0;
-	private double target = 0;
-	private double position = 0;
+	private double kP = 0;
+	private double kI = 0;
+	private double kD = 0;
 	private double max = 1;
 	private double min = -1;
 	
 	// Always private
+	private double target = 0;
+	private double position = 0;
 	private double currentError = 0;
 	private double lastError = 0;
-	private double aI = 0.0;
+	private double aI = 0;
 	private double P_Output, I_Output, D_Output;
 	private int delay = 0;
 	
@@ -36,9 +36,9 @@ public class PID {
 	 * @author ThunderChickens 217
 	 */
 	public PID(int timeout) {
-		setP(0.0);
-		setI(0.0);
-		setD(0.0);
+		setP(0);
+		setI(0);
+		setD(0);
 		delay = timeout;
 	}
 	
@@ -82,7 +82,7 @@ public class PID {
 	public PID(double newP, double newI, int timeout) {
 		setP(newP);
 		setI(newI);
-		setD(0.0);
+		setD(0);
 		delay = timeout;
 	}
 	
@@ -118,7 +118,7 @@ public class PID {
 	public void setPID(double newP, double newI) {
 		setP(newP);
 		setI(newI);
-		setD(0.0);
+		setD(0);
 		resetError();
 	}
 	
@@ -196,7 +196,7 @@ public class PID {
 	
 	/** Resets kP, kI, and kD to 0. */
 	public void resetPID() {
-		setPID(0.0, 0.0, 0.0);
+		setPID(0, 0, 0);
 		resetError();
 	}
 	
@@ -273,15 +273,14 @@ public class PID {
 	
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private double getAccumulatedI() {
-		if (clock.millis() >= currentTime + delay) // Wait for [delay] milliseconds because we don't get new encoder values until then
-		{
+		if (clock.millis() >= currentTime + delay) { // Wait for [delay] milliseconds because we don't get new encoder values until then
 			if (P_Output < max && P_Output > min) {
 				getCurrentError();
 				aI += currentError;
 				currentTime = clock.millis();
 			}
 			else {
-				aI = 0.0;
+				aI = 0;
 			}
         }
         return aI;
@@ -289,8 +288,7 @@ public class PID {
 	
 	/** Updates the error and last error values. */
 	private void updateError() {
-		if (clock.millis() >= currentTime + delay) // Wait for [delay] milliseconds before updating the last error
-		{
+		if (clock.millis() >= currentTime + delay) { // Wait for [delay] milliseconds before updating the last error
 			getCurrentError();
 			lastError = currentError;
 		}

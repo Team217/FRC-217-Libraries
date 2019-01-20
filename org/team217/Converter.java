@@ -75,11 +75,8 @@ public class Converter {
      * @return
      *            Number of encoder ticks to move the distance
 	 */
-	public static double inchToEnc(double inches, double diameter, double ticksPerRev)
-	{
-		double encTicks = inches / (Math.PI * diameter) * ticksPerRev;
-		
-		return encTicks;
+	public static double inchToEnc(double inches, double diameter, double ticksPerRev) {
+		return inches / (Math.PI * diameter) * ticksPerRev;
 	}
 	
 	/**
@@ -94,10 +91,7 @@ public class Converter {
      * @return
      *            Distance in inches
 	 */
-	public static double encToInch(double encTicks, double diameter, double ticksPerRev)
-	{
-		double inches = encTicks / ticksPerRev * Math.PI * diameter;
-		
-		return inches;
+	public static double encToInch(double encTicks, double diameter, double ticksPerRev) {
+		return encTicks / ticksPerRev * Math.PI * diameter;
 	}
 }
