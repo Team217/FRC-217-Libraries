@@ -13,6 +13,7 @@ public class PID {
 	private double kP = 0;
 	private double kI = 0;
 	private double kD = 0;
+	private int delay = 0;
 	private double max = 1;
 	private double min = -1;
 	
@@ -23,7 +24,6 @@ public class PID {
 	private double lastError = 0;
 	private double aI = 0;
 	private double P_Output, I_Output, D_Output;
-	private int delay = 0;
 	
 	private static final Clock clock = Clock.systemUTC();
 	private long currentTime = clock.millis();
@@ -166,7 +166,22 @@ public class PID {
 	public double getD() {
 		return kD;
 	}
-	
+
+	/** Returns the timeout before updating I or D */
+	public int getTimeout() {
+		return delay;
+	}
+
+	/** Returns the minimum output value for which I will accumulate */
+	public double getMin() {
+		return min;
+	}
+
+	/** Returns the maximum output value for which I will accumulate */
+	public double getMax() {
+		return max;
+	}
+
 	/**
 	 * Returns the motor output value.
 	 * 
