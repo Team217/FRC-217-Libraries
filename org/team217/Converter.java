@@ -15,7 +15,7 @@ public class Converter {
      * @param encPerRot
      *          Number of encoder ticks per rotation
      * @return
-     *          Encoder ticks
+     *          Number of encoder ticks to complete the rotation
      */
     public static double radToEnc(double rad, int encPerRot) {
         return rad / (2.0 * Math.PI) * (double) encPerRot; // Take angle in radians, convert to revolutions, convert to encoder ticks

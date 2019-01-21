@@ -8,6 +8,7 @@ import com.ctre.phoenix.ErrorCode;
  * @author ThunderChickens 217, Cross the Road Electronics
  */
 public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
+	
 	/**
 	 * Constructor for creating a {@code PigeonIMU} object.
 	 * 

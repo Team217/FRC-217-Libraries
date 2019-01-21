@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  * @author ThunderChickens 217, Cross the Road Electronics
  */
 public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX {
+	
 	long zeroPos = 0;
 	int invertEnc = 1;
 
@@ -62,7 +63,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		return getSensorCollection().setQuadraturePosition(pos, 0);
 	}
 
-	/** Sets the current analog encoder position as zero. Encoder values will then range from -512 to 512. */
+	/** Sets the current analog encoder position as zero. Encoder values will range from -512 to 512. */
 	public void setAnalogZero() {
 		zeroPos = getSensorCollection().getAnalogInRaw() + 512;
 	}

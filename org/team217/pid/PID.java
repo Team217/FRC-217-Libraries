@@ -8,6 +8,7 @@ import java.time.Clock;
  * @author ThunderChickens 217
  */
 public class PID {
+	
 	// Made private because of getValue() functions
 	private double kP = 0;
 	private double kI = 0;
@@ -166,18 +167,6 @@ public class PID {
 		return kD;
 	}
 	
-	/** Calculates and returns the current error. */
-	public double getCurrentError() {
-        currentError = target - position;
-        return currentError;
-	}
-	
-	/** Returns the previous error. */
-	public double getLastError() {
-		updateError();
-		return lastError;
-	}
-	
 	/**
 	 * Returns the motor output value.
 	 * 
@@ -269,6 +258,12 @@ public class PID {
 		D_Output = kD * (currentError - lastError);
         updateError();
         return D_Output;
+	}
+	
+	/** Calculates and returns the current error. */
+	private double getCurrentError() {
+        currentError = target - position;
+        return currentError;
 	}
 	
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */

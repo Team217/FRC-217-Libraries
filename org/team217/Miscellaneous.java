@@ -15,7 +15,7 @@ public class Miscellaneous {
 	 * @param deadband
 	 *        The deadband size
 	 * @return
-	 *        The joystick value after checking if it is in the deadband
+	 *        The joystick value if not in the deadband, 0.0 if in the deadband
 	 * 
 	 * @author ThunderChickens 217
 	 */
