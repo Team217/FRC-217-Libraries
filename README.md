@@ -2,7 +2,7 @@
 
 Classes currently include:
 - `Converter` (converts between encoder ticks and either angles or distances)
-- `Miscellaneous` (other methods; currently just a deadband function)
+- `Range` (range methods, such as `deadband()`)
 - `ctre.WPI_TalonSRX`
 - `ctre.PigeonIMU`
 - `pid.PID`
