@@ -302,7 +302,7 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds because we don't get new encoder values until then
-			if (pOut < 0 && aError > 0 || pOut > 0 && aError < 0) {
+			if (currentError < 0 && aError > 0 || currentError > 0 && aError < 0) {
 				aError = 0;
 			}
 			
