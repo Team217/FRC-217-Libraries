@@ -283,8 +283,10 @@ public class PID {
 	
 	/** Calculates the Derivative output. */
 	private void updateDOut() {
-		dOut = kD * (currentError - lastError);
-        updateLastError();
+		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds before updating the D output
+		    dOut = kD * (currentError - lastError);
+            lastError = currentError;
+        }
 	}
 	
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
@@ -302,12 +304,5 @@ public class PID {
 				aError = 0;
 			}
         }
-	}
-	
-	/** Updates the error and last error values. */
-	private void updateLastError() {
-		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds before updating the last error
-			lastError = currentError;
-		}
 	}
 }
