@@ -21,7 +21,7 @@ public class PID {
 	private double currentError = 0;
 	private double lastError = 0;
 	private double aError = 0;
-	private double pOut, iOut, dOut;
+	private double pOut = 0, iOut = 0, dOut = 0;
 	
 	private static final Clock clock = Clock.systemUTC();
     private long currentTime = clock.millis();
