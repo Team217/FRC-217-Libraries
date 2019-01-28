@@ -245,7 +245,7 @@ public class PID {
 	 *        The desired target
 	 */
 	public double getOutput(double pos, double tar) {
-        updateCurrentError(tar, pos);
+        currentError = tar - pos;
         updatePOut();
         updateIOut();
         updateDOut();
@@ -285,18 +285,6 @@ public class PID {
 	private void updateDOut() {
 		dOut = kD * (currentError - lastError);
         updateLastError();
-	}
-	
-	/**
-     * Calculates the current error.
-     * 
-     * @param target
-     *            The target position
-     * @param position
-     *            The current position
-     */
-	private void updateCurrentError(double target, double position) {
-        currentError = target - position;
 	}
 	
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
