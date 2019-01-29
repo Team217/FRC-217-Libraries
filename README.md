@@ -5,6 +5,7 @@ Classes currently include:
 - `Range` (range methods, such as `deadband()`)
 - `ctre.WPI_TalonSRX`
 - `ctre.PigeonIMU`
+- `rev.CANSparkMax`
 - `pid.PID`
 
 ## Installation
