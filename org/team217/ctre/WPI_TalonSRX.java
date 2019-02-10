@@ -25,11 +25,11 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	
 	/** Inverts the direction of the encoders.
 	 * 
-	 * @param invert
+	 * @param isInverted
 	 *            {@code true} if the encoder value should be multiplied by -1
 	 */
-	public void invertEncoder(boolean invert) {
-		invertEnc = (invert) ? -1 : 1;
+	public void invertEncoder(boolean isInverted) {
+		invertEnc = (isInverted) ? -1 : 1;
 	}
 	
 	/** Returns the Quadrature Encoder position. */
