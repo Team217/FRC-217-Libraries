@@ -11,7 +11,6 @@ public class APID {
     PID pid;
     double accelTime;
     boolean isAccel = true;
-    double lastOutput = 0.0;
     long startTime = 0;
 	private static final Clock clock = Clock.systemUTC();
 
@@ -41,10 +40,11 @@ public class APID {
 	 */
     public double getOutput(double pos, double tar) {
         double output = pid.getOutput(pos, tar);
-        if (lastOutput < output && isAccel) {
-            int sign = (output < 0.0) ? -1 : 1;
-            output = sign * (clock.millis() - startTime) / (1000 * accelTime);
-            lastOutput = output;
+        int sign = (output < 0.0) ? -1 : 1;
+        double accelOutput = sign * (clock.millis() - startTime) / (1000 * accelTime);
+        
+        if (accelOutput < output && isAccel) {
+            accelOutput = output;
         }
         else {
             isAccel = false;
