@@ -44,7 +44,7 @@ public class APID {
         double accelOutput = sign * (clock.millis() - startTime) / (1000 * accelTime);
         
         if (accelOutput < output && isAccel) {
-            accelOutput = output;
+            output = accelOutput;
         }
         else {
             isAccel = false;
