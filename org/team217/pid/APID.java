@@ -12,6 +12,7 @@ public class APID {
     double accelTime;
     boolean isAccel = true;
     long startTime = 0;
+    double maxSpeed = 1.0;
 	private static final Clock clock = Clock.systemUTC();
 
 	/**
@@ -31,6 +32,25 @@ public class APID {
     }
 
 	/**
+	 * Constructor to make a variable that contains the PID variable and the acceleration rate.
+     * 
+     * @param pid
+     *          The PID variable to manage
+     * @param accelTime
+     *          The time it should take to accelerate from 0 to maxSpeed, in seconds
+     * @param maxSpeed
+     *          The maximum motor speed
+	 * 
+	 * @author ThunderChickens 217
+	 */
+    public APID(PID pid, double accelTime, double maxSpeed) {
+        this.pid = pid;
+        this.accelTime = accelTime;
+        this.maxSpeed = maxSpeed;
+        startTime = clock.millis();
+    }
+
+	/**
 	 * Returns the motor output value.
 	 * 
 	 * @param pos
@@ -41,7 +61,7 @@ public class APID {
     public double getOutput(double pos, double tar) {
         double output = pid.getOutput(pos, tar);
         int sign = (output < 0.0) ? -1 : 1;
-        double accelOutput = sign * (clock.millis() - startTime) / (1000 * accelTime);
+        double accelOutput = sign * maxSpeed * (clock.millis() - startTime) / (1000 * accelTime);
         
         if (accelOutput < output && isAccel) {
             output = accelOutput;
