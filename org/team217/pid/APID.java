@@ -27,7 +27,7 @@ public class APID {
 	 */
     public APID(PID pid, double accelTime) {
         this.pid = pid;
-        this.accelTime = accelTime;
+        setAccelTime(accelTime);
         startTime = clock.millis();
     }
 
@@ -80,6 +80,13 @@ public class APID {
     public void initialize() {
         isAccel = true;
         startTime = clock.millis();
+    }
+
+    public void setAccelTime(double accelTime) {
+        if (accelTime < 0.0) {
+            throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue cannot be negative");
+        }
+        this.accelTime = accelTime;
     }
 
     public void setMaxSpeed(double maxSpeed) {
