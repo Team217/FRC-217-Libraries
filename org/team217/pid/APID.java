@@ -44,10 +44,8 @@ public class APID {
 	 * @author ThunderChickens 217
 	 */
     public APID(PID pid, double accelTime, double maxSpeed) {
-        this.pid = pid;
-        this.accelTime = accelTime;
-        this.maxSpeed = maxSpeed;
-        startTime = clock.millis();
+        this(pid, accelTime);
+        setMaxSpeed(maxSpeed);
     }
 
 	/**
@@ -82,5 +80,12 @@ public class APID {
     public void initialize() {
         isAccel = true;
         startTime = clock.millis();
+    }
+
+    public void setMaxSpeed(double maxSpeed) {
+        if (maxSpeed <= 0.0) {
+            throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue must be greater than 0");
+        }
+        this.maxSpeed = maxSpeed;
     }
 }

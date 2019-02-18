@@ -62,9 +62,7 @@ public class PID {
 	 * @author ThunderChickens 217
 	 */
 	public PID(double newP, double newI, double newD) {
-		setP(newP);
-		setI(newI);
-		setD(newD);
+        setPID(newP, newI, newD);
 	}
 	
 	/**
@@ -84,10 +82,7 @@ public class PID {
 	 * @author ThunderChickens 217
 	 */
 	public PID(double newP, double newI, double newD, int timeout) {
-		setP(newP);
-		setI(newI);
-        setD(newD);
-        setTimeout(timeout);
+        setPID(newP, newI, newD, timeout);
 	}
 	
 	/**
@@ -123,9 +118,7 @@ public class PID {
 	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, {@code newD}, or {@code timeout} is negative
 	 */
 	public void setPID(double newP, double newI, double newD, int timeout) {
-		setP(newP);
-		setI(newI);
-        setD(newD);
+		setPID(newP, newI, newD);
         setTimeout(timeout);
 	}
 	

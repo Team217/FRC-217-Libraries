@@ -40,6 +40,6 @@ public class CANSparkMax extends com.revrobotics.CANSparkMax {
 
     /** Resets the encoder value to 0. This does not save to the motor controller and must be called each time code is deployed. */
     public void resetEncoder() {
-        resetPosition = getEncoder().getPosition();
+        setEncoder(0);
     }
 }
