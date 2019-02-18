@@ -84,7 +84,7 @@ public class APID {
 
     public void setAccelTime(double accelTime) {
         if (accelTime < 0.0) {
-            throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue cannot be negative");
+            throw new IllegalArgumentException("Illegal accelTime Value: " + accelTime + "\nValue cannot be negative");
         }
         this.accelTime = accelTime;
     }
