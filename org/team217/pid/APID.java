@@ -82,6 +82,7 @@ public class APID {
         startTime = clock.millis();
     }
 
+    /** Sets the time it should take to accelerate from 0.0 to maxSpeed, in seconds. */
     public void setAccelTime(double accelTime) {
         if (accelTime < 0.0) {
             throw new IllegalArgumentException("Illegal accelTime Value: " + accelTime + "\nValue cannot be negative");
@@ -89,6 +90,7 @@ public class APID {
         this.accelTime = accelTime;
     }
 
+    /** Sets the maximum motor speed used for acceleration. */
     public void setMaxSpeed(double maxSpeed) {
         if (maxSpeed <= 0.0) {
             throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue must be greater than 0");
