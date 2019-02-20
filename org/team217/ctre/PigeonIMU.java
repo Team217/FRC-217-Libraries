@@ -35,8 +35,9 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
 	public double getPartialAngle(boolean setAngle) {
 		double[] ypr = new double[3];
 		getYawPitchRoll(ypr);
-		double angle = -ypr[0];
-
+        double angle = -ypr[0];
+        
+        // Get angle within range [-180, 180]
 		while (angle > 180.0) {
 			angle -= 360.0;
 		}
@@ -71,6 +72,5 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
 	 */
 	public ErrorCode reset() {
 		return setYaw(0, 0);
-	}
-	
+    }
 }

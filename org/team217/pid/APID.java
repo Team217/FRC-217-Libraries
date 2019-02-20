@@ -59,7 +59,9 @@ public class APID {
     public double getOutput(double pos, double tar) {
         double output = pid.getOutput(pos, tar);
         int sign = (output < 0.0) ? -1 : 1;
-        double accelOutput = sign * maxSpeed * (clock.millis() - startTime) / (1000 * accelTime);
+        
+        // maxSpeed / (1000 * accelTime) = acceleration, acceleration * time = velocity
+        double accelOutput = sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
         
         if (accelOutput < output && isAccel) {
             output = accelOutput;
@@ -82,7 +84,11 @@ public class APID {
         startTime = clock.millis();
     }
 
-    /** Sets the time it should take to accelerate from 0.0 to maxSpeed, in seconds. */
+    /**
+     * Sets the time it should take to accelerate from 0.0 to maxSpeed, in seconds.
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} is negative
+     */
     public void setAccelTime(double accelTime) {
         if (accelTime < 0.0) {
             throw new IllegalArgumentException("Illegal accelTime Value: " + accelTime + "\nValue cannot be negative");
@@ -90,7 +96,11 @@ public class APID {
         this.accelTime = accelTime;
     }
 
-    /** Sets the maximum motor speed used for acceleration. */
+    /**
+     * Sets the maximum motor speed used for acceleration.
+     * 
+     * @exception IllegalArgumentException if {@code maxSpeed} is not positive
+     */
     public void setMaxSpeed(double maxSpeed) {
         if (maxSpeed <= 0.0) {
             throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue must be greater than 0");

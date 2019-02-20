@@ -39,8 +39,9 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	
 	/** Returns the Analog Encoder position. Positions range from -512 to 512. */
 	public long getAnalogEnc() {
-		long pos = invertEnc * (getSensorCollection().getAnalogInRaw() - zeroPos - 512);
-
+        long pos = invertEnc * (getSensorCollection().getAnalogInRaw() - zeroPos - 512);
+        
+        // Get Analog Encoder position in range [-512, 512)
 		while (pos < -512) {
 			pos += 1024;
 		}

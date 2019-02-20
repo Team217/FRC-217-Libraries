@@ -191,6 +191,8 @@ public class PID {
 	 * 
 	 * @param timeout
 	 *        The time to wait before updating I or D, in milliseconds
+     * 
+     * @exception IllegalArgumentException if {@code timeout} is negative
 	 */
 	public void setTimeout(int timeout) {
 		if (timeout < 0) {
@@ -285,11 +287,11 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds because we don't get new encoder values until then
-			if (currentError < 0 && aError > 0 || currentError > 0 && aError < 0) {
+			if (currentError < 0 && aError > 0 || currentError > 0 && aError < 0) { // Reset accumulated error if error changes sign
 				aError = 0;
 			}
 			
-			if (pOut < max && pOut > min) {
+			if (pOut < max && pOut > min) { // Only accumulate error if within range (min, max)
 				aError += currentError;
 				currentTime = clock.millis();
 			}

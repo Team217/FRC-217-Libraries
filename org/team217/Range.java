@@ -38,6 +38,8 @@ public class Range {
 	 *           The upper range
 	 * @return
 	 *           {@code true} if the value is within the range
+     * 
+     * @exception IllegalArgumentException if {@code lower} &gt; {@code upper}
 	 */
 	public static boolean isWithinRange(double value, double lower, double upper) {
 		if (lower > upper) {
@@ -60,6 +62,8 @@ public class Range {
 	 *        The upper range
 	 * @return
 	 *        The value, modified to stay within the range
+     * 
+     * @exception IllegalArgumentException if {@code lower} &gt; {@code upper}
 	 */
 	public static double inRange(double value, double lower, double upper) {
 		if (lower > upper) {
