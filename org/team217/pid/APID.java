@@ -87,6 +87,9 @@ public class APID {
     /**
      * Sets the time it should take to accelerate from 0.0 to maxSpeed, in seconds.
      * 
+     * @param accelTime
+     *               The acceleration time
+     * 
      * @exception IllegalArgumentException if {@code accelTime} is negative
      */
     public void setAccelTime(double accelTime) {
@@ -97,7 +100,32 @@ public class APID {
     }
 
     /**
+     * Returns an APID object with the time it should take to accelerate from 0.0 to maxSpeed, in seconds.
+     * 
+     * @param accelTime
+     *               The acceleration time
+     * @param modifyOrig
+     *                {@code true} if the original APID object should be modified as well
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} is negative
+     */
+    public APID setAccelTime(double accelTime, boolean modifyOrig) {
+        if (modifyOrig) {
+            setAccelTime(accelTime);
+            return this;
+        }
+        else {
+            APID apid = this;
+            apid.setAccelTime(accelTime);
+            return apid;
+        }
+    }
+
+    /**
      * Sets the maximum motor speed used for acceleration.
+     * 
+     * @param maxSpeed
+     *              The maximum motor speed
      * 
      * @exception IllegalArgumentException if {@code maxSpeed} is not positive
      */
@@ -106,5 +134,27 @@ public class APID {
             throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue must be greater than 0");
         }
         this.maxSpeed = maxSpeed;
+    }
+
+    /**
+     * Returns an APID object with the maximum motor speed used for acceleration.
+     * 
+     * @param maxSpeed
+     *              The maximum motor speed
+     * @param modifyOrig
+     *              {@code true} if the original APID object should be modified as well
+     * 
+     * @exception IllegalArgumentException if {@code maxSpeed} is not positive
+     */
+    public APID setMaxSpeed(double maxSpeed, boolean modifyOrig) {
+        if (modifyOrig) {
+            setMaxSpeed(maxSpeed);
+            return this;
+        }
+        else {
+            APID apid = this;
+            apid.setMaxSpeed(maxSpeed);
+            return apid;
+        }
     }
 }

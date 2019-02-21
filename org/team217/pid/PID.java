@@ -120,7 +120,61 @@ public class PID {
 	public void setPID(double newP, double newI, double newD, int timeout) {
 		setPID(newP, newI, newD);
         setTimeout(timeout);
-	}
+    }
+    
+	/**
+	 * Returns a PID object with the new PID values.
+	 * 
+	 * @param newP
+	 *        The new kP value
+	 * @param newI
+	 *        The new kI value
+	 * @param newD
+	 *        The new kD value
+     * @param modifyOrig
+     *        {@code true} if the original PID object should be modified as well
+	 * 
+	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, or {@code newD} is negative
+	 */
+    public PID setPID(double newP, double newI, double newD, boolean modifyOrig) {
+        if (modifyOrig) {
+            setPID(newP, newI, newD);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setPID(newP, newI, newD);
+            return pid;
+        }
+    }
+    
+	/**
+	 * Returns a PID object with the new PID values.
+	 * 
+	 * @param newP
+	 *        The new kP value
+	 * @param newI
+	 *        The new kI value
+	 * @param newD
+	 *        The new kD value
+	 * @param timeout
+	 *        The time to wait before updating I or D, in milliseconds
+     * @param modifyOrig
+     *        {@code true} if the original PID object should be modified as well
+	 * 
+	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, {@code newD}, or {@code timeout} is negative
+	 */
+    public PID setPID(double newP, double newI, double newD, int timeout, boolean modifyOrig) {
+        if (modifyOrig) {
+            setPID(newP, newI, newD, timeout);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setPID(newP, newI, newD, timeout);
+            return pid;
+        }
+    }
 	
 	/**
 	 * Sets the kP value.
@@ -137,6 +191,28 @@ public class PID {
 		kP = newP;
 	}
 	
+    /**
+     * Returns a PID object with the new kP value.
+     * 
+     * @param newP
+     *        The new kP value
+     * @param modifyOrig
+     *        {@code true} if the original PID object should be modified as well
+	 * 
+	 * @exception IllegalArgumentException if {@code newP} is negative
+     */
+    public PID setP(double newP, boolean modifyOrig) {
+        if (modifyOrig) {
+            setD(newP);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setD(newP);
+            return pid;
+        }
+    }
+	
 	/**
 	 * Sets the kI value.
 	 * 
@@ -152,6 +228,28 @@ public class PID {
 		kI = newI;
 	}
 	
+    /**
+     * Returns a PID object with the new kI value.
+     * 
+     * @param newI
+     *        The new kI value
+     * @param modifyOrig
+     *        {@code true} if the original PID object should be modified as well
+	 * 
+	 * @exception IllegalArgumentException if {@code newI} is negative
+     */
+    public PID setI(double newI, boolean modifyOrig) {
+        if (modifyOrig) {
+            setD(newI);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setD(newI);
+            return pid;
+        }
+    }
+
 	/**
 	 * Sets the kD value.
 	 * 
@@ -165,7 +263,29 @@ public class PID {
 			throw new IllegalArgumentException("Illegal kD Value: " + newD + "\nValue cannot be negative");
 		}
 		kD = newD;
-	}
+    }
+    
+    /**
+     * Returns a PID object with the new kD value.
+     * 
+     * @param newD
+     *        The new kD value
+     * @param modifyOrig
+     *        {@code true} if the original PID object should be modified as well
+	 * 
+	 * @exception IllegalArgumentException if {@code newD} is negative
+     */
+    public PID setD(double newD, boolean modifyOrig) {
+        if (modifyOrig) {
+            setD(newD);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setD(newD);
+            return pid;
+        }
+    }
 	
 	/**
 	 * Sets the given values as the minimum/maximum output values for which I will accumulate. Default values are -1 and 1, respectively.
@@ -184,7 +304,31 @@ public class PID {
 		}
 		min = minimum;
 		max = maximum;
-	}
+    }
+    
+    /**
+     * Returns a PID object with the minimum/maximum output values for which I will accumulate. Default values are -1 and 1, respectively.
+     * 
+     * @param minimum
+	 *                The minimum output value
+	 * @param maximum
+	 *                The maximum output value
+     * @param modifyOrig
+     *                {@code true} if the original PID object should be modified as well
+	 * 
+	 * @exception IllegalArgumentException if {@code minimum} &gt;= {@code maximum}
+     */
+    public PID setMinMax(double minimum, double maximum, boolean modifyOrig) {
+        if (modifyOrig) {
+            setMinMax(minimum, maximum);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setMinMax(minimum, maximum);
+            return pid;
+        }
+    }
 	
 	/**
 	 * Sets the timeout.
@@ -199,7 +343,29 @@ public class PID {
 			throw new IllegalArgumentException("Illegal timeout Value: " + timeout + "\nValue cannot be negative");
 		}
 		this.timeout = timeout;
-	}
+    }
+    
+    /**
+     * Returns a PID object with the timeout.
+     * 
+	 * @param timeout
+	 *                The time to wait before updating I or D, in milliseconds
+     * @param modifyOrig
+     *                {@code true} if the original PID object should be modified as well
+     * 
+     * @exception IllegalArgumentException if {@code timeout} is negative
+     */
+    public PID setTimeout(int timeout, boolean modifyOrig) {
+        if (modifyOrig) {
+            setTimeout(timeout);
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.setTimeout(timeout);
+            return pid;
+        }
+    }
 	
 	/** Returns the current kP value. */
 	public double getP() {
@@ -251,18 +417,72 @@ public class PID {
 	public void resetPID() {
 		setPID(0, 0, 0);
 		resetErrors();
-	}
+    }
+    
+    /**
+     * Returns a PID object with kP, kI, kD, and the accumulated error and last error reset to 0.
+     * 
+     * @param modifyOrig
+     *                {@code true} if the original PID object should have these values reset as well
+     */
+    public PID resetPID(boolean modifyOrig) {
+        if (modifyOrig) {
+            resetPID();
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.resetPID();
+            return pid;
+        }
+    }
 	
 	/** Resets the accumulated error and last error. */
 	public void resetErrors() {
 		aError = 0;
 		lastError = 0;
     }
+
+    /**
+     * Returns a PID object with the accumulated error and last error reset.
+     * 
+     * @param modifyOrig
+     *                {@code true} if the original PID object should have these values reset as well
+     */
+    public PID resetErrors(boolean modifyOrig) {
+        if (modifyOrig) {
+            resetErrors();
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.resetErrors();
+            return pid;
+        }
+    }
     
     /** Resets all values to 0. */
     public void reset() {
         resetPID();
         setTimeout(0);
+    }
+
+    /**
+     * Returns a PID object with all values reset to 0.
+     * 
+     * @param modifyOrig
+     *                {@code true} if the original PID object should be reset as well
+     */
+    public PID reset(boolean modifyOrig) {
+        if (modifyOrig) {
+            reset();
+            return this;
+        }
+        else {
+            PID pid = this;
+            pid.reset();
+            return pid;
+        }
     }
 	
 	/** Calculates the Proportional output. */
