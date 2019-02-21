@@ -94,13 +94,17 @@ public class PID {
 	 *        The new kI value
 	 * @param newD
 	 *        The new kD value
+     * @return
+     *        This PID object
 	 * 
 	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, or {@code newD} is negative
 	 */
-	public void setPID(double newP, double newI, double newD) {
+	public PID setPID(double newP, double newI, double newD) {
 		setP(newP);
 		setI(newI);
-		setD(newD);
+        setD(newD);
+
+        return this;
 	}
 	
 	/**
@@ -114,12 +118,16 @@ public class PID {
 	 *        The new kD value
 	 * @param timeout
 	 *        The time to wait before updating I or D, in milliseconds
+     * @return
+     *        This PID object
 	 * 
 	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, {@code newD}, or {@code timeout} is negative
 	 */
-	public void setPID(double newP, double newI, double newD, int timeout) {
+	public PID setPID(double newP, double newI, double newD, int timeout) {
 		setPID(newP, newI, newD);
         setTimeout(timeout);
+
+        return this;
     }
     
 	/**
@@ -138,13 +146,11 @@ public class PID {
 	 */
     public PID setPID(double newP, double newI, double newD, boolean modifyOrig) {
         if (modifyOrig) {
-            setPID(newP, newI, newD);
-            return this;
+            return setPID(newP, newI, newD);
         }
         else {
             PID pid = this;
-            pid.setPID(newP, newI, newD);
-            return pid;
+            return pid.setPID(newP, newI, newD);
         }
     }
     
@@ -166,13 +172,11 @@ public class PID {
 	 */
     public PID setPID(double newP, double newI, double newD, int timeout, boolean modifyOrig) {
         if (modifyOrig) {
-            setPID(newP, newI, newD, timeout);
-            return this;
+            return setPID(newP, newI, newD, timeout);
         }
         else {
             PID pid = this;
-            pid.setPID(newP, newI, newD, timeout);
-            return pid;
+            return pid.setPID(newP, newI, newD, timeout);
         }
     }
 	
@@ -181,14 +185,18 @@ public class PID {
 	 * 
 	 * @param newP
 	 *        The new kP value
+     * @return
+     *        This PID object
 	 * 
 	 * @exception IllegalArgumentException if {@code newP} is negative
 	 */
-	public void setP(double newP) {
+	public PID setP(double newP) {
 		if (newP < 0) {
 			throw new IllegalArgumentException("Illegal kP Value: " + newP + "\nValue cannot be negative");
 		}
-		kP = newP;
+        kP = newP;
+
+        return this;
 	}
 	
     /**
@@ -203,13 +211,12 @@ public class PID {
      */
     public PID setP(double newP, boolean modifyOrig) {
         if (modifyOrig) {
-            setD(newP);
+            setP(newP);
             return this;
         }
         else {
             PID pid = this;
-            pid.setD(newP);
-            return pid;
+            return pid.setD(newP);
         }
     }
 	
@@ -218,14 +225,18 @@ public class PID {
 	 * 
 	 * @param newI
 	 *        The new kI value
+     * @return
+     *        This PID object
 	 * 
 	 * @exception IllegalArgumentException if {@code newI} is negative
 	 */
-	public void setI(double newI) {
+	public PID setI(double newI) {
 		if (newI < 0) {
 			throw new IllegalArgumentException("Illegal kI Value: " + newI + "\nValue cannot be negative");
 		}
-		kI = newI;
+        kI = newI;
+        
+        return this;
 	}
 	
     /**
@@ -240,13 +251,11 @@ public class PID {
      */
     public PID setI(double newI, boolean modifyOrig) {
         if (modifyOrig) {
-            setD(newI);
-            return this;
+            return setI(newI);
         }
         else {
             PID pid = this;
-            pid.setD(newI);
-            return pid;
+            return pid.setD(newI);
         }
     }
 
@@ -255,14 +264,18 @@ public class PID {
 	 * 
 	 * @param newD
 	 *        The new kD value
+     * @return
+     *        This PID object
 	 * 
 	 * @exception IllegalArgumentException if {@code newD} is negative
 	 */
-	public void setD(double newD) {
+	public PID setD(double newD) {
 		if (newD < 0) {
 			throw new IllegalArgumentException("Illegal kD Value: " + newD + "\nValue cannot be negative");
 		}
-		kD = newD;
+        kD = newD;
+        
+        return this;
     }
     
     /**
@@ -277,13 +290,11 @@ public class PID {
      */
     public PID setD(double newD, boolean modifyOrig) {
         if (modifyOrig) {
-            setD(newD);
-            return this;
+            return setD(newD);
         }
         else {
             PID pid = this;
-            pid.setD(newD);
-            return pid;
+            return pid.setD(newD);
         }
     }
 	
@@ -294,16 +305,20 @@ public class PID {
 	 *            The minimum output value
 	 * @param maximum
 	 *            The maximum output value
+     * @return
+     *            This PID object
 	 * 
 	 * @exception IllegalArgumentException if {@code minimum} &gt;= {@code maximum}
 	 */
-	public void setMinMax(double minimum, double maximum) {
+	public PID setMinMax(double minimum, double maximum) {
 		if (minimum >= maximum) {
 			throw new IllegalArgumentException(
 					"Illegal minimum/maximum value: " + minimum + "/" + maximum + "\nMaximum must be greater than the minimum");
 		}
 		min = minimum;
-		max = maximum;
+        max = maximum;
+        
+        return this;
     }
     
     /**
@@ -320,13 +335,11 @@ public class PID {
      */
     public PID setMinMax(double minimum, double maximum, boolean modifyOrig) {
         if (modifyOrig) {
-            setMinMax(minimum, maximum);
-            return this;
+            return setMinMax(minimum, maximum);
         }
         else {
             PID pid = this;
-            pid.setMinMax(minimum, maximum);
-            return pid;
+            return pid.setMinMax(minimum, maximum);
         }
     }
 	
@@ -335,14 +348,18 @@ public class PID {
 	 * 
 	 * @param timeout
 	 *        The time to wait before updating I or D, in milliseconds
+     * @return
+     *        This PID object
      * 
      * @exception IllegalArgumentException if {@code timeout} is negative
 	 */
-	public void setTimeout(int timeout) {
+	public PID setTimeout(int timeout) {
 		if (timeout < 0) {
 			throw new IllegalArgumentException("Illegal timeout Value: " + timeout + "\nValue cannot be negative");
 		}
-		this.timeout = timeout;
+        this.timeout = timeout;
+        
+        return this;
     }
     
     /**
@@ -357,13 +374,11 @@ public class PID {
      */
     public PID setTimeout(int timeout, boolean modifyOrig) {
         if (modifyOrig) {
-            setTimeout(timeout);
-            return this;
+            return setTimeout(timeout);
         }
         else {
             PID pid = this;
-            pid.setTimeout(timeout);
-            return pid;
+            return pid.setTimeout(timeout);
         }
     }
 	
@@ -413,10 +428,17 @@ public class PID {
 		return pOut + iOut + dOut;
 	}
 	
-	/** Resets kP, kI, and kD to 0 and resets the accumulated error and last error. */
-	public void resetPID() {
+	/**
+     * Resets kP, kI, and kD to 0 and resets the accumulated error and last error.
+     * 
+     * @return
+     *       This PID object
+     */
+	public PID resetPID() {
 		setPID(0, 0, 0);
-		resetErrors();
+        resetErrors();
+        
+        return this;
     }
     
     /**
@@ -427,20 +449,25 @@ public class PID {
      */
     public PID resetPID(boolean modifyOrig) {
         if (modifyOrig) {
-            resetPID();
-            return this;
+            return resetPID();
         }
         else {
             PID pid = this;
-            pid.resetPID();
-            return pid;
+            return pid.resetPID();
         }
     }
 	
-	/** Resets the accumulated error and last error. */
-	public void resetErrors() {
+	/**
+     * Resets the accumulated error and last error.
+     * 
+     * @return
+     *       This PID object
+     */
+	public PID resetErrors() {
 		aError = 0;
-		lastError = 0;
+        lastError = 0;
+        
+        return this;
     }
 
     /**
@@ -451,20 +478,25 @@ public class PID {
      */
     public PID resetErrors(boolean modifyOrig) {
         if (modifyOrig) {
-            resetErrors();
-            return this;
+            return resetErrors();
         }
         else {
             PID pid = this;
-            pid.resetErrors();
-            return pid;
+            return pid.resetErrors();
         }
     }
     
-    /** Resets all values to 0. */
-    public void reset() {
+    /**
+     * Resets all values to 0.
+     * 
+     * @return
+     *       This PID object
+     */
+    public PID reset() {
         resetPID();
         setTimeout(0);
+
+        return this;
     }
 
     /**
@@ -475,13 +507,11 @@ public class PID {
      */
     public PID reset(boolean modifyOrig) {
         if (modifyOrig) {
-            reset();
-            return this;
+            return reset();
         }
         else {
             PID pid = this;
-            pid.reset();
-            return pid;
+            return pid.reset();
         }
     }
 	
