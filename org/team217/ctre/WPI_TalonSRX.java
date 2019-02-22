@@ -17,7 +17,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 * Constructor for creating a {@code TalonSRX} motor controller for FRC.
 	 * 
 	 * @param deviceNumber
-	 *                  The Device ID of the motor controller
+	 *        The Device ID of the motor controller
 	 */
 	public WPI_TalonSRX(int deviceNumber) {
 		super(deviceNumber);
@@ -26,7 +26,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	/** Inverts the direction of the encoders.
 	 * 
 	 * @param isInverted
-	 *            {@code true} if the encoder value should be multiplied by -1
+	 *        {@code true} if the encoder value should be multiplied by -1
 	 */
 	public void invertEncoder(boolean isInverted) {
 		invertEnc = (isInverted) ? -1 : 1;
@@ -56,9 +56,9 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 * Sets the Quadrature Encoder to the given value
 	 * 
 	 * @param pos
-	 *         New encoder value
+	 *        New encoder value
 	 * @return
-	 *         Error Code
+	 *        Error Code
 	 */
 	public ErrorCode setEncoder(int pos) {
 		return getSensorCollection().setQuadraturePosition(pos, 0);
@@ -72,7 +72,8 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	/**
 	 * Resets the Quadrature Encoder.
 	 * 
-	 * @return error code
+	 * @return
+     *        error code
 	 */
 	public ErrorCode resetEncoder() {
 		return setEncoder(0);

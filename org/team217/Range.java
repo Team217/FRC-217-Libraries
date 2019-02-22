@@ -31,13 +31,13 @@ public class Range {
 	 * Checks if the value is within a given range
 	 * 
 	 * @param value
-	 *           The tested value
+	 *        The tested value
 	 * @param lower
-	 *           The lower range
+	 *        The lower range
 	 * @param upper
-	 *           The upper range
+	 *        The upper range
 	 * @return
-	 *           {@code true} if the value is within the range
+	 *        {@code true} if the value is within the range
      * 
      * @exception IllegalArgumentException if {@code lower} &gt; {@code upper}
 	 */

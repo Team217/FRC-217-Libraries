@@ -3,25 +3,25 @@ package org.team217.pid;
 import java.time.Clock;
 
 /**
- * A class that applies acceleration to a PID system.
+ * A class that applies acceleration to a {@code PID} system.
  * 
  * @author ThunderChickens 217
  */
 public class APID {
-    PID pid;
-    double accelTime;
-    boolean isAccel = true;
-    long startTime = 0;
-    double maxSpeed = 1.0;
+    private PID pid;
+    private double accelTime;
+    private boolean isAccel = true;
+    private long startTime = 0;
+    private double maxSpeed = 1.0;
 	private static final Clock clock = Clock.systemUTC();
 
 	/**
-	 * Constructor to make a variable that contains the PID variable and the acceleration rate.
+	 * Constructor to make a variable that contains the {@code PID} variable and the acceleration rate.
      * 
      * @param pid
-     *          The PID variable to manage
+     *        The {@code PID} variable to manage
      * @param accelTime
-     *          The time it should take to accelerate from 0.0 to +/-1.0, in seconds
+     *        The time it should take to accelerate from 0.0 to +/-1.0, in seconds
 	 * 
 	 * @author ThunderChickens 217
 	 */
@@ -32,14 +32,14 @@ public class APID {
     }
 
 	/**
-	 * Constructor to make a variable that contains the PID variable and the acceleration rate.
+	 * Constructor to make a variable that contains the {@code PID} variable and the acceleration rate.
      * 
      * @param pid
-     *          The PID variable to manage
+     *        The {@code PID} variable to manage
      * @param accelTime
-     *          The time it should take to accelerate from 0 to maxSpeed, in seconds
+     *        The time it should take to accelerate from 0 to {@code maxSpeed}, in seconds
      * @param maxSpeed
-     *          The maximum motor speed
+     *        The maximum motor speed
 	 * 
 	 * @author ThunderChickens 217
 	 */
@@ -73,7 +73,7 @@ public class APID {
         return output;
     }
 
-    /** Returns the PID variable being managed. */
+    /** Returns the {@code PID} variable being managed. */
     public PID getPID() {
         return pid;
     }
@@ -85,76 +85,80 @@ public class APID {
     }
 
     /**
-     * Sets the time it should take to accelerate from 0.0 to maxSpeed, in seconds.
+     * Sets the time it should take to accelerate from 0.0 to {@code maxSpeed}, in seconds.
      * 
      * @param accelTime
-     *               The acceleration time
+     *        The acceleration time
+     * @return
+     *        This {@code APID} object
      * 
      * @exception IllegalArgumentException if {@code accelTime} is negative
      */
-    public void setAccelTime(double accelTime) {
+    public APID setAccelTime(double accelTime) {
         if (accelTime < 0.0) {
             throw new IllegalArgumentException("Illegal accelTime Value: " + accelTime + "\nValue cannot be negative");
         }
         this.accelTime = accelTime;
+
+        return this;
     }
 
     /**
-     * Returns an APID object with the time it should take to accelerate from 0.0 to maxSpeed, in seconds.
+     * Sets the time it should take to accelerate from 0.0 to {@code maxSpeed}, in seconds.
      * 
      * @param accelTime
-     *               The acceleration time
+     *        The acceleration time
      * @param modifyOrig
-     *                {@code true} if the original APID object should be modified as well
+     *        {@code true} [default] if the original {@code APID} object should be modified as well
+     * @return
+     *        The resulting {@code APID} object
      * 
      * @exception IllegalArgumentException if {@code accelTime} is negative
      */
     public APID setAccelTime(double accelTime, boolean modifyOrig) {
         if (modifyOrig) {
-            setAccelTime(accelTime);
-            return this;
+            return setAccelTime(accelTime);
         }
-        else {
-            APID apid = this;
-            apid.setAccelTime(accelTime);
-            return apid;
-        }
+        APID apid = this;
+        return apid.setAccelTime(accelTime);
     }
 
     /**
      * Sets the maximum motor speed used for acceleration.
      * 
      * @param maxSpeed
-     *              The maximum motor speed
+     *        The maximum motor speed
+     * @return
+     *        This {@code APID} object
      * 
      * @exception IllegalArgumentException if {@code maxSpeed} is not positive
      */
-    public void setMaxSpeed(double maxSpeed) {
+    public APID setMaxSpeed(double maxSpeed) {
         if (maxSpeed <= 0.0) {
             throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue must be greater than 0");
         }
         this.maxSpeed = maxSpeed;
+
+        return this;
     }
 
     /**
-     * Returns an APID object with the maximum motor speed used for acceleration.
+     * Sets the maximum motor speed used for acceleration.
      * 
      * @param maxSpeed
-     *              The maximum motor speed
+     *        The maximum motor speed
      * @param modifyOrig
-     *              {@code true} if the original APID object should be modified as well
+     *        {@code true} [default] if the original {@code APID} object should be modified as well
+     * @return
+     *        The resulting {@code APID} object
      * 
      * @exception IllegalArgumentException if {@code maxSpeed} is not positive
      */
     public APID setMaxSpeed(double maxSpeed, boolean modifyOrig) {
         if (modifyOrig) {
-            setMaxSpeed(maxSpeed);
-            return this;
+            return setMaxSpeed(maxSpeed);
         }
-        else {
-            APID apid = this;
-            apid.setMaxSpeed(maxSpeed);
-            return apid;
-        }
+        APID apid = this;
+        return apid.setMaxSpeed(maxSpeed);
     }
 }
