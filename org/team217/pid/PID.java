@@ -8,7 +8,6 @@ import java.time.Clock;
  * @author ThunderChickens 217
  */
 public class PID {
-	
 	// Made private because of getValue() functions
 	private double kP = 0;
 	private double kI = 0;
