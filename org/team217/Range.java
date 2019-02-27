@@ -36,20 +36,39 @@ public class Range {
 	 *        The lower range
 	 * @param upper
 	 *        The upper range
+     * @param isInclusive
+     *        {@code true} [default] if the range is inclusive
 	 * @return
 	 *        {@code true} if the value is within the range
      * 
      * @exception IllegalArgumentException if {@code lower} &gt; {@code upper}
 	 */
-	public static boolean isWithinRange(double value, double lower, double upper) {
+	public static boolean isWithinRange(double value, double lower, double upper, boolean isInclusive) {
 		if (lower > upper) {
 			throw new IllegalArgumentException("Illegal lower/upper value: " + lower + "/" + upper + "\nUpper must be greater than lower");
-		}
-		if (value >= lower && value <= upper) {
-			return true;
-		}
-		return false;
-	}
+        }
+        
+        return isInclusive ? value >= lower && value <= upper : value > lower && value < upper;
+    }
+    
+
+	/**
+	 * Checks if the value is within a given range
+	 * 
+	 * @param value
+	 *        The tested value
+	 * @param lower
+	 *        The lower range
+	 * @param upper
+	 *        The upper range
+	 * @return
+	 *        {@code true} if the value is within the range
+     * 
+     * @exception IllegalArgumentException if {@code lower} &gt; {@code upper}
+	 */
+    public static boolean isWithinRange(double value, double lower, double upper) {
+        return isWithinRange(value, lower, upper, true);
+    }
 
 	/**
 	 * Keeps the value within a given range.
@@ -77,5 +96,10 @@ public class Range {
 		}
 
 		return value;
-	}
+    }
+    
+    /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */
+    public static int sign(double value) {
+        return value > 0 ? 1 : value < 0 ? -1 : 0;
+    }
 }

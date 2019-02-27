@@ -1,6 +1,7 @@
 package org.team217.pid;
 
 import java.time.Clock;
+import org.team217.*;
 
 /**
  * A class that runs and controls PID systems.
@@ -536,11 +537,11 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds because we don't get new encoder values until then
-			if (currentError < 0 && aError > 0 || currentError > 0 && aError < 0) { // Reset accumulated error if error changes sign
+			if (Range.sign(currentError) != Range.sign(aError)) { // Reset accumulated error if error changes sign
 				aError = 0;
 			}
 			
-			if (pOut < max && pOut > min) { // Only accumulate error if within range (min, max)
+			if (Range.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
 				aError += currentError;
 				currentTime = clock.millis();
 			}
