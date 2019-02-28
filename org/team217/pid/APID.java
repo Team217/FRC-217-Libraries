@@ -63,7 +63,7 @@ public class APID {
         // maxSpeed / (1000 * accelTime) = acceleration, acceleration * time = velocity
         double accelOutput = sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
         
-        if (accelOutput < output && isAccel) {
+        if (Math.abs(accelOutput) < Math.abs(output) && isAccel) {
             output = accelOutput;
         }
         else {
