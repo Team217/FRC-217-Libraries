@@ -61,6 +61,7 @@ public class Accel {
      *        The target motor speed
 	 */
     public double getOutput(double speed) {
+        speed = Range.inRange(speed, -maxSpeed, maxSpeed);
         int sign = Range.sign(speed);
         int lastSign = Range.sign(lastOutput);
         
