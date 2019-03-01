@@ -22,7 +22,7 @@ public class Accel {
 	 */
     public Accel(double accelTime) {
         setAccelTime(accelTime);
-        startTime = clock.millis();
+        initialize();
     }
 
 	/**
@@ -81,6 +81,7 @@ public class Accel {
     /** (Re)activates the acceleration period and resets the acceleration timer. */
     public void initialize() {
         isAccel = true;
+        isDecel = false;
         startTime = clock.millis();
         lastOutput = 0;
     }

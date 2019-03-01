@@ -30,7 +30,7 @@ public class APID {
     public APID(PID pid, double accelTime) {
         this.pid = pid;
         setAccelTime(accelTime);
-        startTime = clock.millis();
+        initialize();
     }
 
 	/**
