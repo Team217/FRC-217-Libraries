@@ -9,9 +9,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  * @author ThunderChickens 217, Cross the Road Electronics
  */
 public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX {
-	
-	long zeroPos = 0;
-	int invertEnc = 1;
+	protected long zeroPos = 0;
+	protected int invertEnc = 1;
 
 	/**
 	 * Constructor for creating a {@code TalonSRX} motor controller for FRC.

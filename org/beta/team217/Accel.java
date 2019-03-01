@@ -5,11 +5,11 @@ import java.time.Clock;
 import org.team217.*;
 
 public class Accel {
-    double accelTime, decelTime;
-    boolean isAccel = true, isDecel = false;
-    long startTime = 0;
-    double lastOutput = 0;
-    double maxSpeed = 1.0;
+    private double accelTime, decelTime;
+    private boolean isAccel = true, isDecel = false;
+    private long startTime = 0;
+    private double lastOutput = 0;
+    private double maxSpeed = 1.0;
 	private static final Clock clock = Clock.systemUTC();
 
 	/**
