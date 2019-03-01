@@ -18,7 +18,20 @@ public class APID {
 	private static final Clock clock = Clock.systemUTC();
 
 	/**
-	 * Constructor to make a variable that contains the {@code PID} variable and the acceleration rate.
+	 * Constructor to make a variable that applies acceleration to a {@code PID} system.
+     * 
+     * @param pid
+     *        The {@code PID} variable to manage
+	 * 
+	 * @author ThunderChickens 217
+	 */
+    public APID(PID pid) {
+        this.pid = pid;
+        initialize();
+    }
+
+	/**
+	 * Constructor to make a variable that applies acceleration to a {@code PID} system.
      * 
      * @param pid
      *        The {@code PID} variable to manage
@@ -34,7 +47,7 @@ public class APID {
     }
 
 	/**
-	 * Constructor to make a variable that contains the {@code PID} variable and the acceleration rate.
+	 * Constructor to make a variable that applies acceleration to a {@code PID} system.
      * 
      * @param pid
      *        The {@code PID} variable to manage
