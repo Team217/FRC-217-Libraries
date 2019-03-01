@@ -4,13 +4,27 @@ import java.time.Clock;
 
 import org.team217.*;
 
+/**
+ * A class that manages acceleration.
+ * 
+ * @author ThunderChickens 217
+ */
 public class Accel {
-    private double accelTime, decelTime;
+    private double accelTime = 0, decelTime = 0;
     private boolean isAccel = true, isDecel = false;
     private long startTime = 0;
     private double lastOutput = 0;
     private double maxSpeed = 1.0;
-	private static final Clock clock = Clock.systemUTC();
+    private static final Clock clock = Clock.systemUTC();
+    
+    /**
+	 * Constructor to make a blank variable that manages acceleration.
+	 * 
+	 * @author ThunderChickens 217
+	 */
+    public Accel() {
+        initialize();
+    }
 
 	/**
 	 * Constructor to make a variable that manages acceleration.
