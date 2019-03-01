@@ -8,7 +8,7 @@ Classes currently include:
 - `rev.CANSparkMax`
 - `pid.PID`
 - `pid.APID` (applies acceleration to a `pid.PID` object)
-- **beta** `Accel`
+- **`beta`** `Accel`
 
 ## Installation
 1) Download the `.jar` files for the latest release [here](https://github.com/Team217/FRC-217-Libraries/releases). If you do not download both files, then the Java documentation (information on how to use the classes and methods) will be unavailable.
