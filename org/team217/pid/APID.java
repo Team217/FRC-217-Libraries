@@ -2,6 +2,8 @@ package org.team217.pid;
 
 import java.time.Clock;
 
+import org.team217.Range;
+
 /**
  * A class that applies acceleration to a {@code PID} system.
  * 
@@ -58,10 +60,10 @@ public class APID {
 	 */
     public double getOutput(double pos, double tar) {
         double output = pid.getOutput(pos, tar);
-        int sign = (output < 0.0) ? -1 : 1;
+        int sign = Range.sign(output);
         
         // maxSpeed / (1000 * accelTime) = acceleration, acceleration * time = velocity
-        double accelOutput = sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
+        double accelOutput = (accelTime == 0) ? output : sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
         
         if (Math.abs(accelOutput) < Math.abs(output) && isAccel) {
             output = accelOutput;
