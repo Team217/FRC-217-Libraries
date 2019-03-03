@@ -11,7 +11,8 @@ import org.team217.*;
  */
 public class Accel {
     private double accelTime = 0, decelTime = 0;
-    private boolean isAccel = true, isDecel = false;
+    private boolean isAccel = false, isDecel = false;
+    private boolean lastAccel = false, lastDecel = false;
     private long startTime = 0;
     private double lastOutput = 0;
     private double maxSpeed = 1.0;
@@ -64,29 +65,44 @@ public class Accel {
         speed = Range.inRange(speed, -maxSpeed, maxSpeed);
         int sign = Range.sign(speed);
         int lastSign = Range.sign(lastOutput);
+
+        if (speed == lastOutput) {
+            isAccel = false;
+            isDecel = false;
+        }
+        else if (sign == lastSign) {
+            isAccel = Math.abs(speed) > Math.abs(lastOutput);
+            isDecel = !isAccel;
+        }
+        else {
+            isAccel = lastSign == 0; // If different sign, will only accelerate when lastOutput was 0; otherwise, first decelerates
+            isDecel = !isAccel;
+        }
+
+        if (isAccel != lastAccel || isDecel != lastDecel) {
+            startTime = clock.millis();
+            lastAccel = isAccel;
+            lastDecel = isDecel;
+        }
         
         // maxSpeed / (1000 * accelTime) = acceleration, acceleration * time = velocity
-        double accelOutput = (accelTime == 0) ? speed : sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
+        double accelOutput = accelTime == 0 ? speed : lastOutput + sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
+        double decelOutput = decelTime == 0 ? speed : lastOutput - lastSign * maxSpeed / (1000 * decelTime) * (clock.millis() - startTime);
 
-        // 1 - (acceleration * time) = inverse of above
-        double decelOutput = (decelTime == 0) ? speed : maxSpeed * (1 - lastSign / (1000 * decelTime) * (clock.millis() - startTime));
-        
-        if (Math.abs(accelOutput) < Math.abs(speed) && isAccel) {
+        boolean shouldAccel = sign == 1 ? accelOutput < speed : sign == -1 ? accelOutput > speed : false;
+        if (shouldAccel && isAccel) {
             speed = accelOutput;
         }
-        else {
-            isAccel = false;
+        else if (isAccel) {
+            lastOutput = speed;
         }
-
-        if ((Math.abs(speed) < Math.abs(lastOutput) || sign != lastSign) && !isDecel) {
-            // set decelOutput = Math.abs(lastOutput) and solve for startTime; this allows us to decelerate from lastOutput instead of maxSpeed
-            startTime = (long) (clock.millis() - 1000 * decelTime / lastSign * (1 - Math.abs(lastOutput) / maxSpeed));
-            isDecel = true;
-        }
-        else if (isDecel) {
+        
+        boolean shouldDecel = lastSign == 1 ? decelOutput > speed && decelOutput > 0 : lastSign == -1 ? decelOutput < speed && decelOutput < 0 : false; // Past 0, flips to acceleration
+        if (shouldDecel && isDecel) {
             speed = decelOutput;
         }
-        else {
+        else if (isDecel) {
+            speed = (lastSign == 1 && decelOutput <= 0) || (lastSign == -1 && decelOutput >= 0) ? 0 : speed; // If went through/to 0, lastOutput = 0, can flip to acceleration next loop
             lastOutput = speed;
         }
 
@@ -95,7 +111,7 @@ public class Accel {
 
     /** (Re)activates the acceleration period and resets the acceleration timer. */
     public void initialize() {
-        isAccel = true;
+        isAccel = false;
         isDecel = false;
         startTime = clock.millis();
         lastOutput = 0;
