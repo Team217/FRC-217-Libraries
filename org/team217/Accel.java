@@ -14,7 +14,7 @@ public class Accel {
     private long startTime = 0;
     private double lastOutput = 0;
     private double lastSpeed = 0;
-    private double maxSpeed = 1.0;
+    private double maxSpeed = 1;
     private boolean modifyLastOut = true;
     private static final Clock clock = Clock.systemUTC();
     
@@ -31,13 +31,13 @@ public class Accel {
 	 * Constructor to make a variable that manages acceleration.
      * 
      * @param accelTime
-     *        The time it should take to accelerate from 0.0 to +/-1.0, in seconds
+     *        The time it should take to accelerate from 0 to +/-1, in seconds
 	 * 
 	 * @author ThunderChickens 217
 	 */
     public Accel(double accelTime) {
+        this();
         setAccelTime(accelTime);
-        initialize();
     }
 
 	/**
@@ -122,17 +122,24 @@ public class Accel {
         return speed;
     }
 
-    /** (Re)activates the acceleration period and resets the acceleration timer. */
+    /** (Re)sets the acceleration period. */
     public void initialize() {
         isAccel = false;
         isDecel = false;
+
+        lastAccel = false;
+        lastDecel = false;
+
+        modifyLastOut = true;
+
         startTime = clock.millis();
+
         lastOutput = 0;
         lastSpeed = 0;
     }
 
     /**
-     * Sets the time it should take to accelerate from 0.0 to {@code maxSpeed}, in seconds.
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds.
      * 
      * @param accelTime
      *        The acceleration time
@@ -142,8 +149,8 @@ public class Accel {
      * @exception IllegalArgumentException if {@code accelTime} is negative
      */
     public Accel setAccelTime(double accelTime) {
-        if (accelTime < 0.0) {
-            throw new IllegalArgumentException("Illegal accelTime Value: " + accelTime + "\nValue cannot be negative");
+        if (accelTime < 0) {
+            throw new IllegalArgumentException("Illegal accelTime value: " + accelTime + "\nValue cannot be negative");
         }
         this.accelTime = accelTime;
 
@@ -151,7 +158,7 @@ public class Accel {
     }
 
     /**
-     * Sets the time it should take to accelerate from 0.0 to {@code maxSpeed}, in seconds.
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds.
      * 
      * @param accelTime
      *        The acceleration time
@@ -171,7 +178,7 @@ public class Accel {
     }
 
     /**
-     * Sets the time it should take to decelerate from {@code maxSpeed} to 0.0, in seconds.
+     * Sets the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
      * 
      * @param decelTime
      *        The deceleration time
@@ -181,8 +188,8 @@ public class Accel {
      * @exception IllegalArgumentException if {@code decelTime} is negative
      */
     public Accel setDecelTime(double decelTime) {
-        if (decelTime < 0.0) {
-            throw new IllegalArgumentException("Illegal accelTime Value: " + decelTime + "\nValue cannot be negative");
+        if (decelTime < 0) {
+            throw new IllegalArgumentException("Illegal accelTime value: " + decelTime + "\nValue cannot be negative");
         }
         this.decelTime = decelTime;
 
@@ -190,7 +197,7 @@ public class Accel {
     }
 
     /**
-     * Sets the time it should take to decelerate from {@code maxSpeed} to 0.0, in seconds.
+     * Sets the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
      * 
      * @param decelTime
      *        The deceleration time
@@ -210,8 +217,8 @@ public class Accel {
     }
 
     /**
-     * Sets the time it should take to accelerate from 0.0 to {@code maxSpeed}, in seconds,
-     * and the time it should take to decelerate from {@code maxSpeed} to 0.0, in seconds.
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
+     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
      * 
      * @param accelTime
      *        The acceleration time
@@ -229,8 +236,8 @@ public class Accel {
     }
 
     /**
-     * Sets the time it should take to accelerate from 0.0 to {@code maxSpeed}, in seconds,
-     * and the time it should take to decelerate from {@code maxSpeed} to 0.0, in seconds.
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
+     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
      * 
      * @param accelTime
      *        The acceleration time
@@ -262,8 +269,8 @@ public class Accel {
      * @exception IllegalArgumentException if {@code maxSpeed} is not positive
      */
     public Accel setMaxSpeed(double maxSpeed) {
-        if (maxSpeed <= 0.0) {
-            throw new IllegalArgumentException("Illegal maxSpeed Value: " + maxSpeed + "\nValue must be greater than 0");
+        if (maxSpeed <= 0) {
+            throw new IllegalArgumentException("Illegal maxSpeed value: " + maxSpeed + "\nValue must be greater than 0");
         }
         this.maxSpeed = maxSpeed;
 

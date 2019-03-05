@@ -192,7 +192,7 @@ public class PID {
 	 */
 	public PID setP(double newP) {
 		if (newP < 0) {
-			throw new IllegalArgumentException("Illegal kP Value: " + newP + "\nValue cannot be negative");
+			throw new IllegalArgumentException("Illegal kP value: " + newP + "\nValue cannot be negative");
 		}
         kP = newP;
 
@@ -232,7 +232,7 @@ public class PID {
 	 */
 	public PID setI(double newI) {
 		if (newI < 0) {
-			throw new IllegalArgumentException("Illegal kI Value: " + newI + "\nValue cannot be negative");
+			throw new IllegalArgumentException("Illegal kI value: " + newI + "\nValue cannot be negative");
 		}
         kI = newI;
         
@@ -271,7 +271,7 @@ public class PID {
 	 */
 	public PID setD(double newD) {
 		if (newD < 0) {
-			throw new IllegalArgumentException("Illegal kD Value: " + newD + "\nValue cannot be negative");
+			throw new IllegalArgumentException("Illegal kD value: " + newD + "\nValue cannot be negative");
 		}
         kD = newD;
         
@@ -355,7 +355,7 @@ public class PID {
 	 */
 	public PID setTimeout(int timeout) {
 		if (timeout < 0) {
-			throw new IllegalArgumentException("Illegal timeout Value: " + timeout + "\nValue cannot be negative");
+			throw new IllegalArgumentException("Illegal timeout value: " + timeout + "\nValue cannot be negative");
 		}
         this.timeout = timeout;
         
@@ -425,6 +425,7 @@ public class PID {
         updatePOut();
         updateIOut();
         updateDOut();
+        updateCurrentTime();
 		return pOut + iOut + dOut;
 	}
 	
@@ -543,11 +544,17 @@ public class PID {
 			
 			if (Range.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
 				aError += currentError;
-				currentTime = clock.millis();
 			}
 			else {
 				aError = 0;
 			}
         }
-	}
+    }
+    
+    /** Updates {@code currentTime} if {@code timeout} milliseconds have passed since the last update. */
+    private void updateCurrentTime() {
+        if (clock.millis() >= currentTime + timeout) {
+            currentTime = clock.millis();
+        }
+    }
 }

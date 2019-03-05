@@ -40,11 +40,11 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
         double angle = -ypr[0];
         
         // Get angle within range [-180, 180]
-		while (angle > 180.0) {
-			angle -= 360.0;
+		while (angle > 180) {
+			angle -= 360;
 		}
-		while (angle < -180.0) {
-			angle += 360.0;
+		while (angle < -180) {
+			angle += 360;
 		}
 
 		if (setAngle) {
