@@ -1,5 +1,7 @@
 package org.team217;
 
+import java.math.*;
+
 /**
  * Contains deadband functions for controllers and motors
  * 
@@ -11,7 +13,7 @@ public class Range {
 	 * Checks if the value is within a given deadband and, if it is, sets the value to 0.
 	 * 
 	 * @param value
-	 *        The tested value
+	 *        The value to be tested
 	 * @param deadband
 	 *        The deadband size
      * @param isInclusive
@@ -32,7 +34,7 @@ public class Range {
 	 * Checks if the value is within a given inclusive deadband and, if it is, sets the value to 0.
 	 * 
 	 * @param value
-	 *        The tested value
+	 *        The value to be tested
 	 * @param deadband
 	 *        The deadband size
 	 * @return
@@ -48,7 +50,7 @@ public class Range {
 	 * Checks if the value is within a given range.
 	 * 
 	 * @param value
-	 *        The tested value
+	 *        The value to be tested
 	 * @param lower
 	 *        The lower range
 	 * @param upper
@@ -72,7 +74,7 @@ public class Range {
 	 * Checks if the value is within a given inclusive range.
 	 * 
 	 * @param value
-	 *        The tested value
+	 *        The value to be tested
 	 * @param lower
 	 *        The lower range
 	 * @param upper
@@ -90,7 +92,7 @@ public class Range {
 	 * Keeps the value within a given range.
 	 * 
 	 * @param value
-	 *        The tested value
+	 *        The value to be tested
 	 * @param lower
 	 *        The lower range
 	 * @param upper
@@ -110,5 +112,23 @@ public class Range {
     /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */
     public static int sign(double value) {
         return value > 0 ? 1 : value < 0 ? -1 : 0;
+    }
+
+    /**
+     * Returns the rounded value.
+     * <p>
+     * Note: half values (0.5) round to the nearest even.
+     * </p>
+     * 
+     * @param value
+     *        The value to be rounded
+     * @param places
+     *        The number of decimal places
+     */
+    public static double round(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException("Illegal decimal places value: " + places + "\nValue cannot be negative");
+        }
+        return new BigDecimal(String.valueOf(value)).setScale(places, RoundingMode.HALF_EVEN).doubleValue();
     }
 }
