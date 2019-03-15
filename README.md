@@ -2,7 +2,7 @@
 
 Classes currently include:
 - `Converter` (converts between encoder ticks and either angles or distances)
-- `Range` (range methods, such as `deadband()`)
+- `Num` (numerical operations, such as `deadband()` and `isWithinRange()`)
 - `Accel`
 - `ctre.WPI_TalonSRX`
 - `ctre.PigeonIMU`
