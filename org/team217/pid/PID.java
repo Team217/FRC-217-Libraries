@@ -538,11 +538,11 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds because we don't get new encoder values until then
-			if (Range.sign(currentError) != Range.sign(aError)) { // Reset accumulated error if error changes sign
+			if (Num.sign(currentError) != Num.sign(aError)) { // Reset accumulated error if error changes sign
 				aError = 0;
 			}
 			
-			if (Range.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
+			if (Num.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
 				aError += currentError;
 			}
 			else {

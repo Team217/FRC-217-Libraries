@@ -62,10 +62,10 @@ public class Accel {
      *        The target motor speed
 	 */
     public double getOutput(double speed) {
-        speed = Range.inRange(speed, -maxSpeed, maxSpeed);
-        int sign = Range.sign(speed);
-        int lastOutSign = Range.sign(lastOutput);
-        int lastSign = Range.sign(lastSpeed);
+        speed = Num.inRange(speed, maxSpeed);
+        int sign = Num.sign(speed);
+        int lastOutSign = Num.sign(lastOutput);
+        int lastSign = Num.sign(lastSpeed);
 
         if (speed == lastSpeed) { // Same speed as last run, no need to change
             isAccel = false;

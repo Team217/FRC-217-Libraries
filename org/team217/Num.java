@@ -3,13 +3,11 @@ package org.team217;
 import java.math.*;
 
 /**
- * Contains deadband functions for controllers and motors.
+ * Contains operations for managing and checking numerical data.
  * 
- * @deprecated This class has been replaced by {@code org.team217.Num}
  * @author ThunderChickens 217
  */
-public class Range {
-    
+public class Num {
     /**
 	 * Checks if the value is within a given deadband and, if it is, sets the value to 0.
 	 * 
@@ -88,6 +86,43 @@ public class Range {
     public static boolean isWithinRange(double value, double lower, double upper) {
         return isWithinRange(value, lower, upper, true);
     }
+    
+	/**
+	 * Checks if the value is within a given two-sided range.
+	 * 
+	 * @param value
+	 *        The value to be tested
+	 * @param range
+     *        The two-sided range [-range, range]
+     * @param isInclusive
+     *        {@code true} [default] if the range is inclusive
+	 * @return
+	 *        {@code true} if the value is within the range
+     * 
+     * @exception IllegalArgumentException if {@code range} is not positive
+	 */
+    public static boolean isWithinRange(double value, double range, boolean isInclusive) {
+		if (range <= 0) {
+			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue must be positive");
+		}
+        return isWithinRange(value, -range, range, isInclusive);
+    }
+    
+	/**
+	 * Checks if the value is within a given two-sided, inclusive range.
+	 * 
+	 * @param value
+	 *        The value to be tested
+	 * @param range
+     *        The two-sided range [-range, range]
+	 * @return
+	 *        {@code true} if the value is within the range
+     * 
+     * @exception IllegalArgumentException if {@code range} is not positive
+	 */
+    public static boolean isWithinRange(double value, double range) {
+        return isWithinRange(value, range, true);
+    }
 
 	/**
 	 * Keeps the value within a given range.
@@ -108,6 +143,25 @@ public class Range {
 			throw new IllegalArgumentException("Illegal lower/upper value: " + lower + "/" + upper + "\nUpper must be greater than lower");
 		}
 		return value > upper ? upper : value < lower ? lower : value;
+    }
+
+	/**
+	 * Keeps the value within a given two-sided range.
+	 * 
+	 * @param value
+	 *        The value to be tested
+	 * @param range
+	 *        The two-sided range [-range, range]
+	 * @return
+	 *        The value, modified to stay within the range
+     * 
+     * @exception IllegalArgumentException if {@code range} is not positive
+	 */
+	public static double inRange(double value, double range) {
+		if (range <= 0) {
+			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue must be positive");
+		}
+		return value > range ? range : value < -range ? -range : value;
     }
     
     /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */

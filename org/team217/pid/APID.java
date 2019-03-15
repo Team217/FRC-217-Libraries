@@ -72,8 +72,8 @@ public class APID {
 	 *        The desired target
 	 */
     public double getOutput(double pos, double tar) {
-        double output = Range.inRange(pid.getOutput(pos, tar), -maxSpeed, maxSpeed);
-        int sign = Range.sign(output);
+        double output = Num.inRange(pid.getOutput(pos, tar), maxSpeed);
+        int sign = Num.sign(output);
         
         // maxSpeed / (1000 * accelTime) = acceleration, acceleration * time = velocity
         double accelOutput = (accelTime == 0) ? output : sign * maxSpeed / (1000 * accelTime) * (clock.millis() - startTime);
