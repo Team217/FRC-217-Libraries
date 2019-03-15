@@ -8,6 +8,7 @@ import java.math.*;
  * @deprecated This class has been replaced by {@code org.team217.Num}
  * @author ThunderChickens 217
  */
+@Deprecated
 public class Range {
     
     /**
