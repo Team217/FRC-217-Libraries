@@ -161,7 +161,7 @@ public class Num {
 		if (range <= 0) {
 			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue must be positive");
 		}
-		return value > range ? range : value < -range ? -range : value;
+		return inRange(value, -range, range);
     }
     
     /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */
