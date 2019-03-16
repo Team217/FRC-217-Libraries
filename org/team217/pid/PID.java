@@ -344,6 +344,43 @@ public class PID {
     }
 	
 	/**
+	 * Sets the given value as the minimum/maximum output values for which I will accumulate. Default value is 1 (-1/1, respectively).
+	 * 
+	 * @param minMax
+	 *        The minimum ({@code -minMax}) and maximum ({@code minMax}) output values
+     * @return
+     *        This {@code PID} object
+	 * 
+	 * @exception IllegalArgumentException if {@code minMax} is not positive
+	 */
+    public PID setMinMax(double minMax) {
+		if (minMax <= 0) {
+			throw new IllegalArgumentException("Illegal minimum/maximum value: " + minMax + "\nValue must be positive");
+        }
+        return setMinMax(-minMax, minMax);
+    }
+	
+	/**
+	 * Sets the given value as the minimum/maximum output values for which I will accumulate. Default value is 1 (-1/1, respectively).
+	 * 
+	 * @param minMax
+	 *        The minimum ({@code -minMax}) and maximum ({@code minMax}) output values
+     * @param modifyOrig
+     *        {@code true} [default] if the original {@code PID} object should be modified as well
+     * @return
+     *        This {@code PID} object
+	 * 
+	 * @exception IllegalArgumentException if {@code minMax} is not positive
+	 */
+    public PID setMinMax(double minMax, boolean modifyOrig) {
+        if (modifyOrig) {
+            return setMinMax(minMax);
+        }
+        PID pid = this;
+        return pid.setMinMax(minMax);
+    }
+	
+	/**
 	 * Sets the timeout.
 	 * 
 	 * @param timeout
