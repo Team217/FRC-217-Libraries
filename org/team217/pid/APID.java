@@ -176,4 +176,35 @@ public class APID {
         APID apid = this;
         return apid.setMaxSpeed(maxSpeed);
     }
+
+    /**
+     * Sets the {@code PID} variable.
+     * 
+     * @param pid
+     *        The new PID variable
+     * @return
+     *        This {@code APID} object
+     */
+    public APID setPID(PID pid) {
+        this.pid = pid;
+        return this;
+    }
+
+    /**
+     * Sets the {@code PID} variable.
+     * 
+     * @param pid
+     *        The new PID variable
+     * @param modifyOrig
+     *        {@code true} [default] if the original {@code APID} object should be modified as well
+     * @return
+     *        The resulting {@code APID} object
+     */
+    public APID setPID(PID pid, boolean modifyOrig) {
+        if (modifyOrig) {
+            return setPID(pid);
+        }
+        APID apid = this;
+        return apid.setPID(pid);
+    }
 }
