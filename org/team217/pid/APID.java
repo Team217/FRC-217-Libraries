@@ -181,7 +181,7 @@ public class APID {
      * Sets the {@code PID} variable.
      * 
      * @param pid
-     *        The new PID variable
+     *        The new {@code PID} variable
      * @return
      *        This {@code APID} object
      */
@@ -194,7 +194,7 @@ public class APID {
      * Sets the {@code PID} variable.
      * 
      * @param pid
-     *        The new PID variable
+     *        The new {@code PID} variable
      * @param modifyOrig
      *        {@code true} [default] if the original {@code APID} object should be modified as well
      * @return
