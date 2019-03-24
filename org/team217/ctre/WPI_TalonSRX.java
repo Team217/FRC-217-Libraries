@@ -28,7 +28,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 *        {@code true} if the encoder value should be multiplied by -1
 	 */
 	public void invertEncoder(boolean isInverted) {
-		invertEnc = (isInverted) ? -1 : 1;
+		invertEnc = isInverted ? -1 : 1;
 	}
 	
 	/** Returns the Quadrature Encoder position. */
@@ -60,7 +60,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 *        Error Code
 	 */
 	public ErrorCode setEncoder(int pos) {
-		return getSensorCollection().setQuadraturePosition(pos, 0);
+		return getSensorCollection().setQuadraturePosition(invertEnc * pos, 0);
 	}
 
 	/** Sets the current analog encoder position as zero. Encoder values will range from -512 to 512. */

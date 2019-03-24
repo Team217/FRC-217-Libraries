@@ -42,7 +42,7 @@ public class CANSparkMax extends com.revrobotics.CANSparkMax {
 	 *        {@code true} if the encoder value should be multiplied by -1
 	 */
 	public void invertEncoder(boolean isInverted) {
-		invertEnc = (isInverted) ? -1 : 1;
+		invertEnc = isInverted ? -1 : 1;
     }
     
     /** Gets the encoder velocity, modified so {@code invertEncoder()}, {@code setEncoder()}, and {@code resetEncoder()} affect the return value. */
