@@ -93,10 +93,11 @@ public class APID {
         return pid;
     }
 
-    /** (Re)activates the acceleration period and resets the acceleration timer. */
+    /** (Re)activates the acceleration period and resets the acceleration timer and PID errors. */
     public void initialize() {
         isAccel = true;
         startTime = clock.millis();
+        pid.resetErrors();
     }
 
     /**
