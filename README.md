@@ -4,6 +4,7 @@ Classes currently include:
 - `Converter` (converts between encoder ticks and either angles or distances)
 - `Num` (numerical operations, such as `deadband()` and `isWithinRange()`)
 - `Accel`
+- `Logger`
 - `ctre.WPI_TalonSRX`
 - `ctre.PigeonIMU`
 - `rev.CANSparkMax`
