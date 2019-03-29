@@ -11,7 +11,6 @@ import java.io.IOException;
  * @author ThunderChickens 217
  */
 public class Logger {
-
     String fileName = "log.log";
     File file = new File(fileName);
 
