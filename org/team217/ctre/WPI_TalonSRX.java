@@ -88,7 +88,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		return getSensorCollection().isRevLimitSwitchClosed();
 	}
 
-	/** Sets up the motor controller to have a current limit of 40 and use a Quadrature Encoder. */
+	/** Sets up the motor controller to use a Quadrature Encoder. */
 	public void setup() {
 		set(0);
 		configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
