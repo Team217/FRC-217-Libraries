@@ -46,21 +46,10 @@ public class APID {
         initialize();
     }
 
-	/**
-	 * Constructor to make a variable that applies acceleration to a {@code PID} system.
-     * 
-     * @param pid
-     *        The {@code PID} variable to manage
-     * @param accelTime
-     *        The time it should take to accelerate from 0 to {@code maxSpeed}, in seconds
-     * @param maxSpeed
-     *        The maximum motor speed
-	 * 
-	 * @author ThunderChickens 217
-	 */
-    public APID(PID pid, double accelTime, double maxSpeed) {
-        this(pid, accelTime);
-        setMaxSpeed(maxSpeed);
+    /** Creates and returns a copy of this object. */
+    @Override
+    public APID clone() {
+        return new APID(pid, accelTime).setMaxSpeed(maxSpeed);
     }
 
 	/**
@@ -135,7 +124,7 @@ public class APID {
         if (modifyOrig) {
             return setAccelTime(accelTime);
         }
-        APID apid = this;
+        APID apid = this.clone();
         return apid.setAccelTime(accelTime);
     }
 
@@ -174,7 +163,7 @@ public class APID {
         if (modifyOrig) {
             return setMaxSpeed(maxSpeed);
         }
-        APID apid = this;
+        APID apid = this.clone();
         return apid.setMaxSpeed(maxSpeed);
     }
 
@@ -205,7 +194,7 @@ public class APID {
         if (modifyOrig) {
             return setPID(pid);
         }
-        APID apid = this;
+        APID apid = this.clone();
         return apid.setPID(pid);
     }
 }

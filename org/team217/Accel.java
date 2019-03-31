@@ -55,6 +55,12 @@ public class Accel {
         setDecelTime(decelTime);
     }
 
+    /** Creates and returns a copy of this object. */
+    @Override
+    public Accel clone() {
+        return new Accel(accelTime, decelTime).setMaxSpeed(maxSpeed);
+    }
+
 	/**
 	 * Returns the motor output value.
 	 * 
@@ -173,7 +179,7 @@ public class Accel {
         if (modifyOrig) {
             return setAccelTime(accelTime);
         }
-        Accel accel = this;
+        Accel accel = this.clone();
         return accel.setAccelTime(accelTime);
     }
 
@@ -212,7 +218,7 @@ public class Accel {
         if (modifyOrig) {
             return setDecelTime(decelTime);
         }
-        Accel accel = this;
+        Accel accel = this.clone();
         return accel.setDecelTime(decelTime);
     }
 
@@ -254,7 +260,7 @@ public class Accel {
         if (modifyOrig) {
             return setAccelTimes(accelTime, decelTime);
         }
-        Accel accel = this;
+        Accel accel = this.clone();
         return accel.setAccelTimes(accelTime, decelTime);
     }
 
@@ -293,7 +299,7 @@ public class Accel {
         if (modifyOrig) {
             return setMaxSpeed(maxSpeed);
         }
-        Accel accel = this;
+        Accel accel = this.clone();
         return accel.setMaxSpeed(maxSpeed);
     }
 }
