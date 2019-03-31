@@ -14,8 +14,8 @@ public class PID {
 	private double kI = 0;
 	private double kD = 0;
 	private int timeout = 0;
-	private double max = 1;
 	private double min = -1;
+	private double max = 1;
 	
 	// Always private
 	private double currentError = 0;
@@ -85,6 +85,12 @@ public class PID {
 	public PID(double newP, double newI, double newD, int timeout) {
         setPID(newP, newI, newD, timeout);
 	}
+    
+    /** Creates and returns a copy of this object. */
+    @Override
+    public PID clone() {
+        return new PID(kP, kI, kD, timeout).setMinMax(min, max);
+    }
 	
 	/**
 	 * Sets the given values as the values used for the PID.
@@ -151,7 +157,7 @@ public class PID {
         if (modifyOrig) {
             return setPID(newP, newI, newD);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setPID(newP, newI, newD);
     }
     
@@ -177,7 +183,7 @@ public class PID {
         if (modifyOrig) {
             return setPID(newP, newI, newD, timeout);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setPID(newP, newI, newD, timeout);
     }
 	
@@ -217,7 +223,7 @@ public class PID {
             setP(newP);
             return this;
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setD(newP);
     }
 	
@@ -256,7 +262,7 @@ public class PID {
         if (modifyOrig) {
             return setI(newI);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setD(newI);
     }
 
@@ -295,7 +301,7 @@ public class PID {
         if (modifyOrig) {
             return setD(newD);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setD(newD);
     }
 	
@@ -340,7 +346,7 @@ public class PID {
         if (modifyOrig) {
             return setMinMax(minimum, maximum);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setMinMax(minimum, maximum);
     }
 	
@@ -377,7 +383,7 @@ public class PID {
         if (modifyOrig) {
             return setMinMax(minMax);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setMinMax(minMax);
     }
 	
@@ -416,7 +422,7 @@ public class PID {
         if (modifyOrig) {
             return setTimeout(timeout);
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.setTimeout(timeout);
     }
 	
@@ -493,7 +499,7 @@ public class PID {
         if (modifyOrig) {
             return resetPID();
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.resetPID();
     }
 	
@@ -522,7 +528,7 @@ public class PID {
         if (modifyOrig) {
             return resetErrors();
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.resetErrors();
     }
     
@@ -551,7 +557,7 @@ public class PID {
         if (modifyOrig) {
             return reset();
         }
-        PID pid = this;
+        PID pid = this.clone();
         return pid.reset();
     }
 
