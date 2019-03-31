@@ -25,6 +25,7 @@ public class PID {
 	
 	private static final Clock clock = Clock.systemUTC();
     private long currentTime = clock.millis();
+    private boolean updateID = false;
     
 	/**
 	 * Constructor to make a blank variable that holds information about and calculates information for a PID system.
@@ -459,6 +460,7 @@ public class PID {
 	 */
 	public double getOutput(double pos, double tar) {
         currentError = tar - pos;
+        shouldUpdateID();
         updatePOut();
         updateIOut();
         updateDOut();
@@ -552,6 +554,11 @@ public class PID {
         PID pid = this;
         return pid.reset();
     }
+
+    /** Checks if the I Output and D Output should be updated, according to the timeout */
+    private void shouldUpdateID() {
+        updateID = clock.millis() >= currentTime + timeout; // Wait for [timeout] milliseconds before updating IOut and DOut
+    }
 	
 	/** Calculates the Proportional output. */
 	private void updatePOut() {
@@ -566,7 +573,7 @@ public class PID {
 	
 	/** Calculates the Derivative output. */
 	private void updateDOut() {
-		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds before updating the D output
+		if (updateID) {
 		    dOut = kD * (currentError - lastError);
             lastError = currentError;
         }
@@ -574,7 +581,7 @@ public class PID {
 	
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
-		if (clock.millis() >= currentTime + timeout) { // Wait for [timeout] milliseconds because we don't get new encoder values until then
+		if (updateID) {
 			if (Num.sign(currentError) != Num.sign(aError)) { // Reset accumulated error if error changes sign
 				aError = 0;
 			}
@@ -590,7 +597,7 @@ public class PID {
     
     /** Updates {@code currentTime} if {@code timeout} milliseconds have passed since the last update. */
     private void updateCurrentTime() {
-        if (clock.millis() >= currentTime + timeout) {
+        if (updateID) {
             currentTime = clock.millis();
         }
     }
