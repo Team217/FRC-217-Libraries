@@ -555,7 +555,7 @@ public class PID {
         return pid.reset();
     }
 
-    /** Checks if the I Output and D Output should be updated, according to the timeout */
+    /** Checks if the I Output and D Output should be updated, according to the timeout. */
     private void shouldUpdateID() {
         updateID = clock.millis() >= currentTime + timeout; // Wait for [timeout] milliseconds before updating IOut and DOut
     }
