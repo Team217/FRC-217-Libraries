@@ -68,6 +68,30 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
     }
 
     /**
+     * Sets the yaw (horizontal) angle of the {@code PigeonIMU}.
+     * 
+     * @param angleDeg
+     *        The new angle in degrees
+     */
+    @Override
+    public ErrorCode setYaw(double angleDeg) {
+        return super.setYaw(-angleDeg);
+    }
+
+    /**
+     * Sets the yaw (horizontal) angle of the {@code PigeonIMU}.
+     * 
+     * @param angleDeg
+     *        The new angle in degrees
+     * @param timeoutMs
+     *        The timeout in milliseconds
+     */
+    @Override
+    public ErrorCode setYaw(double angleDeg, int timeoutMs) {
+        return super.setYaw(angleDeg, timeoutMs);
+    }
+
+    /**
      * Sets the pitch (front and back tip) angle of the {@code PigeonIMU}.
      * 
      * @param angleDeg
