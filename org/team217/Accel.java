@@ -265,6 +265,38 @@ public class Accel {
     }
 
     /**
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
+     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
+     * 
+     * @param accelTime
+     *        The acceleration/deceleration time
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} is negative
+     */
+    public Accel setAccelTimes(double accelTime) {
+        return setAccelTimes(accelTime, accelTime);
+    }
+
+    /**
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
+     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
+     * 
+     * @param accelTime
+     *        The acceleration/deceleration time
+     * @param modifyOrig
+     *        {@code true} [default] if the original {@code Accel} object should be modified as well
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} is negative
+     */
+    public Accel setAccelTimes(double accelTime, boolean modifyOrig) {
+        return setAccelTimes(accelTime, accelTime, modifyOrig);
+    }
+
+    /**
      * Sets the maximum motor speed used for acceleration.
      * 
      * @param maxSpeed
