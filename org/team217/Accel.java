@@ -28,19 +28,6 @@ public class Accel {
     }
 
 	/**
-	 * Constructor to make a variable that manages acceleration.
-     * 
-     * @param accelTime
-     *        The time it should take to accelerate from 0 to +/-1, in seconds
-	 * 
-	 * @author ThunderChickens 217
-	 */
-    public Accel(double accelTime) {
-        this();
-        setAccelTime(accelTime);
-    }
-
-	/**
 	 * Constructor to make a variable that manages acceleration and deceleration.
      * 
      * @param accelTime
@@ -51,8 +38,21 @@ public class Accel {
 	 * @author ThunderChickens 217
 	 */
     public Accel(double accelTime, double decelTime) {
-        this(accelTime);
+        this();
+        setAccelTime(accelTime);
         setDecelTime(decelTime);
+    }
+
+	/**
+	 * Constructor to make a variable that manages acceleration and deceleration.
+     * 
+     * @param accelTime
+     *        The time it should take to accelerate from 0 to {@code maxSpeed} and decelerate from {@code maxSpeed} to 0, in seconds
+	 * 
+	 * @author ThunderChickens 217
+	 */
+    public Accel(double accelTime) {
+        this(accelTime, accelTime);
     }
 
     /** Creates and returns a copy of this object. */
