@@ -26,6 +26,7 @@ public class PID {
 	private static final Clock clock = Clock.systemUTC();
     private long currentTime = clock.millis();
     private boolean updateID = false;
+    private double dT = 0;
     
 	/**
 	 * Constructor to make a blank variable that holds information about and calculates information for a PID system.
@@ -466,10 +467,14 @@ public class PID {
 	 */
 	public double getOutput(double pos, double tar) {
         currentError = tar - pos;
+
+        update_dT();
         shouldUpdateID();
+
         updatePOut();
         updateIOut();
         updateDOut();
+
         updateCurrentTime();
 		return pOut + iOut + dOut;
 	}
@@ -563,7 +568,7 @@ public class PID {
 
     /** Checks if the I Output and D Output should be updated, according to the timeout. */
     private void shouldUpdateID() {
-        updateID = clock.millis() >= currentTime + timeout; // Wait for [timeout] milliseconds before updating IOut and DOut
+        updateID = clock.millis() - currentTime >= timeout; // Wait for [timeout] milliseconds before updating IOut and DOut
     }
 	
 	/** Calculates the Proportional output. */
@@ -575,12 +580,12 @@ public class PID {
 	private void updateIOut() {
 		updateAccumulatedI();
         iOut = kI * aError;
-	}
+    }
 	
 	/** Calculates the Derivative output. */
 	private void updateDOut() {
 		if (updateID) {
-		    dOut = kD * (currentError - lastError);
+		    dOut = kD * (currentError - lastError) / dT;
             lastError = currentError;
         }
 	}
@@ -593,7 +598,7 @@ public class PID {
 			}
 			
 			if (Num.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
-				aError += currentError;
+				aError += (currentError + lastError) / 2 * dT;
 			}
 			else {
 				aError = 0;
@@ -606,5 +611,10 @@ public class PID {
         if (updateID) {
             currentTime = clock.millis();
         }
+    }
+    
+    /** Updates the change in time since the last iteration, in seconds. */
+    private void update_dT() {
+        dT = (clock.millis() - currentTime) / 1000.0;
     }
 }
