@@ -44,7 +44,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		while (pos < -512) {
 			pos += 1024;
 		}
-		while (pos > 511) {
+		while (pos >= 512) {
 			pos -= 1024;
 		}
 
@@ -65,7 +65,12 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 
 	/** Sets the current analog encoder position as zero. Encoder values will range from -512 to 512. */
 	public void setAnalogZero() {
-		zeroPos = getSensorCollection().getAnalogInRaw() + 512;
+		setAnalogZero(getSensorCollection().getAnalogInRaw());
+	}
+
+	/** Sets the given analog encoder position as zero. Encoder values will range from -512 to 512. */
+	public void setAnalogZero(int pos) {
+		zeroPos = pos + 512;
 	}
 	
 	/**
