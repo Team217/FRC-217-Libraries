@@ -15,7 +15,8 @@ public class PID {
 	private double kD = 0;
 	private int timeout = 0;
 	private double min = -1;
-	private double max = 1;
+    private double max = 1;
+    private boolean autoResetI = true;
 	
 	// Always private
 	private double currentError = 0;
@@ -426,6 +427,39 @@ public class PID {
         PID pid = this.clone();
         return pid.setTimeout(timeout);
     }
+
+    /**
+     * Enables/Disables the ability for the kI accumulated error to
+     * automatically reset after reaching the target.
+     * 
+     * @param autoResetI
+     *        {@code true} [default] if the kI accumulated error should automatically reset
+     * @return
+     *        This {@code PID} object
+     */
+    public PID enableIAutoReset(boolean autoResetI) {
+        this.autoResetI = autoResetI;
+        return this;
+    }
+
+    /**
+     * Enables/Disables the ability for the kI accumulated error to
+     * automatically reset after reaching the target.
+     * 
+     * @param autoResetI
+     *        {@code true} [default] if the kI accumulated error should automatically reset
+     * @param modifyOrig
+     *        {@code true} [default] if the original {@code PID} object should be modified as well
+     * @return
+     *        The resulting {@code PID} object
+     */
+    public PID enableIAutoReset(boolean autoResetI, boolean modifyOrig) {
+        if (modifyOrig) {
+            return enableIAutoReset(autoResetI);
+        }
+        PID pid = this.clone();
+        return pid.enableIAutoReset(autoResetI);
+    }
 	
 	/** Returns the current kP value. */
 	public double getP() {
@@ -593,7 +627,7 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (updateID) {
-			if (Num.sign(currentError) != Num.sign(aError)) { // Reset accumulated error if error changes sign
+			if (autoResetI && Num.sign(currentError) != Num.sign(aError)) { // Reset accumulated error if error changes sign
 				aError = 0;
 			}
 			
