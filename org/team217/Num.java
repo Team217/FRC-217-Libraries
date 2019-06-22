@@ -186,4 +186,18 @@ public class Num {
         }
         return new BigDecimal(String.valueOf(value)).setScale(places, RoundingMode.HALF_EVEN).doubleValue();
     }
+
+    /**
+     * Returns the distance between two points given the change in distance along component axes.
+     * 
+     * @param dist
+     *        The change in distance along an axis; multiple parameters for multiple axes
+     */
+    public static double distance(double... dist) {
+        double distance = 0;
+        for (double d : dist) {
+            distance += Math.pow(d, 2);
+        }
+        return Math.sqrt(distance);
+    }
 }
