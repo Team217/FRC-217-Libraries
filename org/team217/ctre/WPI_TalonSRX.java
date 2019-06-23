@@ -61,6 +61,16 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		return pos;
 	}
 
+	/** Sets the current analog encoder position as zero. */
+	public void setAnalogZero() {
+		setAnalogZero(getAnalogRaw());
+	}
+
+	/** Sets the given analog encoder position as zero. */
+	public void setAnalogZero(int pos) {
+		zeroPos = pos;
+	}
+
 	/**
 	 * Sets the Quadrature Encoder to the given value
 	 * 
@@ -71,16 +81,6 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 */
 	public ErrorCode setEncoder(int pos) {
 		return getSensorCollection().setQuadraturePosition(invertEnc * pos, 0);
-	}
-
-	/** Sets the current analog encoder position as zero. */
-	public void setAnalogZero() {
-		setAnalogZero(getAnalogRaw());
-	}
-
-	/** Sets the given analog encoder position as zero. */
-	public void setAnalogZero(int pos) {
-		zeroPos = pos;
 	}
 	
 	/**
