@@ -40,6 +40,11 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
     public int getAnalogEncoder() {
         return invertEnc * (getSensorCollection().getAnalogInRaw() - zeroPos);
     }
+
+	/** Returns the raw Analog Encoder position. */
+    public int getAnalogRaw() {
+        return getSensorCollection().getQuadraturePosition();
+    }
 	
 	/** Returns the Analog Encoder position for swerve, where positions range from -512 to 512. */
 	public int getSwerveAnalog() {
