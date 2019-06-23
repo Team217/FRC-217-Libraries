@@ -163,11 +163,6 @@ public class Num {
 		}
 		return inRange(value, -range, range);
     }
-    
-    /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */
-    public static int sign(double value) {
-        return value > 0 ? 1 : value < 0 ? -1 : 0;
-    }
 
     /**
      * Returns the rounded value.
@@ -185,6 +180,11 @@ public class Num {
             throw new IllegalArgumentException("Illegal decimal places value: " + places + "\nValue cannot be negative");
         }
         return new BigDecimal(String.valueOf(value)).setScale(places, RoundingMode.HALF_EVEN).doubleValue();
+    }
+    
+    /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */
+    public static int sign(double value) {
+        return value > 0 ? 1 : value < 0 ? -1 : 0;
     }
 
     /**

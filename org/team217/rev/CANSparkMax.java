@@ -6,7 +6,6 @@ package org.team217.rev;
  * @author ThunderChickens 217, RevRobotics
  */
 public class CANSparkMax extends com.revrobotics.CANSparkMax {
-
     protected double resetPosition = 0;
     protected int invertEnc = 1;
     

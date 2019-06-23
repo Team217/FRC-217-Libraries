@@ -61,6 +61,133 @@ public class Accel {
         return new Accel(accelTime, decelTime).setMaxSpeed(maxSpeed);
     }
 
+    /**
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds.
+     * 
+     * @param accelTime
+     *        The acceleration time
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} is negative
+     */
+    public Accel setAccelTime(double accelTime) {
+        if (accelTime < 0) {
+            throw new IllegalArgumentException("Illegal accelTime value: " + accelTime + "\nValue cannot be negative");
+        }
+        this.accelTime = accelTime;
+
+        return this;
+    }
+
+    /**
+     * Sets the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
+     * 
+     * @param decelTime
+     *        The deceleration time
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code decelTime} is negative
+     */
+    public Accel setDecelTime(double decelTime) {
+        if (decelTime < 0) {
+            throw new IllegalArgumentException("Illegal accelTime value: " + decelTime + "\nValue cannot be negative");
+        }
+        this.decelTime = decelTime;
+
+        return this;
+    }
+
+    /**
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
+     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
+     * 
+     * @param accelTime
+     *        The acceleration time
+     * @param decelTime
+     *        The deceleration time
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} or {@code decelTime} is negative
+     */
+    public Accel setAccelTimes(double accelTime, double decelTime) {
+        setAccelTime(accelTime);
+        setDecelTime(decelTime);
+        return this;
+    }
+
+    /**
+     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
+     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
+     * 
+     * @param accelTimes
+     *        The acceleration/deceleration time
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code accelTime} is negative
+     */
+    public Accel setAccelTimes(double accelTimes) {
+        return setAccelTimes(accelTime, accelTime);
+    }
+
+    /**
+     * Sets the maximum motor speed used for acceleration.
+     * 
+     * @param maxSpeed
+     *        The maximum motor speed
+     * @return
+     *        This {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code maxSpeed} is not positive
+     */
+    public Accel setMaxSpeed(double maxSpeed) {
+        if (maxSpeed <= 0) {
+            throw new IllegalArgumentException("Illegal maxSpeed value: " + maxSpeed + "\nValue must be greater than 0");
+        }
+        this.maxSpeed = maxSpeed;
+
+        return this;
+    }
+
+    /**
+     * Sets the maximum motor speed used for acceleration.
+     * 
+     * @param maxSpeed
+     *        The maximum motor speed
+     * @param modifyOrig
+     *        {@code true} [default] if the original {@code Accel} object should be modified as well
+     * @return
+     *        The resulting {@code Accel} object
+     * 
+     * @exception IllegalArgumentException if {@code maxSpeed} is not positive
+     */
+    public Accel setMaxSpeed(double maxSpeed, boolean modifyOrig) {
+        if (modifyOrig) {
+            return setMaxSpeed(maxSpeed);
+        }
+        Accel accel = this.clone();
+        return accel.setMaxSpeed(maxSpeed);
+    }
+
+    /** (Re)sets the acceleration period. */
+    public void initialize() {
+        isAccel = false;
+        isDecel = false;
+
+        lastAccel = false;
+        lastDecel = false;
+
+        modifyLastOut = true;
+
+        startTime = clock.millis();
+
+        lastOutput = 0;
+        lastSpeed = 0;
+    }
+
 	/**
 	 * Returns the motor output value.
 	 * 
@@ -126,212 +253,5 @@ public class Accel {
         lastSpeed = speed; // speed has been modified above unless no accel/decel
 
         return speed;
-    }
-
-    /** (Re)sets the acceleration period. */
-    public void initialize() {
-        isAccel = false;
-        isDecel = false;
-
-        lastAccel = false;
-        lastDecel = false;
-
-        modifyLastOut = true;
-
-        startTime = clock.millis();
-
-        lastOutput = 0;
-        lastSpeed = 0;
-    }
-
-    /**
-     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds.
-     * 
-     * @param accelTime
-     *        The acceleration time
-     * @return
-     *        This {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code accelTime} is negative
-     */
-    public Accel setAccelTime(double accelTime) {
-        if (accelTime < 0) {
-            throw new IllegalArgumentException("Illegal accelTime value: " + accelTime + "\nValue cannot be negative");
-        }
-        this.accelTime = accelTime;
-
-        return this;
-    }
-
-    /**
-     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds.
-     * 
-     * @param accelTime
-     *        The acceleration time
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code Accel} object should be modified as well
-     * @return
-     *        The resulting {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code accelTime} is negative
-     */
-    public Accel setAccelTime(double accelTime, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setAccelTime(accelTime);
-        }
-        Accel accel = this.clone();
-        return accel.setAccelTime(accelTime);
-    }
-
-    /**
-     * Sets the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
-     * 
-     * @param decelTime
-     *        The deceleration time
-     * @return
-     *        This {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code decelTime} is negative
-     */
-    public Accel setDecelTime(double decelTime) {
-        if (decelTime < 0) {
-            throw new IllegalArgumentException("Illegal accelTime value: " + decelTime + "\nValue cannot be negative");
-        }
-        this.decelTime = decelTime;
-
-        return this;
-    }
-
-    /**
-     * Sets the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
-     * 
-     * @param decelTime
-     *        The deceleration time
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code Accel} object should be modified as well
-     * @return
-     *        The resulting {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code decelTime} is negative
-     */
-    public Accel setDecelTime(double decelTime, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setDecelTime(decelTime);
-        }
-        Accel accel = this.clone();
-        return accel.setDecelTime(decelTime);
-    }
-
-    /**
-     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
-     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
-     * 
-     * @param accelTime
-     *        The acceleration time
-     * @param decelTime
-     *        The deceleration time
-     * @return
-     *        This {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code accelTime} or {@code decelTime} is negative
-     */
-    public Accel setAccelTimes(double accelTime, double decelTime) {
-        setAccelTime(accelTime);
-        setDecelTime(decelTime);
-        return this;
-    }
-
-    /**
-     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
-     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
-     * 
-     * @param accelTime
-     *        The acceleration time
-     * @param decelTime
-     *        The deceleration time
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code Accel} object should be modified as well
-     * @return
-     *        The resulting {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code accelTime} or {@code decelTime} is negative
-     */
-    public Accel setAccelTimes(double accelTime, double decelTime, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setAccelTimes(accelTime, decelTime);
-        }
-        Accel accel = this.clone();
-        return accel.setAccelTimes(accelTime, decelTime);
-    }
-
-    /**
-     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
-     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
-     * 
-     * @param accelTimes
-     *        The acceleration/deceleration time
-     * @return
-     *        This {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code accelTime} is negative
-     */
-    public Accel setAccelTimes(double accelTimes) {
-        return setAccelTimes(accelTime, accelTime);
-    }
-
-    /**
-     * Sets the time it should take to accelerate from 0 to {@code maxSpeed}, in seconds,
-     * and the time it should take to decelerate from {@code maxSpeed} to 0, in seconds.
-     * 
-     * @param accelTimes
-     *        The acceleration/deceleration time
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code Accel} object should be modified as well
-     * @return
-     *        This {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code accelTime} is negative
-     */
-    public Accel setAccelTimes(double accelTimes, boolean modifyOrig) {
-        return setAccelTimes(accelTime, accelTime, modifyOrig);
-    }
-
-    /**
-     * Sets the maximum motor speed used for acceleration.
-     * 
-     * @param maxSpeed
-     *        The maximum motor speed
-     * @return
-     *        This {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code maxSpeed} is not positive
-     */
-    public Accel setMaxSpeed(double maxSpeed) {
-        if (maxSpeed <= 0) {
-            throw new IllegalArgumentException("Illegal maxSpeed value: " + maxSpeed + "\nValue must be greater than 0");
-        }
-        this.maxSpeed = maxSpeed;
-
-        return this;
-    }
-
-    /**
-     * Sets the maximum motor speed used for acceleration.
-     * 
-     * @param maxSpeed
-     *        The maximum motor speed
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code Accel} object should be modified as well
-     * @return
-     *        The resulting {@code Accel} object
-     * 
-     * @exception IllegalArgumentException if {@code maxSpeed} is not positive
-     */
-    public Accel setMaxSpeed(double maxSpeed, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setMaxSpeed(maxSpeed);
-        }
-        Accel accel = this.clone();
-        return accel.setMaxSpeed(maxSpeed);
     }
 }

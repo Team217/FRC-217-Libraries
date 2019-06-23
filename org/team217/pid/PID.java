@@ -94,6 +94,36 @@ public class PID {
         return new PID(kP, kI, kD, timeout).setMinMax(min, max);
     }
 	
+	/** Returns the current kP value. */
+	public double getP() {
+		return kP;
+	}
+	
+	/** Returns the current kI value. */
+	public double getI() {
+		return kI;
+	}
+	
+	/** Returns the current kD value. */
+	public double getD() {
+		return kD;
+	}
+
+	/** Returns the timeout before updating I or D */
+	public int getTimeout() {
+		return timeout;
+	}
+
+	/** Returns the minimum output value for which I and D will update */
+	public double getMin() {
+		return min;
+	}
+
+	/** Returns the maximum output value for which I and D will update */
+	public double getMax() {
+		return max;
+	}
+	
 	/**
 	 * Sets the given values as the values used for the PID.
 	 * 
@@ -138,56 +168,6 @@ public class PID {
 
         return this;
     }
-    
-	/**
-	 * Sets the given values as the values used for the PID.
-	 * 
-	 * @param newP
-	 *        The new kP value
-	 * @param newI
-	 *        The new kI value
-	 * @param newD
-	 *        The new kD value
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, or {@code newD} is negative
-	 */
-    public PID setPID(double newP, double newI, double newD, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setPID(newP, newI, newD);
-        }
-        PID pid = this.clone();
-        return pid.setPID(newP, newI, newD);
-    }
-    
-	/**
-	 * Sets the given values as the values used for the PID.
-	 * 
-	 * @param newP
-	 *        The new kP value
-	 * @param newI
-	 *        The new kI value
-	 * @param newD
-	 *        The new kD value
-	 * @param timeout
-	 *        The time to wait before updating I or D, in milliseconds
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code newP}, {@code newI}, {@code newD}, or {@code timeout} is negative
-	 */
-    public PID setPID(double newP, double newI, double newD, int timeout, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setPID(newP, newI, newD, timeout);
-        }
-        PID pid = this.clone();
-        return pid.setPID(newP, newI, newD, timeout);
-    }
 	
 	/**
 	 * Sets the kP value.
@@ -208,27 +188,6 @@ public class PID {
         return this;
 	}
 	
-    /**
-     * Sets the kP value.
-     * 
-     * @param newP
-     *        The new kP value
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code newP} is negative
-     */
-    public PID setP(double newP, boolean modifyOrig) {
-        if (modifyOrig) {
-            setP(newP);
-            return this;
-        }
-        PID pid = this.clone();
-        return pid.setD(newP);
-    }
-	
 	/**
 	 * Sets the kI value.
 	 * 
@@ -247,26 +206,6 @@ public class PID {
         
         return this;
 	}
-	
-    /**
-     * Sets the kI value.
-     * 
-     * @param newI
-     *        The new kI value
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code newI} is negative
-     */
-    public PID setI(double newI, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setI(newI);
-        }
-        PID pid = this.clone();
-        return pid.setD(newI);
-    }
 
 	/**
 	 * Sets the kD value.
@@ -285,26 +224,6 @@ public class PID {
         kD = newD;
         
         return this;
-    }
-    
-    /**
-     * Sets the kD value.
-     * 
-     * @param newD
-     *        The new kD value
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code newD} is negative
-     */
-    public PID setD(double newD, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setD(newD);
-        }
-        PID pid = this.clone();
-        return pid.setD(newD);
     }
 	
 	/**
@@ -329,28 +248,6 @@ public class PID {
         
         return this;
     }
-    
-    /**
-     * Sets the given values as the minimum/maximum output values for which I will accumulate. Default values are -1 and 1, respectively.
-     * 
-     * @param minimum
-	 *        The minimum output value
-	 * @param maximum
-	 *        The maximum output value
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code minimum} &gt;= {@code maximum}
-     */
-    public PID setMinMax(double minimum, double maximum, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setMinMax(minimum, maximum);
-        }
-        PID pid = this.clone();
-        return pid.setMinMax(minimum, maximum);
-    }
 	
 	/**
 	 * Sets the given value as the minimum/maximum output values for which I will accumulate. Default value is 1 (-1/1, respectively).
@@ -367,26 +264,6 @@ public class PID {
 			throw new IllegalArgumentException("Illegal minimum/maximum value: " + minMax + "\nValue must be positive");
         }
         return setMinMax(-minMax, minMax);
-    }
-	
-	/**
-	 * Sets the given value as the minimum/maximum output values for which I will accumulate. Default value is 1 (-1/1, respectively).
-	 * 
-	 * @param minMax
-	 *        The minimum ({@code -minMax}) and maximum ({@code minMax}) output values
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        This {@code PID} object
-	 * 
-	 * @exception IllegalArgumentException if {@code minMax} is not positive
-	 */
-    public PID setMinMax(double minMax, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setMinMax(minMax);
-        }
-        PID pid = this.clone();
-        return pid.setMinMax(minMax);
     }
 	
 	/**
@@ -407,26 +284,6 @@ public class PID {
         
         return this;
     }
-    
-    /**
-     * Sets the timeout.
-     * 
-	 * @param timeout
-	 *        The time to wait before updating I or D, in milliseconds
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-     * 
-     * @exception IllegalArgumentException if {@code timeout} is negative
-     */
-    public PID setTimeout(int timeout, boolean modifyOrig) {
-        if (modifyOrig) {
-            return setTimeout(timeout);
-        }
-        PID pid = this.clone();
-        return pid.setTimeout(timeout);
-    }
 
     /**
      * Enables/Disables the ability for the kI accumulated error to
@@ -441,55 +298,6 @@ public class PID {
         this.autoResetI = autoResetI;
         return this;
     }
-
-    /**
-     * Enables/Disables the ability for the kI accumulated error to
-     * automatically reset after reaching the target.
-     * 
-     * @param autoResetI
-     *        {@code true} [default] if the kI accumulated error should automatically reset
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-     */
-    public PID enableIAutoReset(boolean autoResetI, boolean modifyOrig) {
-        if (modifyOrig) {
-            return enableIAutoReset(autoResetI);
-        }
-        PID pid = this.clone();
-        return pid.enableIAutoReset(autoResetI);
-    }
-	
-	/** Returns the current kP value. */
-	public double getP() {
-		return kP;
-	}
-	
-	/** Returns the current kI value. */
-	public double getI() {
-		return kI;
-	}
-	
-	/** Returns the current kD value. */
-	public double getD() {
-		return kD;
-	}
-
-	/** Returns the timeout before updating I or D */
-	public int getTimeout() {
-		return timeout;
-	}
-
-	/** Returns the minimum output value for which I and D will update */
-	public double getMin() {
-		return min;
-	}
-
-	/** Returns the maximum output value for which I and D will update */
-	public double getMax() {
-		return max;
-	}
 
 	/**
 	 * Returns the motor output value.
@@ -514,6 +322,19 @@ public class PID {
 	}
 	
 	/**
+     * Resets the accumulated error and last error.
+     * 
+     * @return
+     *        This {@code PID} object
+     */
+	public PID resetErrors() {
+		aError = 0;
+        lastError = 0;
+        
+        return this;
+    }
+	
+	/**
      * Resets kP, kI, and kD to 0 and resets the accumulated error and last error.
      * 
      * @return
@@ -527,51 +348,6 @@ public class PID {
     }
     
     /**
-     * Resets kP, kI, and kD to 0 and resets the accumulated error and last error.
-     * 
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-     */
-    public PID resetPID(boolean modifyOrig) {
-        if (modifyOrig) {
-            return resetPID();
-        }
-        PID pid = this.clone();
-        return pid.resetPID();
-    }
-	
-	/**
-     * Resets the accumulated error and last error.
-     * 
-     * @return
-     *        This {@code PID} object
-     */
-	public PID resetErrors() {
-		aError = 0;
-        lastError = 0;
-        
-        return this;
-    }
-
-    /**
-     * Resets the accumulated error and last error.
-     * 
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-     */
-    public PID resetErrors(boolean modifyOrig) {
-        if (modifyOrig) {
-            return resetErrors();
-        }
-        PID pid = this.clone();
-        return pid.resetErrors();
-    }
-    
-    /**
      * Resets all values to 0.
      * 
      * @return
@@ -582,22 +358,6 @@ public class PID {
         setTimeout(0);
 
         return this;
-    }
-
-    /**
-     * Resets all values to 0.
-     * 
-     * @param modifyOrig
-     *        {@code true} [default] if the original {@code PID} object should be modified as well
-     * @return
-     *        The resulting {@code PID} object
-     */
-    public PID reset(boolean modifyOrig) {
-        if (modifyOrig) {
-            return reset();
-        }
-        PID pid = this.clone();
-        return pid.reset();
     }
 
     /** Checks if the I Output and D Output should be updated, according to the timeout. */
