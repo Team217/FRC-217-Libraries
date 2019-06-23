@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  * @author ThunderChickens 217, Cross the Road Electronics
  */
 public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX {
-	protected long zeroPos = 0;
+	protected int zeroPos = 0;
 	protected int invertEnc = 1;
 
 	/**
@@ -34,11 +34,16 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	/** Returns the Quadrature Encoder position. */
 	public int getEncoder() {
 		return invertEnc * getSensorCollection().getQuadraturePosition();
-	}
+    }
+
+	/** Returns the Analog Encoder position. */
+    public int getAnalogEncoder() {
+        return invertEnc * (getSensorCollection().getAnalogInRaw() - zeroPos);
+    }
 	
-	/** Returns the Analog Encoder position. Positions range from -512 to 512. */
-	public long getAnalogEnc() {
-        long pos = invertEnc * (getSensorCollection().getAnalogInRaw() - zeroPos - 512);
+	/** Returns the Analog Encoder position for swerve, where positions range from -512 to 512. */
+	public int getSwerveAnalog() {
+        int pos = getAnalogEncoder();
         
         // Get Analog Encoder position in range [-512, 512)
 		while (pos < -512) {
@@ -63,14 +68,14 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		return getSensorCollection().setQuadraturePosition(invertEnc * pos, 0);
 	}
 
-	/** Sets the current analog encoder position as zero. Encoder values will range from -512 to 512. */
+	/** Sets the current analog encoder position as zero. */
 	public void setAnalogZero() {
 		setAnalogZero(getSensorCollection().getAnalogInRaw());
 	}
 
-	/** Sets the given analog encoder position as zero. Encoder values will range from -512 to 512. */
+	/** Sets the given analog encoder position as zero. */
 	public void setAnalogZero(int pos) {
-		zeroPos = pos + 512;
+		zeroPos = pos;
 	}
 	
 	/**
