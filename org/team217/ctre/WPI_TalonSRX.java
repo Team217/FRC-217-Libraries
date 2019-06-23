@@ -75,7 +75,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 
 	/** Sets the current analog encoder position as zero. */
 	public void setAnalogZero() {
-		setAnalogZero(getSensorCollection().getAnalogInRaw());
+		setAnalogZero(getAnalogRaw());
 	}
 
 	/** Sets the given analog encoder position as zero. */
