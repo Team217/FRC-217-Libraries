@@ -13,13 +13,15 @@ Classes currently include:
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
 - `ctre.PigeonIMU`
-  - adds extra functions to the PigeonIMU motor controller
+  - adds extra functions to the PigeonIMU
 - `rev.CANSparkMax`
   - adds extra functions to the SparkMax motor controller
 - `pid.PID`
   - manages PID on a system
 - `pid.APID`
   - applies acceleration to a `pid.PID` object
+- `wpi.AnalogGyro`
+  - adds extra functions to the Analog Gyro
 
 ## Installation
 
