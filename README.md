@@ -21,7 +21,7 @@ Classes currently include:
 - `pid.APID`
   - applies acceleration to a `pid.PID` object
 - `wpi.AnalogGyro`
-  - adds extra functions to the AnalogGyro
+  - adds extra functions to the Analog Gyro
 
 ## Installation
 
