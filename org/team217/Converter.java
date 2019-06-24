@@ -96,7 +96,7 @@ public class Converter {
     }
     
     /**
-     * Modifies an angle to be within the range [-1/2 revolution, 1/2 revolution).
+     * Modifies an angle to be within the range [-1/2 revolution, 1/2 revolution].
      * 
      * @param angle
      *        Angle to modify
