@@ -2,6 +2,7 @@ package org.team217.ctre;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import org.team217.Converter;
 
 /**
  * WPI Talon SRX Class (Extended). Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
@@ -50,14 +51,8 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	public int getSwerveAnalog() {
         int pos = getAnalogEncoder();
         
-        // Get Analog Encoder position in range [-512, 512)
-		while (pos < -512) {
-			pos += 1024;
-		}
-		while (pos >= 512) {
-			pos -= 1024;
-		}
-
+        // Get Analog Encoder position in range [-512, 512]
+		pos = (int)Converter.partialAngle(pos, 1024);
 		return pos;
     }
     

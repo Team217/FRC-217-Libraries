@@ -93,5 +93,35 @@ public class Converter {
 	 */
 	public static double encToInch(double encTicks, double diameter, double ticksPerRev) {
 		return encTicks / ticksPerRev * Math.PI * diameter; // Take encoder ticks, convert to revolutions, convert to inches
-	}
+    }
+    
+    /**
+     * Modifies an angle to be within the range [-1/2 revolution, 1/2 revolution).
+     * 
+     * @param angle
+     *        Angle to modify
+     * @param unitsPerRev
+     *        Number of units per one revolution
+     * @return
+     *        Modified angle
+     * 
+     * @exception IllegalArgumentException if {@code unitsPerRev} is not positive
+     */
+    public static double partialAngle(double angle, double unitsPerRev) {
+		if (unitsPerRev <= 0) {
+			throw new IllegalArgumentException("Illegal unitsPerRev value: " + unitsPerRev + "\nValue must be positive");
+        }
+
+        double halfRev = unitsPerRev / 2.0;
+        do {
+            if (angle > halfRev) {
+                angle -= unitsPerRev;
+            }
+            else if (angle < -halfRev) {
+                angle += unitsPerRev;
+            }
+        } while (!Num.isWithinRange(angle, halfRev));
+
+        return angle;
+    }
 }

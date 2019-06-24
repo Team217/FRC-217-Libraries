@@ -1,6 +1,7 @@
 package org.team217.ctre;
 
 import com.ctre.phoenix.ErrorCode;
+import org.team217.Converter;
 
 /**
  * Pigeon IMU Class (Extended). Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
@@ -40,12 +41,7 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
         double angle = -ypr[0];
         
         // Get angle within range [-180, 180]
-		while (angle > 180) {
-			angle -= 360;
-		}
-		while (angle < -180) {
-			angle += 360;
-		}
+		angle = Converter.partialAngle(angle, 360);
 
 		if (setAngle) {
 			setYaw(angle);
