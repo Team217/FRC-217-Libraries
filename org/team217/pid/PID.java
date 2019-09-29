@@ -372,11 +372,17 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (updateID) {
+            double aChange = (currentError + lastError) / 2 * dT; // Change in accumulated error
 			if (Num.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
-				aError += (currentError + lastError) / 2 * dT;
+				aError += aChange;
 			}
 			else {
-				aError = 0;
+                if (aError > 0) {
+                    aError = Num.inRange(aError + aChange, 0, aError); // Let aError decumulate down to 0
+                }
+                else if (aError < 0) {
+                    aError = Num.inRange(aError + aChange, aError, 0); // Let aError accumulate up to 0
+                }
 			}
         }
     }
