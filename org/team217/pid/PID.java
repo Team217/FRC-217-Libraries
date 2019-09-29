@@ -16,7 +16,6 @@ public class PID {
 	private int timeout = 0;
 	private double min = -1;
     private double max = 1;
-    private boolean autoResetI = true;
 	
 	// Always private
 	private double currentError = 0;
@@ -285,20 +284,6 @@ public class PID {
         return this;
     }
 
-    /**
-     * Enables/Disables the ability for the kI accumulated error to
-     * automatically reset after reaching the target.
-     * 
-     * @param autoResetI
-     *        {@code true} [default] if the kI accumulated error should automatically reset
-     * @return
-     *        This {@code PID} object
-     */
-    public PID enableIAutoReset(boolean autoResetI) {
-        this.autoResetI = autoResetI;
-        return this;
-    }
-
 	/**
 	 * Returns the motor output value.
 	 * 
@@ -387,10 +372,6 @@ public class PID {
 	/** Calculates the Accumulated Integral output for use by the I Output calculation. */
 	private void updateAccumulatedI() {
 		if (updateID) {
-			if (autoResetI && Num.sign(currentError) != Num.sign(aError)) { // Reset accumulated error if error changes sign
-				aError = 0;
-			}
-			
 			if (Num.isWithinRange(pOut, min, max, false)) { // Only accumulate error if within range (min, max)
 				aError += (currentError + lastError) / 2 * dT;
 			}
