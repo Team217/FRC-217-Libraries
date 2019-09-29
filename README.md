@@ -20,6 +20,8 @@ Classes currently include:
   - manages PID on a system
 - `pid.APID`
   - applies acceleration to a `pid.PID` object
+- `pid.TPID`
+  - manages PID on a system using integral and derivative times
 - `wpi.AnalogGyro`
   - adds extra functions to the Analog Gyro
 
