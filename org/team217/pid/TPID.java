@@ -8,10 +8,10 @@ package org.team217.pid;
  */
 public class TPID extends PID {
     public TPID(double Kc, double Ti, double Td) {
-        super(Kc, Kc / (Ti == 0 ? 0 : Ti), Kc * Td);
+        super(Kc, (Ti == 0 ? 0 : Kc / Ti), Kc * Td);
     }
 
     public TPID(double Kc, double Ti, double Td, int timeout) {
-        super(Kc, Kc / (Ti == 0 ? 0 : Ti), Kc * Td, timeout);
+        super(Kc, (Ti == 0 ? 0 : Kc / Ti), Kc * Td, timeout);
     }
 }
