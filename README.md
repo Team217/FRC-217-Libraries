@@ -6,8 +6,6 @@ Classes currently include:
   - converts between encoder ticks and either angles or distances
 - `Num`
   - numerical operations, such as `deadband()` and `isWithinRange()`
-- `Accel`
-  - applies acceleration to a value
 - `Logger`
   - logs data
 - `ctre.WPI_TalonSRX`
@@ -16,12 +14,6 @@ Classes currently include:
   - adds extra functions to the PigeonIMU
 - `rev.CANSparkMax`
   - adds extra functions to the SparkMax motor controller
-- `pid.PID`
-  - manages PID on a system
-- `pid.APID`
-  - applies acceleration to a `pid.PID` object
-- `pid.TPID`
-  - manages PID on a system using integral and derivative times
 - `wpi.AnalogGyro`
   - adds extra functions to the Analog Gyro
 
