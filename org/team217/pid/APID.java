@@ -8,7 +8,9 @@ import org.team217.*;
  * A class that applies acceleration to a {@code PID} system.
  * 
  * @author ThunderChickens 217
+ * @deprecated Use WPILib's Feedforward and PID
  */
+@Deprecated
 public class APID {
     private PID pid;
     private double accelTime;

@@ -7,7 +7,9 @@ import org.team217.*;
  * A class that runs and controls PID systems.
  * 
  * @author ThunderChickens 217
+ * @deprecated Use WPILib's Feedforward and PID
  */
+@Deprecated
 public class PID {
 	// Made private because of getValue() functions
 	private double kP = 0;

@@ -6,7 +6,9 @@ import java.time.Clock;
  * A class that manages acceleration.
  * 
  * @author ThunderChickens 217
+ * @deprecated Use WPILib's Feedforward and PID
  */
+@Deprecated
 public class Accel {
     private double accelTime = 0, decelTime = 0;
     private boolean isAccel = false, isDecel = false;
