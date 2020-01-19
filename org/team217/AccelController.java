@@ -1,6 +1,11 @@
 package org.team217;
 
-public class AccelControl {
+/**
+ * A class to create objects that apply acceleration control to velocity.
+ * 
+ * @author ThunderChickens 217
+ */
+public class AccelController {
     /** The target acceleration, in units/second^2 */
     private double targetAccel;
     /** The maximum velocity, in units/second */
@@ -16,8 +21,10 @@ public class AccelControl {
      * 
      * @param targetAccel
      *        The target acceleration, in units/second^2
+     * 
+     * @author ThunderChickens 217
      */
-    public AccelControl(double targetAccel) {
+    public AccelController(double targetAccel) {
         this(targetAccel, 1);
     }
 
@@ -28,8 +35,10 @@ public class AccelControl {
      *        The target acceleration, in units/second^2
      * @param maxVel
      *        The maximum velocity, in units/second
+     * 
+     * @author ThunderChickens 217
      */
-    public AccelControl(double targetAccel, double maxVel) {
+    public AccelController(double targetAccel, double maxVel) {
         set(targetAccel, maxVel);
     }
 

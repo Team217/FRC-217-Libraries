@@ -8,6 +8,8 @@ Classes currently include:
   - numerical operations, such as `deadband()` and `isWithinRange()`
 - `Logger`
   - logs data
+- `AccelController`
+  - Applies acceleration control to velocity
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
 - `ctre.PigeonIMU`
