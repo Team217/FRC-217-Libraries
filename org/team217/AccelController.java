@@ -129,7 +129,7 @@ public class AccelController {
      * Calculates and returns a velocity after applying acceleration control.
      * 
      * @param velocity
-     *        The velocity to apply acceleration control to, in units/second
+     *        The velocity to control, in units/second
      */
     public double getOutput(double velocity) {
         velocity = Num.inRange(velocity, maxVel);

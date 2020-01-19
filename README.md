@@ -9,7 +9,7 @@ Classes currently include:
 - `Logger`
   - logs data
 - `AccelController`
-  - Applies acceleration control to velocity
+  - Controls acceleration of a velocity
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
 - `ctre.PigeonIMU`
