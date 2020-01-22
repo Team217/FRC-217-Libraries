@@ -10,7 +10,7 @@ public class AccelController {
     private double targetAccel;
     /** The maximum velocity, in units/second */
     private double maxVel;
-    /** The period at which to update the vevlocity, in seconds */
+    /** The period at which to update the velocity, in seconds */
     private double period = 0.02;
 
     /** The last velocity, in units/second */

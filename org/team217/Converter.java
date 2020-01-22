@@ -120,7 +120,8 @@ public class Converter {
             else if (angle < -halfRev) {
                 angle += unitsPerRev;
             }
-        } while (!Num.isWithinRange(angle, halfRev));
+        }
+        while (!Num.isWithinRange(angle, halfRev));
 
         return angle;
     }
