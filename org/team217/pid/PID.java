@@ -9,7 +9,7 @@ import org.team217.*;
  * @author ThunderChickens 217
  * @deprecated Use WPILib's Feedforward and PID
  */
-@Deprecated
+@Deprecated(forRemoval = false)
 public class PID {
 	// Made private because of getValue() functions
 	private double kP = 0;
