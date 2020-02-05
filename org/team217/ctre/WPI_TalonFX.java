@@ -2,6 +2,11 @@ package org.team217.ctre;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
+/**
+ * WPI Talon FX Class (Extended). Class supports communicating over CANbus and over ribbon-cable (CAN Talon FX).
+ * 
+ * @author ThunderChickens 217, Cross the Road Electronics
+ */
 public class WPI_TalonFX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonFX {
 	/**
 	 * Constructor for creating a {@code TalonFX} motor controller for FRC.
