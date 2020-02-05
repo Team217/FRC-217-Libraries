@@ -12,6 +12,8 @@ Classes currently include:
   - Controls acceleration of a velocity
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
+- `ctre.WPI_TalonFX`
+  - adds extra functions to the TalonFX motor controller
 - `ctre.PigeonIMU`
   - adds extra functions to the PigeonIMU
 - `rev.CANSparkMax`

@@ -23,16 +23,25 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		super(deviceNumber);
 	}
 	
-	/** Inverts the direction of the encoders.
+	/**
+     * Inverts the direction of the encoders.
 	 * 
 	 * @param isInverted
 	 *        {@code true} if the encoder value should be multiplied by -1
+     * 
+     * @deprecated use {@code setSensorPhase()}
 	 */
+    @Deprecated(forRemoval = true)
 	public void invertEncoder(boolean isInverted) {
 		invertEnc = isInverted ? -1 : 1;
 	}
 	
-	/** Returns the Quadrature Encoder position. */
+	/**
+     * Returns the Quadrature Encoder position.
+     * 
+     * @deprecated use {@code configSelectedFeedbackSensor()} and {@code getSelectedSensorPosition()}
+     */
+    @Deprecated(forRemoval = true)
 	public int getEncoder() {
 		return invertEnc * getSensorCollection().getQuadraturePosition();
     }
@@ -88,7 +97,10 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 *        New encoder value
 	 * @return
 	 *        Error Code
+     * 
+     * @deprecated use {@code configSelectedFeedbackSensor()} and {@code setSelectedSensorPosition()}
 	 */
+    @Deprecated(forRemoval = true)
 	public ErrorCode setEncoder(int pos) {
 		return getSensorCollection().setQuadraturePosition(invertEnc * pos, 0);
 	}
@@ -98,25 +110,29 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 	 * 
 	 * @return
      *        error code
+     * 
+     * @deprecated use {@code setSelectedSensorPosition(0)}
 	 */
+    @Deprecated(forRemoval = true)
 	public ErrorCode resetEncoder() {
 		return setEncoder(0);
-	}
+    }
 	
-	/** Returns '1' iff forward limit switch is closed, 0 iff switch is open. This function works regardless if limit switch feature is enabled. */
+	/** Returns {@code true} iff forward limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
 	public boolean getLimitFwd() {
 		return getSensorCollection().isFwdLimitSwitchClosed();
 	}
 	
-	/** Returns '1' iff reverse limit switch is closed, 0 iff switch is open. This function works regardless if limit switch feature is enabled. */
+	/** Returns {@code true} iff reverse limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
 	public boolean getLimitRev() {
 		return getSensorCollection().isRevLimitSwitchClosed();
 	}
 
 	/** Sets up the motor controller to use a Quadrature Encoder. */
 	public void setup() {
-		set(0);
-		configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		resetEncoder();
+        configFactoryDefault();
+        configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        setSelectedSensorPosition(0);
+        set(0);
 	}
 }

@@ -7,7 +7,7 @@ import org.team217.*;
  * A class that runs and controls PID systems.
  * 
  * @author ThunderChickens 217
- * @deprecated Use WPILib's Feedforward and PID
+ * @deprecated Use WPILib's PIDController
  */
 @Deprecated(forRemoval = false)
 public class PID {
