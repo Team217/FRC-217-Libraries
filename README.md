@@ -9,7 +9,9 @@ Classes currently include:
 - `Logger`
   - logs data
 - `AccelController`
-  - Controls acceleration of a velocity
+  - controls acceleration of a velocity
+- `BooleanOneShot`
+  - manages a boolean one-shot, which flips a boolean flag when a trigger switches from low to high
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
 - `ctre.WPI_TalonFX`
