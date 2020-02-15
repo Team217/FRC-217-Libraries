@@ -59,15 +59,16 @@ public class JohnsonPLGEncoder {
 
     /**
      * Updates the value of the encoder based on the pulses.
-     * This should be called continuously for best accuracy.
+     * This should be called continuously for accuracy.
      */
     public void update() {
-        boolean isSensor2False = !isLast2 && !getSensor2Raw();
-        if (isSensor2False && !isLast1 && getSensor1Raw()) {
-            encoder++;
-        }
-        else if (isSensor2False && isLast1 && !getSensor1Raw()) {
-            encoder--;
+        if (!isLast2 && !getSensor2Raw()) {
+            if (!isLast1 && getSensor1Raw()) {
+                encoder++;
+            }
+            else if (isLast1 && !getSensor1Raw()) {
+                encoder--;
+            }
         }
 
         isLast1 = getSensor1Raw();
