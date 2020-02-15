@@ -11,7 +11,7 @@ public class JohnsonPLGEncoder {
     private final DigitalInput hallSensor1, hallSensor2;
     
     private boolean isLast1 = false, isLast2 = false;
-    private int encoder = 0;
+    private volatile int encoder = 0;
 
     /**
      * Manages pulses of the Johnson Electric PLG Hall Sensors as a relative encoder.
@@ -24,6 +24,16 @@ public class JohnsonPLGEncoder {
     public JohnsonPLGEncoder(int hallChannel1, int hallChannel2) {
         hallSensor1 = new DigitalInput(hallChannel1);
         hallSensor2 = new DigitalInput(hallChannel2);
+
+        Thread update = new Thread() {
+            public void run() {
+                while (true) {
+                    update();
+                }
+            }
+        };
+        update.setDaemon(true);
+        update.start();
     }
 
     /**
@@ -43,7 +53,7 @@ public class JohnsonPLGEncoder {
     /**
      * Returns the calculated value of the encoder.
      */
-    public int getEncoder() {
+    public int get() {
         return encoder;
     }
 
@@ -59,9 +69,9 @@ public class JohnsonPLGEncoder {
 
     /**
      * Updates the value of the encoder based on the pulses.
-     * This should be called continuously for accuracy.
+     * This should be called continuously.
      */
-    public void update() {
+    private void update() {
         if (!isLast2 && !getSensor2Raw()) {
             if (!isLast1 && getSensor1Raw()) {
                 encoder++;
