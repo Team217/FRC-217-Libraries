@@ -18,6 +18,8 @@ Classes currently include:
   - adds extra functions to the TalonFX motor controller
 - `ctre.PigeonIMU`
   - adds extra functions to the PigeonIMU
+- `ctre.JohnsonPLGEncoder`
+  - manages pulses of the Johnson Electric PLG Hall Sensors as a relative encoder
 - `rev.CANSparkMax`
   - adds extra functions to the SparkMax motor controller
 - `wpi.AnalogGyro`
