@@ -2,39 +2,75 @@ package org.team217.ctre;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
+/**
+ * Creates a class to manage pulses of the Johnson Electric PLG Hall Sensors as a relative encoder.
+ * 
+ * @author ThunderChickens 217
+ */
 public class JohnsonPLGEncoder {
     private final DigitalInput hallSensor1, hallSensor2;
+    
+    private boolean isLast1 = false, isLast2 = false;
     private int encoder = 0;
 
-    private boolean isLast1 = false, isLast2 = false;
-
+    /**
+     * Manages pulses of the Johnson Electric PLG Hall Sensors as a relative encoder.
+     * 
+     * @param hallChannel1
+     *        The DIO channel for Hall Sensor 1 (yellow)
+     * @param hallChannel2
+     *        The DIO channel for Hall Sensor 2 (green)
+     */
     public JohnsonPLGEncoder(int hallChannel1, int hallChannel2) {
         hallSensor1 = new DigitalInput(hallChannel1);
         hallSensor2 = new DigitalInput(hallChannel2);
     }
 
+    /**
+     * Returns the raw value of Hall Sensor 1.
+     */
     public boolean getSensor1Raw() {
         return hallSensor1.get();
     }
 
+    /**
+     * Returns the raw value of Hall Sensor 2.
+     */
     public boolean getSensor2Raw() {
         return hallSensor2.get();
     }
 
+    /**
+     * Returns the calculated value of the encoder.
+     */
     public int getEncoder() {
         return encoder;
     }
 
+    /**
+     * Sets the value of the encoder.
+     * 
+     * @param position
+     *        The new encoder value
+     */
+    public void setEncoder(int position) {
+        encoder = position;
+    }
+
+    /**
+     * Updates the value of the encoder based on the pulses.
+     * This should be called continuously for best accuracy.
+     */
     public void update() {
-        boolean isSensor2False = !isLast2 && !hallSensor2.get();
-        if (isSensor2False && !isLast1 && hallSensor1.get()) {
+        boolean isSensor2False = !isLast2 && !getSensor2Raw();
+        if (isSensor2False && !isLast1 && getSensor1Raw()) {
             encoder++;
         }
-        else if (isSensor2False && isLast1 && !hallSensor1.get()) {
+        else if (isSensor2False && isLast1 && !getSensor1Raw()) {
             encoder--;
         }
 
-        isLast1 = hallSensor1.get();
-        isLast2 = hallSensor2.get();
+        isLast1 = getSensor1Raw();
+        isLast2 = getSensor2Raw();
     }
 }
