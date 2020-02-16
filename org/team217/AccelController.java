@@ -135,7 +135,7 @@ public class AccelController {
         velocity = Num.inRange(velocity, maxVel);
         double accel = (velocity - lastVel) / period;
         if (Math.abs(accel) > targetAccel) { // only apply if accelerating faster than intended
-            velocity += Num.sign(accel) * period * (targetAccel - Math.abs(accel));
+            velocity += Math.signum(accel) * period * (targetAccel - Math.abs(accel));
         }
 
         lastVel = velocity;

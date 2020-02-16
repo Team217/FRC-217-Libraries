@@ -1,7 +1,8 @@
 package org.team217.ctre;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.*;
+
 import org.team217.Converter;
 
 /**
@@ -128,11 +129,22 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 		return getSensorCollection().isRevLimitSwitchClosed();
 	}
 
-	/** Sets up the motor controller to use a Quadrature Encoder. */
+	/** Sets up the motor controller to use a Quadrature Encoder in brake mode. */
 	public void setup() {
+        setup(NeutralMode.Brake);
+    }
+    
+	/**
+     * Sets up the motor controller to use a Quadrature Encoder.
+     * 
+     * @param neutralMode
+     *        The neutral mode of the controller (coast or brake)
+     */
+    public void setup(NeutralMode neutralMode) {
         configFactoryDefault();
         configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        setNeutralMode(neutralMode);
         setSelectedSensorPosition(0);
         set(0);
-	}
+    }
 }

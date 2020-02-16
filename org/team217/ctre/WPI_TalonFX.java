@@ -1,6 +1,6 @@
 package org.team217.ctre;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.*;
 
 /**
  * WPI Talon FX Class (Extended). Class supports communicating over CANbus and over ribbon-cable (CAN Talon FX).
@@ -28,10 +28,21 @@ public class WPI_TalonFX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonFX {
 		return getSensorCollection().isRevLimitSwitchClosed() != 0;
     }
 
-	/** Sets up the motor controller to use the integrated sensor. */
-	public void setup() {
+	/** Sets up the motor controller to use the integrated sensor in brake mode. */
+    public void setup() {
+        setup(NeutralMode.Brake);
+    }
+
+	/**
+     * Sets up the motor controller to use the integrated sensor.
+     * 
+     * @param neutralMode
+     *        The neutral mode of the controller (coast or brake)
+     */
+	public void setup(NeutralMode neutralMode) {
         configFactoryDefault();
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        setNeutralMode(neutralMode);
         setSelectedSensorPosition(0);
         set(0);
 	}

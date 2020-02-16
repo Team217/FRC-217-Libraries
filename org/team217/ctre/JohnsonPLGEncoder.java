@@ -3,7 +3,7 @@ package org.team217.ctre;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * Creates a class to manage pulses of the Johnson Electric PLG Hall Sensors as a relative encoder.
+ * Creates a class to manage pulses of the Johnson Electric PLG Hall Effect Sensors as a relative encoder.
  * 
  * @author ThunderChickens 217
  */
@@ -14,7 +14,7 @@ public class JohnsonPLGEncoder {
     private volatile int encoder = 0;
 
     /**
-     * Manages pulses of the Johnson Electric PLG Hall Sensors as a relative encoder.
+     * Manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative encoder.
      * 
      * @param hallChannel1
      *        The DIO channel for Hall Sensor 1 (yellow)
@@ -36,23 +36,17 @@ public class JohnsonPLGEncoder {
         update.start();
     }
 
-    /**
-     * Returns the raw value of Hall Sensor 1.
-     */
+    /** Returns the raw value of Hall Effect Sensor 1. */
     public boolean getSensor1Raw() {
         return hallSensor1.get();
     }
 
-    /**
-     * Returns the raw value of Hall Sensor 2.
-     */
+    /** Returns the raw value of Hall Effect Sensor 2. */
     public boolean getSensor2Raw() {
         return hallSensor2.get();
     }
 
-    /**
-     * Returns the calculated value of the encoder.
-     */
+    /** Returns the calculated value of the encoder. */
     public int get() {
         return encoder;
     }
@@ -63,7 +57,7 @@ public class JohnsonPLGEncoder {
      * @param position
      *        The new encoder value
      */
-    public void setEncoder(int position) {
+    public void set(int position) {
         encoder = position;
     }
 

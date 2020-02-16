@@ -1,7 +1,5 @@
 package org.team217;
 
-import java.math.*;
-
 /**
  * Contains operations for managing and checking numerical data.
  * 
@@ -9,7 +7,7 @@ import java.math.*;
  */
 public class Num {
     /**
-	 * Checks if the value is within a given inclusive deadband and, if it is, sets the value to 0.
+	 * Checks if a value is within a given inclusive deadband and, if it is, sets the value to 0.
 	 * 
 	 * @param value
 	 *        The value to be tested
@@ -17,36 +15,36 @@ public class Num {
 	 *        The deadband size
 	 * @return
 	 *        The value if not in the deadband, 0 if in the deadband
-	 * 
-	 * @author ThunderChickens 217
+     * 
+     * @exception IllegalArgumentException if {@code deadband} is negative
 	 */
 	public static double deadband(double value, double deadband) {
 		return deadband(value, deadband, true);
     }
     
     /**
-	 * Checks if the value is within a given deadband and, if it is, sets the value to 0.
+	 * Checks if a value is within a given deadband and, if it is, sets the value to 0.
 	 * 
 	 * @param value
 	 *        The value to be tested
 	 * @param deadband
 	 *        The deadband size
      * @param isInclusive
-     *        {@code true} [default] if the deadband is inclusive
+     *        {@code true} if the deadband is inclusive
 	 * @return
 	 *        The value if not in the deadband, 0 if in the deadband
-	 * 
-	 * @author ThunderChickens 217
+     * 
+     * @exception IllegalArgumentException if {@code deadband} is negative
 	 */
 	public static double deadband(double value, double deadband, boolean isInclusive) {
         if (deadband < 0) {
 			throw new IllegalArgumentException("Illegal deadband value: " + deadband + "\nValue cannot be negative");
         }
-		return isInclusive ? (Math.abs(value) <= deadband ? 0 : value) : (Math.abs(value) < deadband ? 0 : value);
+		return isWithinRange(value, deadband, isInclusive) ? 0 : value;
 	}
     
 	/**
-	 * Checks if the value is within a given two-sided, inclusive range.
+	 * Checks if a value is within a two-sided inclusive range.
 	 * 
 	 * @param value
 	 *        The value to be tested
@@ -55,35 +53,35 @@ public class Num {
 	 * @return
 	 *        {@code true} if the value is within the range
      * 
-     * @exception IllegalArgumentException if {@code range} is not positive
+     * @exception IllegalArgumentException if {@code range} is negative
 	 */
     public static boolean isWithinRange(double value, double range) {
         return isWithinRange(value, range, true);
     }
     
 	/**
-	 * Checks if the value is within a given two-sided range.
+	 * Checks if a value is within a two-sided range.
 	 * 
 	 * @param value
 	 *        The value to be tested
 	 * @param range
      *        The two-sided range [-range, range]
      * @param isInclusive
-     *        {@code true} [default] if the range is inclusive
+     *        {@code true} if the range is inclusive
 	 * @return
 	 *        {@code true} if the value is within the range
      * 
-     * @exception IllegalArgumentException if {@code range} is not positive
+     * @exception IllegalArgumentException if {@code range} is negative
 	 */
     public static boolean isWithinRange(double value, double range, boolean isInclusive) {
-		if (range <= 0) {
-			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue must be positive");
+		if (range < 0) {
+			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue cannot be negative");
 		}
         return isWithinRange(value, -range, range, isInclusive);
     }
 
 	/**
-	 * Checks if the value is within a given inclusive range.
+	 * Checks if a value is within an inclusive range.
 	 * 
 	 * @param value
 	 *        The value to be tested
@@ -101,7 +99,7 @@ public class Num {
     }
 
 	/**
-	 * Checks if the value is within a given range.
+	 * Checks if a value is within a range.
 	 * 
 	 * @param value
 	 *        The value to be tested
@@ -110,7 +108,7 @@ public class Num {
 	 * @param upper
 	 *        The upper range
      * @param isInclusive
-     *        {@code true} [default] if the range is inclusive
+     *        {@code true} if the range is inclusive
 	 * @return
 	 *        {@code true} if the value is within the range
      * 
@@ -124,7 +122,7 @@ public class Num {
     }
 
 	/**
-	 * Keeps the value within a given two-sided range.
+	 * Keeps a value within a two-sided range.
 	 * 
 	 * @param value
 	 *        The value to be tested
@@ -133,17 +131,17 @@ public class Num {
 	 * @return
 	 *        The value, modified to stay within the range
      * 
-     * @exception IllegalArgumentException if {@code range} is not positive
+     * @exception IllegalArgumentException if {@code range} is negative
 	 */
 	public static double inRange(double value, double range) {
-		if (range <= 0) {
-			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue must be positive");
+		if (range < 0) {
+			throw new IllegalArgumentException("Illegal range value: " + range + "\nValue cannot be negative");
 		}
 		return inRange(value, -range, range);
     }
 
 	/**
-	 * Keeps the value within a given range.
+	 * Keeps a value within a range.
 	 * 
 	 * @param value
 	 *        The value to be tested
@@ -164,26 +162,63 @@ public class Num {
     }
 
     /**
-     * Returns the rounded value.
-     * <p>
-     * Note: half values (0.5) round to the nearest even.
-     * </p>
+     * Checks if a value is within an inclusive range of a target value.
      * 
      * @param value
-     *        The value to be rounded
-     * @param places
-     *        The number of decimal places
+     *        The value to be tested
+     * @param target
+     *        The target value
+	 * @param range
+     *        The target range
+	 * @return
+	 *        {@code true} if the value is within the range of the target
+     * 
+     * @exception IllegalArgumentException if {@code range} is negative
      */
-    public static double round(double value, int places) {
-        if (places < 0) {
-            throw new IllegalArgumentException("Illegal decimal places value: " + places + "\nValue cannot be negative");
-        }
-        return new BigDecimal(String.valueOf(value)).setScale(places, RoundingMode.HALF_EVEN).doubleValue();
+    public static boolean isWithinTarget(double value, double target, double range) {
+        return isWithinTarget(value, target, range, true);
     }
-    
-    /** Returns the sign (positivity) of the value. Signs are 1, 0, and -1. */
-    public static int sign(double value) {
-        return value > 0 ? 1 : value < 0 ? -1 : 0;
+
+    /**
+     * Checks if a value is within a range of a target value.
+     * 
+     * @param value
+     *        The value to be tested
+     * @param target
+     *        The target value
+	 * @param range
+     *        The target range
+     * @param isInclusive
+     *        {@code true} if the range is inclusive
+	 * @return
+	 *        {@code true} if the value is within the range of the target
+     * 
+     * @exception IllegalArgumentException if {@code range} is negative
+     */
+    public static boolean isWithinTarget(double value, double target, double range, boolean isInclusive) {
+        if (range < 0) {
+            throw new IllegalArgumentException("Illegal range value: " + range + "\nValue cannot be negative");
+        }
+        return isWithinRange(value, target - range, target + range, isInclusive);
+    }
+
+    /**
+     * Keeps a value within a range of a target value.
+     * 
+     * @param value
+     *        The value to be tested
+     * @param target
+     *        The target value
+	 * @param range
+     *        The target range
+	 * @return
+	 *        The value, modified to stay within the range of the target
+     */
+    public static double inTarget(double value, double target, double range) {
+        if (range < 0) {
+            throw new IllegalArgumentException("Illegal range value: " + range + "\nValue cannot be negative");
+        }
+        return inRange(value, target - range, target + range);
     }
 
     /**
