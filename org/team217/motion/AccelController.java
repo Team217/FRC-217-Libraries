@@ -1,4 +1,6 @@
-package org.team217;
+package org.team217.motion;
+
+import org.team217.*;
 
 /**
  * A class to create objects that apply acceleration control to velocity.
@@ -12,6 +14,8 @@ public class AccelController {
     private double maxVel;
     /** The period at which to update the velocity, in seconds */
     private double period = 0.02;
+    /** {@code true} if the controller should control velocity when slowing down. */
+    private boolean canSlowDown = false;
 
     /** The last velocity, in units/second */
     private double lastVel = 0;
@@ -105,6 +109,19 @@ public class AccelController {
     }
 
     /**
+     * Sets if the controller should control velocity when slowing down.
+     * 
+     * @param canSlowDown
+     *        {@code true} if the controller should control velocity when slowing down
+     * @return
+     *        {@code false} if {@code canSlowDown} could not be set
+     */
+    public boolean setCanSlowDown(boolean canSlowDown) {
+        this.canSlowDown = canSlowDown;
+        return true;
+    }
+
+    /**
      * Returns the target acceleration, in units/second^2.
      */
     public double getTargetAccel() {
@@ -126,6 +143,13 @@ public class AccelController {
     }
 
     /**
+     * Returns {@code true} if the controller should control velocity when slowing down.
+     */
+    public boolean getCanSlowDown() {
+        return canSlowDown;
+    }
+
+    /**
      * Calculates and returns a velocity after applying acceleration control.
      * 
      * @param velocity
@@ -134,7 +158,10 @@ public class AccelController {
     public double getOutput(double velocity) {
         velocity = Num.inRange(velocity, maxVel);
         double accel = (velocity - lastVel) / period;
-        if (Math.abs(accel) > targetAccel) { // only apply if accelerating faster than intended
+
+        boolean isSlowing = accel * velocity < 0;
+        boolean canControl = !isSlowing || canSlowDown; // check if we can only apply when speeding up
+        if (Math.abs(accel) > targetAccel && canControl) { // only apply if accelerating faster than intended
             velocity += Math.signum(accel) * period * (targetAccel - Math.abs(accel));
         }
 

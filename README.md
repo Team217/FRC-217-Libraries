@@ -8,10 +8,12 @@ Classes currently include:
   - numerical operations, such as `deadband()` and `isWithinRange()`
 - `Logger`
   - logs data
-- `AccelController`
-  - controls acceleration of a velocity
 - `BooleanOneShot`
   - manages a boolean one-shot, which flips a boolean flag when a trigger switches from low to high
+- `motion.AccelController`
+  - controls acceleration of a velocity
+- `motion.MotionProfiler`
+  - applies motion profiling to a velocity
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
 - `ctre.WPI_TalonFX`
