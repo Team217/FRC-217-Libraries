@@ -126,4 +126,13 @@ public class MotionProfiler {
         lastVel = velocity;
         return velocity;
     }
+
+    /**
+     * Resets the profiler calculations to 0.
+     */
+    public void reset() {
+        lastVel = 0;
+        accel.reset();
+        jerk.reset();
+    }
 }
