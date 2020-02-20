@@ -14,6 +14,8 @@ Classes currently include:
   - controls acceleration of a velocity
 - `motion.MotionProfiler`
   - applies motion profiling to a velocity
+- `motion.MotionController`
+  - applies PID and motion profiling to control motion
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the TalonSRX motor controller
 - `ctre.WPI_TalonFX`
