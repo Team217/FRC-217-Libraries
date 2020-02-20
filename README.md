@@ -1,5 +1,13 @@
 # Team 217 - FRC Libraries
 
+## Installation
+
+1) Download the `.jar` files for the latest release [here](https://github.com/Team217/FRC-217-Libraries/releases/latest/). If you do not download both files, then the Java documentation (information on how to use the classes and methods) will be unavailable.
+2) If it does not exist, reate a new `libs` folder in the project directory (NOT within the `src` folder). Put the `.jar` files there.
+3) In `build.gradle`, find `dependencies { }` (near the bottom) and add the following line to the end of the list if it does not exist: `compile fileTree(dir: 'libs', include: ['*.jar'])`
+
+## Current Classes
+
 Classes currently include:
 
 - `Converter`
@@ -28,9 +36,3 @@ Classes currently include:
   - adds extra functions to the SparkMax motor controller
 - `wpi.AnalogGyro`
   - adds extra functions to the Analog Gyro
-
-## Installation
-
-1) Download the `.jar` files for the latest release [here](https://github.com/Team217/FRC-217-Libraries/releases). If you do not download both files, then the Java documentation (information on how to use the classes and methods) will be unavailable.
-2) If it does not exist, reate a new `libs` folder in the project directory (NOT within the `src` folder). Put the `.jar` files there.
-3) In `build.gradle`, find `dependencies { }` (near the bottom) and add the following line to the end of the list if it does not exist: `compile fileTree(include: ['*.jar'], dir: 'libs')`
