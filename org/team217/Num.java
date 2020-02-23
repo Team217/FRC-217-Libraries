@@ -224,14 +224,30 @@ public class Num {
     /**
      * Returns the distance between two points given the change in distance along component axes.
      * 
-     * @param dist
+     * @param axis
      *        The change in distance along an axis; multiple parameters for multiple axes
      */
-    public static double distance(double... dist) {
-        double distance = 0;
-        for (double d : dist) {
-            distance += Math.pow(d, 2);
+    public static double distance(double... axis) {
+        double axes = 0;
+        for (double d : axis) {
+            axes += Math.pow(d, 2);
         }
-        return Math.sqrt(distance);
+        return Math.sqrt(axes);
+    }
+
+    /**
+     * Returns the missing component axis given the distance between two points and the other component axes.
+     * 
+     * @param dist
+     *        The distance between the two points
+     * @param axis
+     *        The change in distance along an axis; multiple parameters for multiple axes
+     */
+    public static double componentAxis(double dist, double... axis) {
+        double axes = 0;
+        for (double d : axis) {
+            axes += Math.pow(d, 2);
+        }
+        return Math.sqrt(Math.pow(dist, 2) - axes);
     }
 }
