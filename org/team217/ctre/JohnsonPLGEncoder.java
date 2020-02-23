@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class JohnsonPLGEncoder {
     private final DigitalInput hallSensor1, hallSensor2;
     
-    private boolean isLast1 = false, isLast2 = false;
+    private boolean isLast1, isLast2;
     private volatile int encoder = 0;
 
     /**
@@ -24,6 +24,9 @@ public class JohnsonPLGEncoder {
     public JohnsonPLGEncoder(int hallChannel1, int hallChannel2) {
         hallSensor1 = new DigitalInput(hallChannel1);
         hallSensor2 = new DigitalInput(hallChannel2);
+
+        isLast1 = getSensor1Raw();
+        isLast2 = getSensor2Raw();
 
         Thread update = new Thread() {
             public void run() {
