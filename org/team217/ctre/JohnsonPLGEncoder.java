@@ -66,9 +66,9 @@ public class JohnsonPLGEncoder {
      * This should be called continuously.
      */
     private void update() {
-        boolean isSame1 = isLast1 && getSensor1Raw();
-        boolean isSame2 = isLast2 && getSensor2Raw();
-        
+        boolean isSame1 = isLast1 == getSensor1Raw();
+        boolean isSame2 = isLast2 == getSensor2Raw();
+
         if (isSame1 != isSame2) {
             if (isSame1) {
                 if (getSensor1Raw() == getSensor2Raw()) {
