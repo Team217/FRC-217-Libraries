@@ -52,6 +52,20 @@ public class MotionController {
      * 
      * @param position
      *        The current position
+     * @param target
+     *        The target position
+     */
+    public double getOutput(double position, double target) {
+        pid.setSetpoint(target);
+        return getOutput(position);
+    }
+
+    /**
+     * Calculates and returns a velocity after applying the motion profile to the
+     * PID output on the current position.
+     * 
+     * @param position
+     *        The current position
      */
     public double getOutput(double position) {
         if (timer.hasPeriodPassed(pid.getPeriod())) {
