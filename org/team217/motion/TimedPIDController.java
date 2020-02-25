@@ -25,7 +25,6 @@ public class TimedPIDController extends PIDController {
     public TimedPIDController(double Kp, double Ki, double Kd, double period) {
         super(Kp, Ki, Kd, period);
         timer.start();
-        calculate(0, 0);
     }
 
     /**
