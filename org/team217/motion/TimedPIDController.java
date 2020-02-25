@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.controller.*;
 
 /**
  * Implements a PID control loop on a timer.
+ * 
+ * @author ThunderChickens 217, WPILib
  */
 public class TimedPIDController extends PIDController {
     private Timer timer = new Timer();
@@ -21,6 +23,8 @@ public class TimedPIDController extends PIDController {
      *        The derivative coefficient
      * @param period
      *        The period between controller updates in seconds
+     * 
+     * @author ThunderChickens 217, WPILib
      */
     public TimedPIDController(double Kp, double Ki, double Kd, double period) {
         super(Kp, Ki, Kd, period);
