@@ -1,6 +1,5 @@
 package org.team217.motion;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.*;
 
 /**
@@ -11,9 +10,6 @@ import edu.wpi.first.wpilibj.controller.*;
 public class MotionController {
     private PIDController pid;
     private MotionProfiler profiler;
-    private Timer timer = new Timer();
-
-    private double pidOut = 0;
 
     /**
      * Creates a new Motion Controller with the given PID Controller and Motion Profiler.
@@ -28,8 +24,6 @@ public class MotionController {
     public MotionController(PIDController pid, MotionProfiler profiler) {
         this.pid = pid;
         this.profiler = profiler;
-        
-        timer.start();
     }
 
     /**
@@ -68,17 +62,13 @@ public class MotionController {
      *        The current position
      */
     public double getOutput(double position) {
-        if (timer.hasPeriodPassed(pid.getPeriod())) {
-            pidOut = pid.calculate(position);
-        }
-        return profiler.getOutput(pidOut);
+        return profiler.getOutput(pid.calculate(position));
     }
 
     /**
      * Resets the Motion Controller.
      */
     public void reset() {
-        pidOut = 0;
         pid.reset();
         profiler.reset();
     }
