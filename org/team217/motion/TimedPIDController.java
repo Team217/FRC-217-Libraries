@@ -39,8 +39,12 @@ public class TimedPIDController extends PIDController {
      */
     @Override
     public double calculate(double measurement) {
-        if (timer.hasPeriodPassed(getPeriod())) {
+        if (timer.advanceIfElapsed(getPeriod())) {
             output = super.calculate(measurement);
+
+            if (timer.get() >= 2 * getPeriod()) {
+                timer.reset();
+            }
         }
         return output;
     }
