@@ -120,7 +120,7 @@ public class MotionProfiler {
      */
     public double getOutput(double velocity) {
         double acc = (velocity - lastVel) / jerk.getPeriod();
-        accel.setTargetAccel(jerk.getOutput(acc));
+        accel.setTargetAccel(Math.abs(jerk.getOutput(acc)));
         velocity = accel.getOutput(velocity);
 
         lastVel = velocity;
