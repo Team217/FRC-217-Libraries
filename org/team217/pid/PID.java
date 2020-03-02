@@ -7,9 +7,9 @@ import org.team217.*;
  * A class that runs and controls PID systems.
  * 
  * @author ThunderChickens 217
- * @deprecated Use WPILib's PIDController
+ * @deprecated Use {@code motion.PID} or WPILib's {@code PIDController}
  */
-@Deprecated(forRemoval = false)
+@Deprecated(forRemoval = true)
 public class PID {
 	// Made private because of getValue() functions
 	private double kP = 0;

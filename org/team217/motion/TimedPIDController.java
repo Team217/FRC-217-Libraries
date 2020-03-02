@@ -48,4 +48,17 @@ public class TimedPIDController extends PIDController {
         }
         return output;
     }
+
+    /**
+     * Returns the next output of the PID controller if the period has passed.
+     *
+     * @param measurement
+     *        The current measurement of the process variable.
+     * @param setpoint
+     *        The new setpoint of the controller.
+     */
+    @Override
+    public double calculate(double measurement, double setpoint) {
+        return super.calculate(measurement, setpoint);
+    }
 }

@@ -1,14 +1,12 @@
 package org.team217.motion;
 
-import edu.wpi.first.wpilibj.controller.*;
-
 /**
  * A class to create objects that apply PID and Motion Profiling to control motion.
  * 
  * @author ThunderChickens 217
  */
 public class MotionController {
-    private PIDController pid;
+    private PID pid;
     private MotionProfiler profiler;
 
     /**
@@ -21,7 +19,7 @@ public class MotionController {
      * 
      * @author ThunderChickens 217
      */
-    public MotionController(PIDController pid, MotionProfiler profiler) {
+    public MotionController(PID pid, MotionProfiler profiler) {
         this.pid = pid;
         this.profiler = profiler;
     }
@@ -29,7 +27,7 @@ public class MotionController {
     /**
      * Returns the PID Controller.
      */
-    public PIDController getPID() {
+    public PID getPID() {
         return pid;
     }
 
@@ -50,7 +48,7 @@ public class MotionController {
      *        The target position
      */
     public double getOutput(double position, double target) {
-        pid.setSetpoint(target);
+        pid.setTarget(target);
         return getOutput(position);
     }
 
@@ -62,7 +60,7 @@ public class MotionController {
      *        The current position
      */
     public double getOutput(double position) {
-        return profiler.getOutput(pid.calculate(position));
+        return profiler.getOutput(pid.getOutput(position));
     }
 
     /**

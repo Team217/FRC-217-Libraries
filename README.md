@@ -18,6 +18,12 @@ Classes currently include:
   - logs data
 - `BooleanOneShot`
   - manages a boolean one-shot, which flips a boolean flag when a trigger switches from low to high
+- `motion.PID`
+  - runs and controls PID systems
+- `motion.TimedPID`
+  - runs and controls PID systems on a timer
+- `motion.TimedPIDController`
+  - implements a PID control loop on a timer
 - `motion.AccelController`
   - controls acceleration of a velocity
 - `motion.MotionProfiler`
@@ -25,14 +31,14 @@ Classes currently include:
 - `motion.MotionController`
   - applies PID and motion profiling to control motion
 - `ctre.WPI_TalonSRX`
-  - adds extra functions to the TalonSRX motor controller
+  - adds extra functions to the CTRE TalonSRX motor controller
 - `ctre.WPI_TalonFX`
-  - adds extra functions to the TalonFX motor controller
+  - adds extra functions to the CTRE TalonFX motor controller
 - `ctre.PigeonIMU`
-  - adds extra functions to the PigeonIMU
+  - adds extra functions to the CTRE PigeonIMU
 - `ctre.JohnsonPLGEncoder`
-  - manages pulses of the Johnson Electric PLG Hall Sensors as a relative encoder
+  - manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative encoder
 - `rev.CANSparkMax`
-  - adds extra functions to the SparkMax motor controller
+  - adds extra functions to the REV SparkMax motor controller
 - `wpi.AnalogGyro`
   - adds extra functions to the Analog Gyro
