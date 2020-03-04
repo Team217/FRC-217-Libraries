@@ -32,7 +32,7 @@ public class PID {
      * @author ThunderChickens 217
      */
     public PID(double kP, double kI, double kD) {
-        this(kP, kI, kD, 0.2);
+        this(kP, kI, kD, 0.02);
     }
     
     /**
