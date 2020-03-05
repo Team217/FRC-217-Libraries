@@ -31,6 +31,7 @@ public class JohnsonPLGEncoder {
         Thread update = new Thread() {
             public void run() {
                 while (true) {
+                    Thread.onSpinWait();
                     update();
                 }
             }
