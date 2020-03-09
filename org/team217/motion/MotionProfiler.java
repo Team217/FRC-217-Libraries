@@ -54,6 +54,18 @@ public class MotionProfiler {
     }
 
     /**
+     * Sets the target jerk of the profiler.
+     * 
+     * @param targetJerk
+     *        The target jerk, in units/second^3
+     * @return
+     *        {@code false} if the target jerk is not positive
+     */
+    public boolean setTargetJerk(double targetJerk) {
+        return jerk.setTargetAccel(targetJerk);
+    }
+
+    /**
      * Sets the maximum velocity of the profiler.
      * 
      * @param maxVel
@@ -82,6 +94,13 @@ public class MotionProfiler {
      */
     public double getTargetAccel() {
         return jerk.getMaxVel();
+    }
+
+    /**
+     * Returns the target jerk, in units/second^3.
+     */
+    public double getTargetJerk() {
+        return jerk.getTargetAccel();
     }
 
     /**
