@@ -30,6 +30,8 @@ Classes currently include:
   - applies motion profiling to a velocity
 - `motion.MotionController`
   - applies PID and motion profiling to control motion
+- `motion.GeometricProfiler`
+  - creates geometric motion profiles
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the CTRE TalonSRX motor controller
 - `ctre.WPI_TalonFX`
