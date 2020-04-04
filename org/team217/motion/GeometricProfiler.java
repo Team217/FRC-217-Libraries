@@ -98,18 +98,18 @@ public class GeometricProfiler {
         this.constraints = constraints;
         this.initial = restrict(direct(initial));
         this.goal = restrict(direct(goal));
-        
-        double cutoffBegin = initial.velocity / constraints.maxAccel;
-        double cutoffDistBegin = cutoffBegin * cutoffBegin * constraints.maxAccel / 2.0;
-
-        double cutoffEnd = goal.velocity / constraints.maxAccel;
-        double cutoffDistEnd = cutoffEnd * cutoffEnd * constraints.maxAccel / 2.0;
-
-        double fullTrapezoidDist = cutoffDistBegin + (goal.position - initial.position) + cutoffDistEnd;
 
         double jerkTime = constraints.maxJerk == 0 ? 0 : constraints.maxAccel / constraints.maxJerk;
         double jerkVel = constraints.maxJerk / 2 * jerkTime * jerkTime;
         double accelTime = (constraints.maxVel - 2 * jerkVel) / constraints.maxAccel;
+        
+        double cutoffBegin = initial.velocity / constraints.maxAccel;
+        double cutoffDistBegin = cutoffBegin * cutoffBegin * constraints.maxAccel / 2.0 - initial.velocity * jerkTime / 2;
+
+        double cutoffEnd = goal.velocity / constraints.maxAccel;
+        double cutoffDistEnd = cutoffEnd * cutoffEnd * constraints.maxAccel / 2.0 - goal.velocity * jerkTime / 2;
+
+        double fullTrapezoidDist = cutoffDistBegin + (goal.position - initial.position) + cutoffDistEnd;
 
         double fullSpeedDist = fullTrapezoidDist - 2 * (
             constraints.maxJerk / 6 * jerkTime * jerkTime * jerkTime +
@@ -118,6 +118,10 @@ public class GeometricProfiler {
         );
 
         if (fullSpeedDist < 0) {
+            cutoffDistBegin -= initial.velocity * jerkTime / 2;
+            cutoffDistEnd -= goal.velocity * jerkTime / 2;
+            fullTrapezoidDist = cutoffDistBegin + (goal.position - initial.position) + cutoffDistEnd;
+
             accelTime = constraints.maxVel / constraints.maxAccel;
             jerkTime = 0; // for now, just make a triangle
             fullSpeedDist = fullTrapezoidDist - constraints.maxAccel * accelTime * accelTime;
