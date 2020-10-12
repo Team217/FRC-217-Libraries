@@ -3,7 +3,7 @@ package org.team217.motion;
 import org.team217.*;
 
 /**
- * A class to create motion profiles using sinosoidal waves.
+ * A class to create motion profiles using sinusoidal waves.
  * 
  * @author ThunderChickens 217
  */
