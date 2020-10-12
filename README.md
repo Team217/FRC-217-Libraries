@@ -27,7 +27,7 @@ Classes currently include:
   - implements a WPILib PID control loop on a timer
 - `motion.AccelController`
   - applies acceleration control to a velocity
-- `motion.MotionProfiler`
+- `motion.MotionController`
   - applies acceleration and jerk control to a velocity
 - `motion.SimpleMotionProfiler`
   - applies PID and acceleration control to control motion
