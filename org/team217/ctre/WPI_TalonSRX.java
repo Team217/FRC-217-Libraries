@@ -1,8 +1,6 @@
 package org.team217.ctre;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.*;
-
 import org.team217.Converter;
 
 /**
