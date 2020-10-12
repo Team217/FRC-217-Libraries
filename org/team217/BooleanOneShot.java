@@ -35,8 +35,10 @@ public class BooleanOneShot {
      */
     public boolean get(boolean trigger) {
         if (trigger && canSet) {
+            // trigger activated, flip the boolean
             isSet = !isSet;
         }
+        // make sure we don't flip the boolean again until the trigger is released
         canSet = !trigger;
 
         return isSet;

@@ -42,7 +42,7 @@ public class TimedPIDController extends PIDController {
         if (timer.advanceIfElapsed(getPeriod())) {
             output = super.calculate(measurement);
 
-            if (timer.get() >= 2 * getPeriod()) {
+            if (timer.get() >= 2 * getPeriod()) { // if we've passed two periods, reset the timer so we don't falsely call getOutput() a second time
                 timer.reset();
             }
         }

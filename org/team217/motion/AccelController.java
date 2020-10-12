@@ -159,10 +159,10 @@ public class AccelController {
         velocity = Num.inRange(velocity, maxVel);
         double accel = (velocity - lastVel) / period;
 
-        boolean isSlowing = accel * velocity < 0;
+        boolean isSlowing = accel * velocity < 0; // this is the definition of speeding up/slowing down
         boolean canControl = !isSlowing || canSlowDown; // check if we can only apply when speeding up
         if (Math.abs(accel) > targetAccel && canControl) { // only apply if accelerating faster than intended
-            velocity += Math.signum(accel) * period * (targetAccel - Math.abs(accel));
+            velocity += Math.signum(accel) * period * (targetAccel - Math.abs(accel)); // magic
         }
 
         lastVel = velocity;

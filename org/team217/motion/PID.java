@@ -255,16 +255,20 @@ public class PID {
      */
     public double getOutput(double position) {
         double error = target - position;
-
+        
+        // check if our error is within the range at which to start integrating (0 means range is disabled)
         if (integratorRange == 0 || Num.isWithinRange(error, integratorRange)) {
             totalError += error * period;
         }
         else {
             totalError = 0;
         }
+        // check if we have a max integrator and, if so, cap off the integrator value
         if (kI != 0 && maxIntegrator != 0) {
             totalError = Num.inRange(totalError, maxIntegrator / kI);
         }
+        
+        // velocity is the derivative of position; the velocity error is the derivative portion of PID
         velocityError = (error - lastError) / period;
         lastError = error;
 

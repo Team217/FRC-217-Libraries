@@ -27,11 +27,13 @@ public class JohnsonPLGEncoder {
 
         isLast1 = getSensor1Raw();
         isLast2 = getSensor2Raw();
-
+        
+        // We need to update this faster than the robot code will run, either
+        // use a loop in a separate thread (below) or interrupts
         Thread update = new Thread() {
             public void run() {
                 while (true) {
-                    Thread.onSpinWait();
+                    Thread.onSpinWait(); // makes this thread lower priority
                     update();
                 }
             }
@@ -72,21 +74,34 @@ public class JohnsonPLGEncoder {
     private void update() {
         boolean isSame1 = isLast1 == getSensor1Raw();
         boolean isSame2 = isLast2 == getSensor2Raw();
-
+        
+        // check if one sensor has changed (can't do anything if both change)
         if (isSame1 != isSame2) {
+            // First sensor (fwd):   |‾|_|‾|_
+            // Second sensor (fwd):  _|‾|_|‾|
             if (isSame1) {
+                // first sensor went unchanged, check where the second sensor went
                 if (getSensor1Raw() == getSensor2Raw()) {
+                    // second sensor moved towards the first (such as from low
+                    // to high while first is high), going forward, increment
                     encoder++;
                 }
                 else {
+                    // second sensor moved away from the first (such as from high
+                    // to low while first is high), going backward, decrement
                     encoder--;
                 }
             }
             else if (isSame2) {
+                // second sensor went unchanged, check where the first sensor went
                 if (getSensor1Raw() == getSensor2Raw()) {
+                    // first sensor moved towards the second (such as from high
+                    // to low while second is low), going backward, decrement
                     encoder--;
                 }
                 else {
+                    // first sensor moved away from the second (such as from low
+                    // to high while second is low), going forward, increment
                     encoder++;
                 }
             }

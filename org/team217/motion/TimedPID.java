@@ -41,7 +41,7 @@ public class TimedPID extends PID {
         if (timer.advanceIfElapsed(getPeriod())) {
             output = super.getOutput(position);
 
-            if (timer.get() >= 2 * getPeriod()) {
+            if (timer.get() >= 2 * getPeriod()) { // if we've passed two periods, reset the timer so we don't falsely call getOutput() a second time
                 timer.reset();
             }
         }

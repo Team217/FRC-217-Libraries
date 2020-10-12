@@ -28,10 +28,12 @@ Classes currently include:
   - controls acceleration of a velocity
 - `motion.MotionProfiler`
   - applies motion profiling to a velocity
+- `motion.SimpleMotionController`
+  - applies PID and acceleration control to control motion
 - `motion.MotionController`
   - applies PID and motion profiling to control motion
 - `motion.GeometricProfiler`
-  - creates geometric motion profiles
+  - creates geometric motion profiles using sinusoidal waves
 - `ctre.WPI_TalonSRX`
   - adds extra functions to the CTRE TalonSRX motor controller
 - `ctre.WPI_TalonFX`
@@ -39,7 +41,7 @@ Classes currently include:
 - `ctre.PigeonIMU`
   - adds extra functions to the CTRE PigeonIMU
 - `ctre.JohnsonPLGEncoder`
-  - manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative encoder
+  - manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative quadrature encoder
 - `rev.CANSparkMax`
   - adds extra functions to the REV SparkMax motor controller
 - `wpi.AnalogGyro`

@@ -6,7 +6,7 @@ package org.team217.rev;
  * @author ThunderChickens 217, RevRobotics
  */
 public class CANSparkMax extends com.revrobotics.CANSparkMax {
-    protected double resetPosition = 0;
+    protected double zeroPosition = 0;
     protected int invertEnc = 1;
     
     /**
@@ -52,12 +52,12 @@ public class CANSparkMax extends com.revrobotics.CANSparkMax {
 
     /** Gets the encoder position, modified so {@code invertEncoder()}, {@code setEncoder()}, and {@code resetEncoder()} affect the return value. */
     public double getPosition() {
-        return invertEnc * (getEncoder().getPosition() - resetPosition);
+        return invertEnc * (getEncoder().getPosition() - zeroPosition);
     }
 
     /** Sets the encoder value to the given position. This does not save to the motor controller and must be called each time code is deployed. */
     public void setEncoder(double position) {
-        resetPosition = getEncoder().getPosition() - invertEnc * position;
+        zeroPosition = getEncoder().getPosition() - invertEnc * position;
     }
 
     /** Resets the encoder value to 0. This does not save to the motor controller and must be called each time code is deployed. */

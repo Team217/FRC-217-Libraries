@@ -113,7 +113,7 @@ public class Converter {
         }
 
         double halfRev = unitsPerRev / 2.0;
-        do {
+        while (!Num.isWithinRange(angle, halfRev)) {
             if (angle > halfRev) {
                 angle -= unitsPerRev;
             }
@@ -121,7 +121,6 @@ public class Converter {
                 angle += unitsPerRev;
             }
         }
-        while (!Num.isWithinRange(angle, halfRev));
 
         return angle;
     }

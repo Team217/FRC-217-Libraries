@@ -1,7 +1,7 @@
 package org.team217.ctre;
 
 import com.ctre.phoenix.ErrorCode;
-import org.team217.Converter;
+import org.team217.*;
 
 /**
  * Pigeon IMU Class (Extended). Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).

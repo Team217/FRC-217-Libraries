@@ -228,9 +228,11 @@ public class Num {
      *        The change in distance along an axis; multiple parameters for multiple axes
      */
     public static double distance(double... axis) {
+        // d^2 = x_1^2 + x_2^2 + ... + x_n^2
         double axes = 0;
         for (double d : axis) {
-            axes += Math.pow(d, 2);
+            // sum up the squares
+            axes += d * d;
         }
         return Math.sqrt(axes);
     }
@@ -244,10 +246,13 @@ public class Num {
      *        The change in distance along an axis; multiple parameters for multiple axes
      */
     public static double componentAxis(double dist, double... axis) {
+        // d^2 = x_1^2 + x_2^2 + ... + x_n^2
+        // x_1^2 = d^2 - (x_2^2 + x_3^2 + ... + x_n^2)
         double axes = 0;
         for (double d : axis) {
-            axes += Math.pow(d, 2);
+            // sum up the squares
+            axes += d * d;
         }
-        return Math.sqrt(Math.pow(dist, 2) - axes);
+        return Math.sqrt(dist * dist - axes);
     }
 }
