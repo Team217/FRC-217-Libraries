@@ -3,7 +3,7 @@ package org.team217.motion;
 import org.team217.*;
 
 /**
- * A class to create geometric motion profiles.
+ * A class to create motion profiles using sinosoidal waves.
  * 
  * @author ThunderChickens 217
  */
@@ -14,7 +14,7 @@ public class GeometricProfiler {
      * @author ThunderChickens 217
      */
     public static class Constraints {
-        public final double maxVel, maxAccel, maxJerk;
+        public final double maxVel, maxAccel;
 
         /**
          * Creates a new set of profile constraints.
@@ -28,13 +28,12 @@ public class GeometricProfiler {
          * 
          * @author ThunderChickens 217
          */
-        public Constraints(double maxVel, double maxAccel, double maxJerk) {
-            if (maxVel == 0 || maxAccel == 0 || maxJerk == 0) {
+        public Constraints(double maxVel, double maxAccel) {
+            if (maxVel == 0 || maxAccel == 0) {
                 throw new IllegalArgumentException("Error: Profile constraints cannot be zero");
             }
             this.maxVel = Math.abs(maxVel);
             this.maxAccel = Math.abs(maxAccel);
-            this.maxJerk = Math.abs(maxJerk);
         }
     }
 
@@ -61,14 +60,13 @@ public class GeometricProfiler {
     private Constraints constraints;
     private State initial, goal;
     private double direction;
-
-    private double endJerk1;
+    
     private double endAccel;
-    private double endJerk2;
     private double endFullVel;
-    private double endJerk3;
     private double endDecel;
-    private double endJerk4;
+    
+    private double endAccelDist;
+    private double endFullVelDist;
 
     /**
      * Creates a new geometric profiler.
@@ -98,47 +96,22 @@ public class GeometricProfiler {
         this.constraints = constraints;
         this.initial = restrict(direct(initial));
         this.goal = restrict(direct(goal));
-
-        double jerkTime = constraints.maxJerk == 0 ? 0 : constraints.maxAccel / constraints.maxJerk;
-        double jerkVel = constraints.maxJerk / 2 * jerkTime * jerkTime;
-        double accelTime = (constraints.maxVel - 2 * jerkVel) / constraints.maxAccel;
         
-        double cutoffBegin = initial.velocity / constraints.maxAccel;
-        double cutoffDistBegin = cutoffBegin * cutoffBegin * constraints.maxAccel / 2.0 - initial.velocity * jerkTime / 2;
+        double distance = Math.abs(goal.position - initial.position);
+        
+        double accelTime = Math.PI * (constraints.maxVel - initial.velocity) / (2 * constraints.maxAccel);
+        double decelTime = Math.PI * (constraints.maxVel - goal.velocity) / (2 * constraints.maxAccel);
+        
+        double accelDistance = Math.PI * (constraints.maxVel - initial.velocity * initial.velocity) / (4 * constraints.maxAccel);
+        double decelDistance = Math.PI * (constraints.maxVel - goal.velocity * goal.velocity) / (4 * constraints.maxAccel);
+        double fullSpeedDistance = distance - (accelDistance + decelDistance);
 
-        double cutoffEnd = goal.velocity / constraints.maxAccel;
-        double cutoffDistEnd = cutoffEnd * cutoffEnd * constraints.maxAccel / 2.0 - goal.velocity * jerkTime / 2;
-
-        double fullTrapezoidDist = cutoffDistBegin + (goal.position - initial.position) + cutoffDistEnd;
-
-        double fullSpeedDist = fullTrapezoidDist - 2 * (
-            constraints.maxJerk / 6 * jerkTime * jerkTime * jerkTime +
-            (jerkVel + constraints.maxAccel / 2 * accelTime) * accelTime +
-            (constraints.maxVel - jerkVel + constraints.maxAccel / 2 * jerkTime - constraints.maxJerk / 6 * jerkTime * jerkTime) * jerkTime
-        );
-
-        if (fullSpeedDist < 0) {
-            cutoffDistBegin -= initial.velocity * jerkTime / 2;
-            cutoffDistEnd -= goal.velocity * jerkTime / 2;
-            fullTrapezoidDist = cutoffDistBegin + (goal.position - initial.position) + cutoffDistEnd;
-
-            accelTime = constraints.maxVel / constraints.maxAccel;
-            jerkTime = 0; // for now, just make a triangle
-            fullSpeedDist = fullTrapezoidDist - constraints.maxAccel * accelTime * accelTime;
-
-            if (fullSpeedDist < 0) {
-                accelTime = Math.sqrt(fullTrapezoidDist / constraints.maxAccel);
-                fullSpeedDist = 0;
-            }
-        }
-
-        endJerk1 = jerkTime;
-        endAccel = endJerk1 + accelTime - cutoffBegin;
-        endJerk2 = endAccel + jerkTime;
-        endFullVel = endJerk2 + fullSpeedDist / constraints.maxVel;
-        endJerk3 = endFullVel + jerkTime;
-        endDecel = endJerk3 + accelTime - cutoffEnd;
-        endJerk4 = endDecel + jerkTime;
+        endAccel = accelTime;
+        endFullVel = endAccel + fullSpeedDistance / constraints.maxVel;
+        endDecel = endFullVel + decelTime;
+        
+        endAccelDist = accelDistance;
+        endFullVelDist = distance - decelDistance;
     }
 
     /**
@@ -149,53 +122,20 @@ public class GeometricProfiler {
      */
     public State getOutput(double t) {
         State result = new State(initial.velocity, initial.position);
-
-        if (t < endJerk1) {
-            result.velocity += constraints.maxJerk / 2 * t * t;
-            result.position += (initial.velocity + constraints.maxJerk / 6 * t * t) * t;
-        }
-        else if (t < endAccel) {
-            result.velocity += constraints.maxJerk / 2 * endJerk1 * endJerk1 +
-                constraints.maxAccel * (t - endJerk1);
-            result.position += (initial.velocity + constraints.maxJerk / 6 * endJerk1 * endJerk1) * endJerk1 +
-                (initial.velocity + constraints.maxJerk / 2 * endJerk1 * endJerk1 + constraints.maxAccel / 2 * (t - endJerk1)) * (t - endJerk1);
-        }
-        else if (t < endJerk2) {
-            result.velocity = constraints.maxVel - constraints.maxJerk / 2 * (endJerk2 - endAccel) * (endJerk2 - endAccel) + (constraints.maxAccel - constraints.maxJerk / 2 * (t - endAccel)) * (t - endAccel);
-            result.position += (initial.velocity + constraints.maxJerk / 6 * endJerk1 * endJerk1) * endJerk1 +
-                (initial.velocity + constraints.maxJerk / 2 * endJerk1 * endJerk1 + constraints.maxAccel / 2 * (endAccel - endJerk1)) * (endAccel - endJerk1) +
-                (constraints.maxVel - constraints.maxJerk / 2 * (endJerk2 - endAccel) * (endJerk2 - endAccel) + (constraints.maxAccel / 2 - constraints.maxJerk / 6 * (t - endAccel)) * (t - endAccel)) * (t - endAccel);
+        
+        if (t < endAccel) {
+            double c = 2 * constraints.maxAccel / (constraints.maxVel - initial.velocity);
+            result.velocity += (constraints.maxVel - initial.velocity) / 2 * (1 - Math.cos(c * t));
+            result.position += initial.velocity * t + (constraints.maxVel - initial.velocity) / 2 * (t - Math.sin(c * t) / c);
         }
         else if (t < endFullVel) {
             result.velocity = constraints.maxVel;
-            result.position += (initial.velocity + constraints.maxJerk / 6 * endJerk1 * endJerk1) * endJerk1 +
-                (initial.velocity + constraints.maxJerk / 2 * endJerk1 * endJerk1 + constraints.maxAccel / 2 * (endAccel - endJerk1)) * (endAccel - endJerk1) +
-                (constraints.maxVel - constraints.maxJerk / 2 * (endJerk2 - endAccel) * (endJerk2 - endAccel) + (constraints.maxAccel / 2 - constraints.maxJerk / 6 * (endJerk2 - endAccel)) * (endJerk2 - endAccel)) * (endJerk2 - endAccel) +
-                constraints.maxVel * (t - endJerk2);
-        }
-        else if (t < endJerk3) {
-            result.velocity = constraints.maxVel - constraints.maxJerk / 2 * (t - endFullVel) * (t - endFullVel);
-            result.position = goal.position - (
-                (goal.velocity + constraints.maxJerk / 6 * (endJerk4 - endDecel) * (endJerk4 - endDecel)) * (endJerk4 - endDecel) +
-                (goal.velocity + constraints.maxJerk / 2 * (endJerk4 - endDecel) * (endJerk4 - endDecel) + constraints.maxAccel / 2 * (endDecel - endJerk3)) * (endDecel - endJerk3) +
-                (constraints.maxVel - constraints.maxJerk / 2 * (endJerk3 - endFullVel) * (endJerk3 - endFullVel) + (constraints.maxAccel / 2 - constraints.maxJerk / 6 * (endJerk3 - t)) * (endJerk3 - t)) * (endJerk3 - t)
-            );
+            result.position += endAccelDist + constraints.maxVel * (t - endAccel);
         }
         else if (t < endDecel) {
-            result.velocity = constraints.maxVel - (
-                constraints.maxJerk / 2 * (endJerk3 - endFullVel) * (endJerk3 - endFullVel) +
-                constraints.maxAccel * (t - endJerk3)
-            );
-            result.position = goal.position - (
-                (goal.velocity + constraints.maxJerk / 6 * (endJerk4 - endDecel) * (endJerk4 - endDecel)) * (endJerk4 - endDecel) +
-                (goal.velocity + constraints.maxJerk / 2 * (endJerk4 - endDecel) * (endJerk4 - endDecel) + constraints.maxAccel / 2 * (endDecel - t)) * (endDecel - t)
-            );
-        }
-        else if (t < endJerk4) {
-            result.velocity = goal.velocity + constraints.maxJerk / 2 * (endJerk4 - endDecel) * (endJerk4 - endDecel) - (constraints.maxAccel - constraints.maxJerk / 2 * (t - endDecel)) * (t - endDecel);
-            result.position = goal.position - (
-                (goal.velocity + constraints.maxJerk / 6 * (endJerk4 - t) * (endJerk4 - t)) * (endJerk4 - t)
-            );
+            double c = 2 * constraints.maxAccel / (constraints.maxVel - goal.velocity);
+            result.velocity = goal.velocity + (constraints.maxVel - goal.velocity) / 2 * (1 + Math.cos(c * (t - endFullVel)));
+            result.position = endFullVelDist + goal.velocity * (t - endFullVel) + (constraints.maxVel - goal.velocity) / 2 * ((t - endFullVel) + Math.sin(c * (t - endFullVel)) / c);
         }
         else {
             result.velocity = goal.velocity;
