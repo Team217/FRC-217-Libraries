@@ -91,27 +91,27 @@ public class GeometricProfiler {
      *        The final state of the profile
      */
     public GeometricProfiler(Constraints constraints, State initial, State goal) {
-        direction = initial.position > goal.position ? -1 : 1;
+        this.direction = initial.position > goal.position ? -1 : 1;
 
         this.constraints = constraints;
         this.initial = restrict(direct(initial));
         this.goal = restrict(direct(goal));
         
-        double distance = Math.abs(goal.position - initial.position);
+        double distance = this.goal.position - this.initial.position;
         
-        double accelTime = Math.PI * (constraints.maxVel - initial.velocity) / (2 * constraints.maxAccel);
-        double decelTime = Math.PI * (constraints.maxVel - goal.velocity) / (2 * constraints.maxAccel);
+        double accelTime = Math.PI * (this.constraints.maxVel - this.initial.velocity) / (2 * this.constraints.maxAccel);
+        double decelTime = Math.PI * (this.constraints.maxVel - this.goal.velocity) / (2 * this.constraints.maxAccel);
         
-        double accelDistance = Math.PI * (constraints.maxVel - initial.velocity * initial.velocity) / (4 * constraints.maxAccel);
-        double decelDistance = Math.PI * (constraints.maxVel - goal.velocity * goal.velocity) / (4 * constraints.maxAccel);
+        double accelDistance = Math.PI * (this.constraints.maxVel - this.initial.velocity * this.initial.velocity) / (4 * this.constraints.maxAccel);
+        double decelDistance = Math.PI * (this.constraints.maxVel - this.goal.velocity * this.goal.velocity) / (4 * this.constraints.maxAccel);
         double fullSpeedDistance = distance - (accelDistance + decelDistance);
 
-        endAccel = accelTime;
-        endFullVel = endAccel + fullSpeedDistance / constraints.maxVel;
-        endDecel = endFullVel + decelTime;
+        this.endAccel = accelTime;
+        this.endFullVel = endAccel + fullSpeedDistance / this.constraints.maxVel;
+        this.endDecel = endFullVel + decelTime;
         
-        endAccelDist = accelDistance;
-        endFullVelDist = distance - decelDistance;
+        this.endAccelDist = accelDistance;
+        this.endFullVelDist = distance - decelDistance;
     }
 
     /**
