@@ -3,6 +3,7 @@
 ## Installation
 
 1) Download the `.jar` files for the latest release [here](https://github.com/Team217/FRC-217-Libraries/releases/latest/). *If you do not download both files, then the Java documentation (information on how to use the classes and methods) will be unavailable.*
+  a) Alternatively, download this repository. Extract it to a folder (if you downloaded it as a zip). Open a terminal in the folder and type `./gradlew build` to build the project. The resulting jar files will be found in `build/libs`.
 2) If it does not exist, reate a new `libs` folder in the project directory (NOT within the `src` folder). Put the `.jar` files there.
 3) In `build.gradle`, find `dependencies { }` (near the bottom) and add the following line to the end of the list if it does not exist: `compile fileTree(dir: 'libs', include: ['*.jar'])`
 
