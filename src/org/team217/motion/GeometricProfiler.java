@@ -113,11 +113,27 @@ public class GeometricProfiler {
         double decelTime = Math.PI * (this.constraints.maxVel - this.goal.velocity) / (2 * this.constraints.maxAccel);
         
         // After integrating the above function from 0 to pi(maxVel - initVel)/(2 * maxAccel), we get the distance traveled after reaching maxVel:
-        // pi (maxVel - initVel^2) / (4 * maxAccel)
-        double accelDistance = Math.PI * (this.constraints.maxVel - this.initial.velocity * this.initial.velocity) / (4 * this.constraints.maxAccel);
-        double decelDistance = Math.PI * (this.constraints.maxVel - this.goal.velocity * this.goal.velocity) / (4 * this.constraints.maxAccel);
+        // pi (maxVel^2 - initVel^2) / (4 * maxAccel)
+        double accelDistance = Math.PI * (this.constraints.maxVel * this.constraints.maxVel - this.initial.velocity * this.initial.velocity) / (4 * this.constraints.maxAccel);
+        double decelDistance = Math.PI * (this.constraints.maxVel * this.constraints.maxVel - this.goal.velocity * this.goal.velocity) / (4 * this.constraints.maxAccel);
         // Full speed distance is the full distance excluding the two acceleration distances
         double fullSpeedDistance = distance - (accelDistance + decelDistance);
+        
+        if (fullSpeedDistance < 0) {
+            // path does not reach max velocity, override with a max velocity such that the path is a smooth cosine curve
+            // accelDistance + decelDistance = distance, solve for maxVel, result is the below
+            double maxVel = Math.sqrt(2 * this.constraints.maxAccel * distance / Math.PI + (this.initial.velocity * this.initial.velocity + this.goal.velocity * this.goal.velocity) / 2);
+            // create a new set of constraints with this new maxVel
+            this.constraints = new Constraints(maxVel, this.constraints.maxAccel);
+            
+            // recalculate the variables from earlier using the new constraints
+            accelTime = Math.PI * (this.constraints.maxVel - this.initial.velocity) / (2 * this.constraints.maxAccel);
+            decelTime = Math.PI * (this.constraints.maxVel - this.goal.velocity) / (2 * this.constraints.maxAccel);
+            
+            accelDistance = Math.PI * (this.constraints.maxVel * this.constraints.maxVel - this.initial.velocity * this.initial.velocity) / (4 * this.constraints.maxAccel);
+            decelDistance = Math.PI * (this.constraints.maxVel * this.constraints.maxVel - this.goal.velocity * this.goal.velocity) / (4 * this.constraints.maxAccel);
+            fullSpeedDistance = 0;
+        }
         
         // Calculate the times at which each of the three stages of motion ends
         this.endAccel = accelTime;

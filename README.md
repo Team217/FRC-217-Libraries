@@ -47,6 +47,6 @@ Classes currently include:
 - `wpi.AnalogGyro`
   - adds extra functions to the Analog Gyro
 
-[This Desmos link](https://www.desmos.com/calculator/ptmhn9qaeq) lets you mess with geometric profiler inputs and visualize the resulting profile.  
+[This Desmos link](https://www.desmos.com/calculator/qqevqwzzzu) lets you mess with geometric profiler inputs and visualize the resulting profile.  
 You can change a, s, v<sub>max</sub>, v<sub>0</sub>, and v<sub>f</sub> at the top to change the max acceleration, target distance, maximum velocity, initial velocity, and final velocity, respectively, and see the newly generated trajectory.  
-V(t) shows the velocity path, and S(t) shows the position path. A(t) and D(t) are the acceleration and deceleration curves, respectively, and D<sub>offset</sub>(t) is the deceleration curve with the period offset. s<sub>accel</sub>, s<sub>decel</sub>, and s<sub>full</sub> are the distance traveled while accelerating, decelerating, and at full speed, respectively.
+V(t) shows the velocity path, and S(t) shows the position path. A(t) and D(t) are the acceleration and deceleration curves, respectively, and D<sub>offset</sub>(t) is the deceleration curve with the period offset. s<sub>accel</sub>, s<sub>decel</sub>, and s<sub>full</sub> are the distance traveled while accelerating, decelerating, and at full speed, respectively. v calculates a max velocity override for shorter paths that would not achieve full velocity.
