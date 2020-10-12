@@ -11,9 +11,9 @@
 Classes currently include:
 
 - `Converter`
-  - converts between encoder ticks and either angles or distances
+  - converts between encoder ticks, angles, and distances
 - `Num`
-  - numerical operations, such as `deadband()` and `isWithinRange()`
+  - contains operations for managing and checking numerical data, such as applying a deadband or checking the range of a number
 - `Logger`
   - logs data
 - `BooleanOneShot`
@@ -23,15 +23,15 @@ Classes currently include:
 - `motion.TimedPID`
   - runs and controls PID systems on a timer
 - `motion.TimedPIDController`
-  - implements a PID control loop on a timer
+  - implements a WPILib PID control loop on a timer
 - `motion.AccelController`
-  - controls acceleration of a velocity
+  - applies acceleration control to a velocity
 - `motion.MotionProfiler`
-  - applies motion profiling to a velocity
-- `motion.SimpleMotionController`
+  - applies acceleration and jerk control to a velocity
+- `motion.SimpleMotionProfiler`
   - applies PID and acceleration control to control motion
-- `motion.MotionController`
-  - applies PID and motion profiling to control motion
+- `motion.MotionProfiler`
+  - applies PID and acceleration and jerk control to control motion
 - `motion.GeometricProfiler`
   - creates geometric motion profiles using sinusoidal waves
 - `ctre.WPI_TalonSRX`
@@ -45,7 +45,7 @@ Classes currently include:
 - `rev.CANSparkMax`
   - adds extra functions to the REV SparkMax motor controller
 - `wpi.AnalogGyro`
-  - adds extra functions to the Analog Gyro
+  - adds extra functions to the analog gyro
 
 [This Desmos link](https://www.desmos.com/calculator/qqevqwzzzu) lets you mess with geometric profiler inputs and visualize the resulting profile.  
 You can change a, s, v<sub>max</sub>, v<sub>0</sub>, and v<sub>f</sub> at the top to change the max acceleration, target distance, maximum velocity, initial velocity, and final velocity, respectively, and see the newly generated trajectory.  

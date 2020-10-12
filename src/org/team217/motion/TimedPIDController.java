@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.*;
 
 /**
- * Implements a PID control loop on a timer.
+ * Implements a WPILib PID control loop on a timer.
  * 
  * @author ThunderChickens 217, WPILib
  */

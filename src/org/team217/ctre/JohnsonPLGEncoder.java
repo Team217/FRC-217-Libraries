@@ -3,7 +3,7 @@ package org.team217.ctre;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * Creates a class to manage pulses of the Johnson Electric PLG Hall Effect Sensors as a relative encoder.
+ * Creates a class to manage pulses of the Johnson Electric PLG Hall Effect Sensors as a relative quadrature encoder.
  * 
  * @author ThunderChickens 217
  */
@@ -14,7 +14,7 @@ public class JohnsonPLGEncoder {
     private volatile int encoder = 0;
 
     /**
-     * Manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative encoder.
+     * Manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative quadrature encoder.
      * 
      * @param hallChannel1
      *        The DIO channel for Hall Sensor 1 (yellow)

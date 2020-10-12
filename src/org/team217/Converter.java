@@ -1,7 +1,7 @@
 package org.team217;
 
 /**
- * Converts angles and distances to and from encoder ticks
+ * Converts between encoder ticks, angles, and distances.
  * 
  * @author ThunderChickens
  */

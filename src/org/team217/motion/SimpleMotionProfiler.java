@@ -5,12 +5,12 @@ package org.team217.motion;
  * 
  * @author ThunderChickens 217
  */
-public class SimpleMotionController {
+public class SimpleMotionProfiler {
     private PID pid;
     private AccelController accelController;
 
     /**
-     * Creates a new Simple Motion Controller with the given PID controller and acceleration controller.
+     * Creates a new simple motion profiler with the given PID controller and acceleration controller.
      * 
      * @param pid
      *        The PID controller for velocity control
@@ -19,13 +19,13 @@ public class SimpleMotionController {
      * 
      * @author ThunderChickens 217
      */
-    public SimpleMotionController(PID pid, AccelController accelController) {
+    public SimpleMotionProfiler(PID pid, AccelController accelController) {
         this.pid = pid;
         this.accelController = accelController;
     }
 
     /**
-     * Returns the PID Controller.
+     * Returns the PID controller.
      */
     public PID getPID() {
         return pid;
@@ -64,7 +64,7 @@ public class SimpleMotionController {
     }
 
     /**
-     * Resets the Motion Controller.
+     * Resets the motion profiler.
      */
     public void reset() {
         pid.reset();

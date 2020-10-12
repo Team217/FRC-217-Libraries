@@ -1,157 +1,73 @@
 package org.team217.motion;
 
 /**
- * A class to create objects that apply motion profiling to velocity.
+ * A class to create objects that apply PID and acceleration and jerk control to control motion.
  * 
  * @author ThunderChickens 217
  */
 public class MotionProfiler {
-    private AccelController accel, jerk;
-    private double lastVel = 0;
+    private PID pid;
+    private MotionController controller;
 
     /**
-     * Creates a new Motion Profiler with the given target acceleration and target jerk.
+     * Creates a new motion profiler with the given PID controller and motion controller.
      * 
-     * @param targetAccel
-     *        The target acceleration, in units/second^2
-     * @param targetJerk
-     *        The target jerk, in units/second^3
-     * 
-     * @author ThunderChickens 217
-     */
-    public MotionProfiler(double targetAccel, double targetJerk) {
-        accel = new AccelController(0);
-        jerk = new AccelController(targetJerk, targetAccel);
-    }
-
-    /**
-     * Creates a new Motion Profiler with the given target acceleration, target jerk, and maximum velocity.
-     * 
-     * @param targetAccel
-     *        The target acceleration, in units/second^2
-     * @param targetJerk
-     *        The target jerk, in units/second^3
-     * @param maxVel
-     *        The maximum velocity, in units/second
+     * @param pid
+     *        The PID controller for velocity control
+     * @param controller
+     *        The motion controller for acceleration and jerk control
      * 
      * @author ThunderChickens 217
      */
-    public MotionProfiler(double targetAccel, double targetJerk, double maxVel) {
-        accel = new AccelController(0, maxVel);
-        jerk = new AccelController(targetJerk, targetAccel);
+    public MotionProfiler(PID pid, MotionController controller) {
+        this.pid = pid;
+        this.controller = controller;
     }
 
     /**
-     * Sets the target acceleration of the profiler.
+     * Returns the PID controller.
+     */
+    public PID getPID() {
+        return pid;
+    }
+
+    /**
+     * Returns the motion controller.
+     */
+    public MotionController getController() {
+        return controller;
+    }
+
+    /**
+     * Calculates and returns a velocity after applying the motion profile to the
+     * PID output on the current position.
      * 
-     * @param targetAccel
-     *        The target acceleration, in units/second^2
-     * @return
-     *        {@code false} if the target acceleration is not positive
+     * @param position
+     *        The current position
+     * @param target
+     *        The target position
      */
-    public boolean setTargetAccel(double targetAccel) {
-        return jerk.setMaxVel(targetAccel);
+    public double getOutput(double position, double target) {
+        pid.setTarget(target);
+        return getOutput(position);
     }
 
     /**
-     * Sets the target jerk of the profiler.
+     * Calculates and returns a velocity after applying the motion profile to the
+     * PID output on the current position.
      * 
-     * @param targetJerk
-     *        The target jerk, in units/second^3
-     * @return
-     *        {@code false} if the target jerk is not positive
+     * @param position
+     *        The current position
      */
-    public boolean setTargetJerk(double targetJerk) {
-        return jerk.setTargetAccel(targetJerk);
+    public double getOutput(double position) {
+        return controller.getOutput(pid.getOutput(position));
     }
 
     /**
-     * Sets the maximum velocity of the profiler.
-     * 
-     * @param maxVel
-     *        The maximum velocity, in units/second
-     * @return
-     *        {@code false} if the maximum velocity is not positive
-     */
-    public boolean setMaxVel(double maxVel) {
-        return accel.setMaxVel(maxVel);
-    }
-
-    /**
-     * Sets the update period of velocity for the profiler.
-     * 
-     * @param period
-     *        The update period of velocity, in seconds
-     * @return
-     *        {@code false} if the period is not positive
-     */
-    public boolean setPeriod(double period) {
-        return accel.setPeriod(period) && jerk.setPeriod(period);
-    }
-
-    /**
-     * Returns the target acceleration, in units/second^2.
-     */
-    public double getTargetAccel() {
-        return jerk.getMaxVel();
-    }
-
-    /**
-     * Returns the target jerk, in units/second^3.
-     */
-    public double getTargetJerk() {
-        return jerk.getTargetAccel();
-    }
-
-    /**
-     * Returns the maximum velocity, in units/second.
-     */
-    public double getMaxVel() {
-        return accel.getMaxVel();
-    }
-
-    /**
-     * Returns the update period of velocity, in units/second.
-     */
-    public double getPeriod() {
-        return accel.getPeriod();
-    }
-
-    /**
-     * Returns the AccelController for acceleration.
-     */
-    public AccelController getAccel() {
-        return accel;
-    }
-
-    /**
-     * Returns the AccelController for jerk.
-     */
-    public AccelController getJerk() {
-        return jerk;
-    }
-
-    /**
-     * Calculates and returns a velocity after applying the motion profile.
-     * 
-     * @param velocity
-     *        The velocity to control, in units/second
-     */
-    public double getOutput(double velocity) {
-        double acc = (velocity - lastVel) / jerk.getPeriod();
-        accel.setTargetAccel(Math.abs(jerk.getOutput(acc)));
-        velocity = accel.getOutput(velocity);
-
-        lastVel = velocity;
-        return velocity;
-    }
-
-    /**
-     * Resets the profiler calculations to 0.
+     * Resets the Motion Profiler.
      */
     public void reset() {
-        lastVel = 0;
-        accel.reset();
-        jerk.reset();
+        pid.reset();
+        controller.reset();
     }
 }
