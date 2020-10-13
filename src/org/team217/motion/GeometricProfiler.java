@@ -192,6 +192,12 @@ public class GeometricProfiler {
         return direct(result); // flip the position and velocity if necessary, since we've been working in positives
     }
     
+    /**
+     * Returns the time left until the profile reaches a target position.
+     * 
+     * @param target
+     *        The target position
+     */
     public double timeLeftUntil(double target) {
         target *= direction;
         double distance = target - initial.position;
