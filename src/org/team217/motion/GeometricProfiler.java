@@ -199,31 +199,44 @@ public class GeometricProfiler {
      *        The target position
      */
     public double timeLeftUntil(double target) {
+        // Flip the target to be the same direction as the initial and goal states
         target *= direction;
         double distance = target - initial.position;
         
         if (distance <= 0) {
+            // At or past the target position, no time left
             return 0;
         }
         else if (distance < endAccelDist) {
-            double c = 2 * constraints.maxAccel / (constraints.maxVel - initial.velocity);
-            final double d = distance;
+            // In the acceleration phase, apply Newton's method to approximate the zero
+            // Newton's method states that to approximate the zero of a function, you can use the recursive equation:
+            // x_(n+1) = x_n - f(x_n)/f'(x_n)
+            // If the initial approximate is close enough, the equation will converge and get more accurate each iteration.
+            // Since it approximates zeroes, and we want s(x) = distance, we apply the recursion to s(x) - distance = 0
+            double c = 2 * constraints.maxAccel / (constraints.maxVel - initial.velocity); // the constant that affects the period of the cos wave
+            final double d = distance; // Function<> can only use constants when using local variables
+            // s(t) - distance (= 0)
             Function<Double, Double> position = t -> initial.velocity * t + (constraints.maxVel - initial.velocity) / 2 * (t - Math.sin(c * t) / c) - d;
+            // s'(t)
             Function<Double, Double> dPosition = t -> (constraints.maxVel - initial.velocity) / 2 * (1 - Math.cos(c * t)) + initial.velocity;
             
-            double result = Math.PI * (constraints.maxVel - initial.velocity) / (4 * constraints.maxAccel);
+            // Start the approximation halfway through the acceleration period
+            double result = endAccel / 2; // endAccel is the acceleration time
             double lastResult = 0;
-            while (result - lastResult > 0.001) {
+            while (Math.abs((result - lastResult) / lastResult) > 0.001) { // loop until error is no more than 0.1%
                 lastResult = result;
+                // x_(n+1) = x_n - f(x_n)/f'(x_n)
                 result = lastResult - position.apply(lastResult) / dPosition.apply(lastResult);
             }
             return result;
         }
         else if (distance < endFullVelDist) {
-            distance -= endAccelDist;
-            return endAccel + distance / constraints.maxVel;
+            // In the full velocity phase, distance / maxVel gives the time taken to travel distance
+            distance -= endAccelDist; // subtract off the acceleration period difference
+            return endAccel + distance / constraints.maxVel; // add the acceleration period time to the full velocity time
         }
         else if (distance < goal.position - initial.position) {
+            // In the deceleration phase, apply Newton's method to approximate the zero
             distance -= endFullVelDist;
             
             double c = 2 * constraints.maxAccel / (constraints.maxVel - goal.velocity);
@@ -231,15 +244,16 @@ public class GeometricProfiler {
             Function<Double, Double> position = t -> goal.velocity * t + (constraints.maxVel - goal.velocity) / 2 * (t + Math.sin(c * t) / c) - d;
             Function<Double, Double> dPosition = t -> (constraints.maxVel - goal.velocity) / 2 * (1 + Math.cos(c * t)) + goal.velocity;
             
-            double result = Math.PI * (constraints.maxVel - initial.velocity) / (4 * constraints.maxAccel);
+            double result = (endDecel - endFullVel) / 2; // endDecel - endFullVel gives us the deceleration time
             double lastResult = 0;
-            while (result - lastResult > 0.001) {
+            while (Math.abs((result - lastResult) / lastResult) > 0.001) {
                 lastResult = result;
                 result = lastResult - position.apply(lastResult) / dPosition.apply(lastResult);
             }
             return endFullVel + result;
         }
         else {
+            // Target is at or beyond the goal, will take the full path time to reach it
             return totalTime();
         }
     }
