@@ -1,5 +1,6 @@
 package org.team217.motion;
 
+import java.util.function.*;
 import org.team217.*;
 
 /**
@@ -20,11 +21,11 @@ public class GeometricProfiler {
          * Creates a new set of profile constraints.
          * 
          * @param maxVel
-         *        The maximum velocity
+         *        The maximum velocity, in units/second
          * @param maxAccel
-         *        The maximum acceleration, in dv/second
+         *        The maximum acceleration, in units/second^2
          * @param maxJerk
-         *        The maximum jerk, in dv/second^2
+         *        The maximum jerk, in units/second^2
          * 
          * @author ThunderChickens 217
          */
@@ -54,6 +55,17 @@ public class GeometricProfiler {
         public State(double velocity, double position) {
             this.velocity = velocity;
             this.position = position;
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof State) {
+                State state = (State)obj;
+                return this.position == state.position && this.velocity == state.velocity;
+            }
+            else {
+                return false;
+            }
         }
     }
 
@@ -140,7 +152,7 @@ public class GeometricProfiler {
         this.endFullVel = endAccel + fullSpeedDistance / this.constraints.maxVel; // fullSpeedDistance / maxVel gives us time
         this.endDecel = endFullVel + decelTime;
         
-        // Calculate the distance traveled by the end of two of the stages (after the third is goal.position)
+        // Calculate the distance traveled by the end of two of the stages (after the third is goal.position - initial.position)
         this.endAccelDist = accelDistance;
         this.endFullVelDist = distance - decelDistance;
     }
@@ -156,7 +168,7 @@ public class GeometricProfiler {
         
         if (t < endAccel) {
             double c = 2 * constraints.maxAccel / (constraints.maxVel - initial.velocity); // the constant that affects the period of the cos wave
-            result.velocity += (constraints.maxVel - initial.velocity) / 2 * (1 - Math.cos(c * t)); // the cosine function for velocity discussed in the constructor
+            result.velocity = initial.velocity + (constraints.maxVel - initial.velocity) / 2 * (1 - Math.cos(c * t)); // the cosine function for velocity discussed in the constructor
             // Integrating the cosine wave from 0 to t gives us:
             // initVel * t + (maxVel - initVel) / 2 * (t - (maxVel - initVel) / (2 * maxAccel) * sin(maxAccel * 2t / (maxVel - initVel))),
             // which simplifies down to the below after substituting in c
@@ -170,7 +182,7 @@ public class GeometricProfiler {
             double c = 2 * constraints.maxAccel / (constraints.maxVel - goal.velocity);
             // Since this cosine wave goes from 1 to 0, instead of -cos(...), it needs to be +cos(...) (so it's flipped)
             result.velocity = goal.velocity + (constraints.maxVel - goal.velocity) / 2 * (1 + Math.cos(c * (t - endFullVel))); // (t - endFullVel) is the time we've been decelerating
-            result.position = endFullVelDist + goal.velocity * (t - endFullVel) + (constraints.maxVel - goal.velocity) / 2 * ((t - endFullVel) + Math.sin(c * (t - endFullVel)) / c);
+            result.position += endFullVelDist + goal.velocity * (t - endFullVel) + (constraints.maxVel - goal.velocity) / 2 * ((t - endFullVel) + Math.sin(c * (t - endFullVel)) / c);
         }
         else {
             result.velocity = goal.velocity;
@@ -178,6 +190,69 @@ public class GeometricProfiler {
         }
 
         return direct(result); // flip the position and velocity if necessary, since we've been working in positives
+    }
+    
+    public double timeLeftUntil(double target) {
+        target *= direction;
+        double distance = target - initial.position;
+        
+        if (distance <= 0) {
+            return 0;
+        }
+        else if (distance < endAccelDist) {
+            double c = 2 * constraints.maxAccel / (constraints.maxVel - initial.velocity);
+            final double d = distance;
+            Function<Double, Double> position = t -> initial.velocity * t + (constraints.maxVel - initial.velocity) / 2 * (t - Math.sin(c * t) / c) - d;
+            Function<Double, Double> dPosition = t -> (constraints.maxVel - initial.velocity) / 2 * (1 - Math.cos(c * t)) + initial.velocity;
+            
+            double result = Math.PI * (constraints.maxVel - initial.velocity) / (4 * constraints.maxAccel);
+            double lastResult = 0;
+            while (result - lastResult > 0.001) {
+                lastResult = result;
+                result = lastResult - position.apply(lastResult) / dPosition.apply(lastResult);
+            }
+            return result;
+        }
+        else if (distance < endFullVelDist) {
+            distance -= endAccelDist;
+            return endAccel + distance / constraints.maxVel;
+        }
+        else if (distance < goal.position - initial.position) {
+            distance -= endFullVelDist;
+            
+            double c = 2 * constraints.maxAccel / (constraints.maxVel - goal.velocity);
+            final double d = distance;
+            Function<Double, Double> position = t -> goal.velocity * t + (constraints.maxVel - goal.velocity) / 2 * (t + Math.sin(c * t) / c) - d;
+            Function<Double, Double> dPosition = t -> (constraints.maxVel - goal.velocity) / 2 * (1 + Math.cos(c * t)) + goal.velocity;
+            
+            double result = Math.PI * (constraints.maxVel - initial.velocity) / (4 * constraints.maxAccel);
+            double lastResult = 0;
+            while (result - lastResult > 0.001) {
+                lastResult = result;
+                result = lastResult - position.apply(lastResult) / dPosition.apply(lastResult);
+            }
+            return endFullVel + result;
+        }
+        else {
+            return totalTime();
+        }
+    }
+    
+    /**
+     * Returns the total time the profile takes to reach the goal.
+     */
+    public double totalTime() {
+        return endDecel;
+    }
+    
+    /**
+     * Returns {@code true} if the profile has reached the goal at the given time.
+     * 
+     * @param t
+     *        The time since the beginning of the profile
+     */
+    public boolean isFinished(double t) {
+        return t >= totalTime();
     }
 
     /**
