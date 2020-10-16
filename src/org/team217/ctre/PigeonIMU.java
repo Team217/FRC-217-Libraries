@@ -9,8 +9,8 @@ import org.team217.*;
  * @author ThunderChickens 217, Cross the Road Electronics
  */
 public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
-    double pitchOffset = 0;
-    double rollOffset = 0;
+    protected double pitchOffset = 0;
+    protected double rollOffset = 0;
     
 	/**
 	 * Constructor for creating a {@code PigeonIMU} object.

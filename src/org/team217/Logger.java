@@ -8,8 +8,8 @@ import java.io.*;
  * @author ThunderChickens 217
  */
 public class Logger {
-    String fileName = "log.log";
-    File file = new File(fileName);
+    private String fileName;
+    private File file;
 
     /**
      * Saves data to a log file.
@@ -37,12 +37,16 @@ public class Logger {
         this.file = file;
     }
 
-    /** Returns the log file. */
+    /**
+     * Returns the log file.
+     */
     public File getFile() {
         return file;
     }
 
-    /** Returns the name of the log file. */
+    /**
+     * Returns the name of the log file.
+     */
     public String getName() {
         return fileName;
     }
