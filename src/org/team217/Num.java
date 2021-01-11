@@ -239,6 +239,9 @@ public class Num {
      *        The value, modified to stay within the circular range
      */
     public static double getValueInCircularRange(double value, double lower, double upper) {
+        if (lower > upper) {
+            throw new IllegalArgumentException("Illegal lower/upper value: " + lower + "/" + upper + "\nUpper must be greater than lower");
+        }
         value -= lower; // convert circular range to [0, upper - lower) for computation
         value %= (upper - lower); // keeps value within the circular range [0, upper - lower)
         value += lower; // convert circular range back to [lower, upper)
