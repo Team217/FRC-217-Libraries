@@ -9,35 +9,35 @@ import com.ctre.phoenix.motorcontrol.*;
  */
 public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX {
 
-	/**
-	 * Constructor for creating a {@code TalonSRX} motor controller for FRC.
-	 * 
-	 * @param deviceNumber
-	 *        The Device ID of the motor controller
-	 */
-	public WPI_TalonSRX(int deviceNumber) {
-		super(deviceNumber);
-	}
-	
-	/** Returns {@code true} iff forward limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
-	public boolean getLimitFwd() {
-		return getSensorCollection().isFwdLimitSwitchClosed();
-	}
-	
-	/** Returns {@code true} iff reverse limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
-	public boolean getLimitRev() {
-		return getSensorCollection().isRevLimitSwitchClosed();
-	}
+    /**
+     * Constructor for creating a {@code TalonSRX} motor controller for FRC.
+     * 
+     * @param deviceNumber
+     *        The Device ID of the motor controller
+     */
+    public WPI_TalonSRX(int deviceNumber) {
+        super(deviceNumber);
+    }
 
-	/** Sets up the motor controller to use a Quadrature Encoder. */
-	public void setup() {
+    /** Returns {@code true} iff forward limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
+    public boolean getLimitFwd() {
+        return getSensorCollection().isFwdLimitSwitchClosed();
+    }
+
+    /** Returns {@code true} iff reverse limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
+    public boolean getLimitRev() {
+        return getSensorCollection().isRevLimitSwitchClosed();
+    }
+
+    /** Sets up the motor controller to use a Quadrature Encoder. */
+    public void setup() {
         configFactoryDefault();
         configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         setSelectedSensorPosition(0);
         set(0);
     }
     
-	/**
+    /**
      * Sets up the motor controller to use a Quadrature Encoder.
      * 
      * @param neutralMode

@@ -34,15 +34,15 @@ public class CANSparkMax extends com.revrobotics.CANSparkMax {
     public CANSparkMax(int deviceNumber) {
         super(deviceNumber, MotorType.kBrushless);
     }
-	
-	/**
+    
+    /**
      * Inverts the direction of the encoders.
-	 * 
-	 * @param isInverted
-	 *        {@code true} if the encoder value should be multiplied by -1
-	 */
-	public void invertEncoder(boolean isInverted) {
-		invertEnc = isInverted ? -1 : 1;
+     * 
+     * @param isInverted
+     *        {@code true} if the encoder value should be multiplied by -1
+     */
+    public void invertEncoder(boolean isInverted) {
+        invertEnc = isInverted ? -1 : 1;
     }
     
     /** Gets the encoder velocity, modified so {@code invertEncoder()}, {@code setEncoder()}, and {@code resetEncoder()} affect the return value. */
