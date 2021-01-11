@@ -292,6 +292,6 @@ public class GeometricProfiler {
      *        The state to restrict
      */
     private State restrict(State state) {
-        return new State(Num.inRange(state.velocity, constraints.maxVel), state.position);
+        return new State(Num.getValueInRange(state.velocity, constraints.maxVel), state.position);
     }
 }

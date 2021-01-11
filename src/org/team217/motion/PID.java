@@ -265,7 +265,7 @@ public class PID {
         }
         // check if we have a max integrator and, if so, cap off the integrator value
         if (kI != 0 && maxIntegrator != 0) {
-            totalError = Num.inRange(totalError, maxIntegrator / kI);
+            totalError = Num.getValueInRange(totalError, maxIntegrator / kI);
         }
         
         // velocity is the derivative of position; the velocity error is the derivative portion of PID

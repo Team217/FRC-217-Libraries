@@ -156,7 +156,7 @@ public class AccelController {
      *        The velocity to control, in units/second
      */
     public double getOutput(double velocity) {
-        velocity = Num.inRange(velocity, maxVel);
+        velocity = Num.getValueInRange(velocity, maxVel);
         double accel = (velocity - lastVel) / period;
 
         boolean isSlowing = accel * velocity < 0; // this is the definition of speeding up/slowing down
