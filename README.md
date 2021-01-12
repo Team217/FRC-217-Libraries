@@ -7,6 +7,12 @@
 2) If it does not exist, reate a new `libs` folder in the project directory (NOT within the `src` folder). Put the `.jar` files there.
 3) In `build.gradle`, find `dependencies { }` (near the bottom) and add the following line to the end of the list if it does not exist: `compile fileTree(dir: 'libs', include: ['*.jar'])`
 
+## Building
+
+1) Clone/download this repo.
+2) In a PowerShell window, run `./gradlew build`.
+3) The built library jar files will be located in `build/libs`.
+
 ## Information
 
 Classes currently include:
