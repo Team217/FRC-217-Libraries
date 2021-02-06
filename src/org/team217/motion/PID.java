@@ -8,14 +8,14 @@ import org.team217.*;
  * @author ThunderChickens 217
  */
 public class PID {
-	private double kP, kI, kD;
+    private double kP, kI, kD;
     private double period;
 
     private double integratorRange = 0;
     private double maxIntegrator = 0;
     private double target = 0;
     
-	private double lastError = 0;
+    private double lastError = 0;
     private double totalError = 0;
     private double velocityError = 0;
     
