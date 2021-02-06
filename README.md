@@ -4,7 +4,7 @@
 
 1) Download the `.jar` files for the latest release [here](https://github.com/Team217/FRC-217-Libraries/releases/latest/). *If you do not download both files, then the Java documentation (information on how to use the classes and methods) will be unavailable.*
     - Alternatively, for all the latest changes, follow the [Build instructions](https://github.com/Team217/FRC-217-Libraries#building).
-2) If it does not exist, reate a new `libs` folder in the project directory (NOT within the `src` folder). Put the `.jar` files there.
+2) If it does not exist, create a new `libs` folder in the project directory (NOT within the `src` folder). Put the `.jar` files there.
 3) In `build.gradle`, find `dependencies { }` (near the bottom) and add the following line to the end of the list if it does not exist: `compile fileTree(dir: 'libs', include: ['*.jar'])`
 
 ## Building
@@ -49,8 +49,6 @@ Classes currently include:
   - adds extra functions to the CTRE PigeonIMU
 - `ctre.JohnsonPLGEncoder`
   - manages pulses of the Johnson Electric PLG Hall Effect Sensors as a relative quadrature encoder
-- `rev.CANSparkMax`
-  - adds extra functions to the REV SparkMax motor controller
 - `wpi.AnalogGyro`
   - adds extra functions to the analog gyro
 
