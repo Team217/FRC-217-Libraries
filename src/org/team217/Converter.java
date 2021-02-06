@@ -64,35 +64,35 @@ public class Converter {
     }
     
     /**
-	 * Converts inches to encoder ticks.
-	 * 
-	 * @param inches
-	 *        Inches to convert
-	 * @param diameter
-	 *        Size of diameter in inches
-	 * @param ticksPerRev
-	 *        Number of encoder ticks per one revolution
+     * Converts inches to encoder ticks.
+     * 
+     * @param inches
+     *        Inches to convert
+     * @param diameter
+     *        Size of diameter in inches
+     * @param ticksPerRev
+     *        Number of encoder ticks per one revolution
      * @return
      *        Number of encoder ticks to move the distance
-	 */
-	public static double inchToEnc(double inches, double diameter, double ticksPerRev) {
-		return inches / (Math.PI * diameter) * ticksPerRev; // Take inches, convert to revolutions, convert to encoder ticks
-	}
-	
-	/**
-	 * Converts encoder ticks to inches.
-	 * 
-	 * @param encTicks
-	 *        Encoder Ticks to convert
-	 * @param diameter
-	 *        Size of diameter in inches
-	 * @param ticksPerRev
-	 *        Number of encoder ticks per one revolution
+     */
+    public static double inchToEnc(double inches, double diameter, double ticksPerRev) {
+        return inches / (Math.PI * diameter) * ticksPerRev; // Take inches, convert to revolutions, convert to encoder ticks
+    }
+    
+    /**
+     * Converts encoder ticks to inches.
+     * 
+     * @param encTicks
+     *        Encoder Ticks to convert
+     * @param diameter
+     *        Size of diameter in inches
+     * @param ticksPerRev
+     *        Number of encoder ticks per one revolution
      * @return
      *        Distance in inches
-	 */
-	public static double encToInch(double encTicks, double diameter, double ticksPerRev) {
-		return encTicks / ticksPerRev * Math.PI * diameter; // Take encoder ticks, convert to revolutions, convert to inches
+     */
+    public static double encToInch(double encTicks, double diameter, double ticksPerRev) {
+        return encTicks / ticksPerRev * Math.PI * diameter; // Take encoder ticks, convert to revolutions, convert to inches
     }
     
     /**
@@ -108,8 +108,8 @@ public class Converter {
      * @exception IllegalArgumentException if {@code unitsPerRev} is not positive
      */
     public static double partialAngle(double angle, double unitsPerRev) {
-		if (unitsPerRev <= 0) {
-			throw new IllegalArgumentException("Illegal unitsPerRev value: " + unitsPerRev + "\nValue must be positive");
+        if (unitsPerRev <= 0) {
+            throw new IllegalArgumentException("Illegal unitsPerRev value: " + unitsPerRev + "\nValue must be positive");
         }
 
         double halfRev = unitsPerRev / 2.0;
