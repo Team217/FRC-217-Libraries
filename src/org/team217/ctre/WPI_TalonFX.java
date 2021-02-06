@@ -28,9 +28,12 @@ public class WPI_TalonFX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonFX {
         return getSensorCollection().isRevLimitSwitchClosed() != 0;
     }
 
-    /** Sets up the motor controller to use the integrated sensor in brake mode. */
+    /** Sets up the motor controller to use the integrated sensor. */
     public void setup() {
-        setup(NeutralMode.Brake);
+        configFactoryDefault();
+        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        setSelectedSensorPosition(0);
+        set(0);
     }
 
     /**
@@ -40,10 +43,7 @@ public class WPI_TalonFX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonFX {
      *        The neutral mode of the controller (coast or brake)
      */
     public void setup(NeutralMode neutralMode) {
-        configFactoryDefault();
-        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        setup();
         setNeutralMode(neutralMode);
-        setSelectedSensorPosition(0);
-        set(0);
     }
 }

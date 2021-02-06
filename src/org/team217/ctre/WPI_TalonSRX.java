@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.*;
  * @author ThunderChickens 217, Cross the Road Electronics
  */
 public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX {
-
     /**
      * Constructor for creating a {@code TalonSRX} motor controller for FRC.
      * 
@@ -29,7 +28,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
         return getSensorCollection().isRevLimitSwitchClosed();
     }
 
-    /** Sets up the motor controller to use a Quadrature Encoder. */
+    /** Sets up the motor controller to use a quadrature encoder. */
     public void setup() {
         configFactoryDefault();
         configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -38,7 +37,7 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
     }
     
     /**
-     * Sets up the motor controller to use a Quadrature Encoder.
+     * Sets up the motor controller to use a quadrature encoder.
      * 
      * @param neutralMode
      *        The neutral mode of the controller (coast or brake)
