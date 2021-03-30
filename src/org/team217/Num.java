@@ -244,6 +244,9 @@ public class Num {
         }
         value -= lower; // convert circular range to [0, upper - lower) for computation
         value %= (upper - lower); // keeps value within the circular range [0, upper - lower)
+        if (value < 0) { // edge case where value was negative prior to the modulus
+            value += (upper - lower);
+        }
         value += lower; // convert circular range back to [lower, upper)
         return value;
     }
