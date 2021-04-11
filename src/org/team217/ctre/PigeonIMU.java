@@ -10,6 +10,8 @@ import com.ctre.phoenix.ErrorCode;
 public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
     protected double pitchOffset = 0;
     protected double rollOffset = 0;
+
+    private double[] ypr = new double[3];
     
     /**
      * Constructor for creating a {@code PigeonIMU} object.
@@ -23,21 +25,18 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
     
     /** Returns the yaw (horizontal) angle of the {@code PigeonIMU}. */
     public double getAngle() {
-        double[] ypr = new double[3];
         getYawPitchRoll(ypr);
         return -ypr[0];
     }
 
     /** Returns the pitch (front and back tip) angle of the {@code PigeonIMU}. */
     public double getPitch() {
-        double[] ypr = new double[3];
         getYawPitchRoll(ypr);
         return -(ypr[1] - pitchOffset);
     }
     
     /** Returns the roll (left and right tip) angle of the {@code PigeonIMU}. */
     public double getRoll() {
-        double[] ypr = new double[3];
         getYawPitchRoll(ypr);
         return ypr[2] - rollOffset;
     }
@@ -73,7 +72,6 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
      *        The new angle in degrees
      */
     public void setPitch(double angleDeg) {
-        double[] ypr = new double[3];
         getYawPitchRoll(ypr);
         pitchOffset = ypr[1] + angleDeg; // normally returns -ypr[1], so + angleDeg instead of -
     }
@@ -85,7 +83,6 @@ public class PigeonIMU extends com.ctre.phoenix.sensors.PigeonIMU {
      *        The new angle in degrees
      */
     public void setRoll(double angleDeg) {
-        double[] ypr = new double[3];
         getYawPitchRoll(ypr);
         rollOffset = ypr[2] - angleDeg;
     }
