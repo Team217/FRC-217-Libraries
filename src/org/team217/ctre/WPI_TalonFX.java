@@ -20,12 +20,12 @@ public class WPI_TalonFX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonFX {
     
     /** Returns {@code true} iff forward limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
     public boolean getLimitFwd() {
-        return getSensorCollection().isFwdLimitSwitchClosed() != 0;
+        return isFwdLimitSwitchClosed() != 0;
     }
     
     /** Returns {@code true} iff reverse limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
     public boolean getLimitRev() {
-        return getSensorCollection().isRevLimitSwitchClosed() != 0;
+        return isRevLimitSwitchClosed() != 0;
     }
 
     /** Sets up the motor controller to use the integrated sensor. */

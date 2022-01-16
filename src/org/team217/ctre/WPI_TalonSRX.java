@@ -20,12 +20,12 @@ public class WPI_TalonSRX extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 
     /** Returns {@code true} iff forward limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
     public boolean getLimitFwd() {
-        return getSensorCollection().isFwdLimitSwitchClosed();
+        return isFwdLimitSwitchClosed() != 0;
     }
 
     /** Returns {@code true} iff reverse limit switch is closed, {@code false} iff switch is open. This function works regardless if limit switch feature is enabled. */
     public boolean getLimitRev() {
-        return getSensorCollection().isRevLimitSwitchClosed();
+        return isRevLimitSwitchClosed() != 0;
     }
 
     /** Sets up the motor controller to use a quadrature encoder. */

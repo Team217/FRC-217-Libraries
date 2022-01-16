@@ -53,4 +53,11 @@ public class AnalogGyro extends edu.wpi.first.wpilibj.AnalogGyro {
         reset();
         this.offset = offset;
     }
+
+    /**
+     * Reets the gyro to 0.
+     */
+    public void reset() {
+        set(0);
+    }
 }
