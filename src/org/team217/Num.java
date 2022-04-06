@@ -118,14 +118,15 @@ public class Num {
         if (lower > upper) {
             throw new IllegalArgumentException("Illegal lower/upper value: " + lower + "/" + upper + "\nUpper must be greater than lower");
         }
-        return isInclusive ? value >= lower && value <= upper : value > lower && value < upper;
+        return isInclusive ? value >= lower && value <= upper
+               : value > lower && value < upper;
     }
 
     /**
-     * Keeps a value within a two-sided range.
+     * Returns a value kept within a two-sided range.
      * 
      * @param value
-     *        The value to be tested
+     *        The value to manage
      * @param range
      *        The two-sided range [-range, range]
      * @return
@@ -133,18 +134,18 @@ public class Num {
      * 
      * @exception IllegalArgumentException if {@code range} is negative
      */
-    public static double inRange(double value, double range) {
+    public static double getValueInRange(double value, double range) {
         if (range < 0) {
             throw new IllegalArgumentException("Illegal range value: " + range + "\nValue cannot be negative");
         }
-        return inRange(value, -range, range);
+        return getValueInRange(value, -range, range);
     }
 
     /**
-     * Keeps a value within a range.
+     * Returns a value kept within a range.
      * 
      * @param value
-     *        The value to be tested
+     *        The value to manage
      * @param lower
      *        The lower range
      * @param upper
@@ -154,11 +155,12 @@ public class Num {
      * 
      * @exception IllegalArgumentException if {@code lower} &gt; {@code upper}
      */
-    public static double inRange(double value, double lower, double upper) {
+    public static double getValueInRange(double value, double lower, double upper) {
         if (lower > upper) {
             throw new IllegalArgumentException("Illegal lower/upper value: " + lower + "/" + upper + "\nUpper must be greater than lower");
         }
-        return value > upper ? upper : value < lower ? lower : value;
+        return value > upper ? upper
+               : value < lower ? lower : value;
     }
 
     /**
@@ -203,10 +205,10 @@ public class Num {
     }
 
     /**
-     * Keeps a value within a range of a target value.
+     * Returns a value kept within the range of a target value.
      * 
      * @param value
-     *        The value to be tested
+     *        The value to manage
      * @param target
      *        The target value
      * @param range
@@ -214,11 +216,39 @@ public class Num {
      * @return
      *        The value, modified to stay within the range of the target
      */
-    public static double inTarget(double value, double target, double range) {
+    public static double getValueInTarget(double value, double target, double range) {
         if (range < 0) {
             throw new IllegalArgumentException("Illegal range value: " + range + "\nValue cannot be negative");
         }
-        return inRange(value, target - range, target + range);
+        return getValueInRange(value, target - range, target + range);
+    }
+
+    /**
+     * Returns a value kept within a circular range [lower, upper).
+     * <p>
+     * In a circular range, when value goes from upper - 1 to upper, it wraps around
+     * back to lower, and vice versa.
+     * 
+     * @param value
+     *        The value to manage
+     * @param lower
+     *        The lower range
+     * @param upper
+     *        The upper range
+     * @return
+     *        The value, modified to stay within the circular range
+     */
+    public static double getValueInCircularRange(double value, double lower, double upper) {
+        if (lower > upper) {
+            throw new IllegalArgumentException("Illegal lower/upper value: " + lower + "/" + upper + "\nUpper must be greater than lower");
+        }
+        value -= lower; // convert circular range to [0, upper - lower) for computation
+        value %= (upper - lower); // keeps value within the circular range [0, upper - lower)
+        if (value < 0) { // edge case where value was negative prior to the modulus
+            value += (upper - lower);
+        }
+        value += lower; // convert circular range back to [lower, upper)
+        return value;
     }
 
     /**

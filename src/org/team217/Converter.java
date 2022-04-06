@@ -17,8 +17,8 @@ public class Converter {
      * @return
      *        Number of encoder ticks to complete the rotation
      */
-    public static double radToEnc(double rad, int encPerRot) {
-        return rad / (2 * Math.PI) * (double) encPerRot; // Take angle in radians, convert to revolutions, convert to encoder ticks
+    public static double radToEnc(double rad, double encPerRot) {
+        return rad / (2 * Math.PI) * encPerRot; // Take angle in radians, convert to revolutions, convert to encoder ticks
     }
 
     /**
@@ -31,8 +31,8 @@ public class Converter {
      * @return
      *        Angle in radians
      */
-    public static double encToRad(double enc, int encPerRot) {
-        return enc / (double) encPerRot * (2 * Math.PI); // Take encoder ticks, convert to revolutions, convert to radians
+    public static double encToRad(double enc, double encPerRot) {
+        return enc / encPerRot * (2 * Math.PI); // Take encoder ticks, convert to revolutions, convert to radians
     }
 
     /**
@@ -45,8 +45,8 @@ public class Converter {
      * @return
      *        Number of encoder ticks to complete the rotation
      */
-    public static double degToEnc(double deg, int encPerRot) {
-        return deg / 360 * (double) encPerRot; // Take angle in degrees, convert to revolutions, convert to encoder ticks
+    public static double degToEnc(double deg, double encPerRot) {
+        return deg / 360 * encPerRot; // Take angle in degrees, convert to revolutions, convert to encoder ticks
     }
 
     /**
@@ -59,8 +59,8 @@ public class Converter {
      * @return
      *        Angle in degrees
      */
-    public static double encToDeg(double enc, int encPerRot) {
-        return enc / (double) encPerRot * 360; // Take encoder ticks, convert to revolutions, convert to degrees
+    public static double encToDeg(double enc, double encPerRot) {
+        return enc / encPerRot * 360; // Take encoder ticks, convert to revolutions, convert to degrees
     }
     
     /**
@@ -93,35 +93,5 @@ public class Converter {
      */
     public static double encToInch(double encTicks, double diameter, double ticksPerRev) {
         return encTicks / ticksPerRev * Math.PI * diameter; // Take encoder ticks, convert to revolutions, convert to inches
-    }
-    
-    /**
-     * Modifies an angle to be within the range [-1/2 revolution, 1/2 revolution].
-     * 
-     * @param angle
-     *        Angle to modify
-     * @param unitsPerRev
-     *        Number of units per one revolution
-     * @return
-     *        Modified angle
-     * 
-     * @exception IllegalArgumentException if {@code unitsPerRev} is not positive
-     */
-    public static double partialAngle(double angle, double unitsPerRev) {
-        if (unitsPerRev <= 0) {
-            throw new IllegalArgumentException("Illegal unitsPerRev value: " + unitsPerRev + "\nValue must be positive");
-        }
-
-        double halfRev = unitsPerRev / 2.0;
-        while (!Num.isWithinRange(angle, halfRev)) {
-            if (angle > halfRev) {
-                angle -= unitsPerRev;
-            }
-            else if (angle < -halfRev) {
-                angle += unitsPerRev;
-            }
-        }
-
-        return angle;
     }
 }

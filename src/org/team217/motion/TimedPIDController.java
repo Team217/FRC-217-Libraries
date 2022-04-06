@@ -1,7 +1,7 @@
 package org.team217.motion;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.*;
+import edu.wpi.first.math.controller.*;
 
 /**
  * Implements a WPILib PID control loop on a timer.
